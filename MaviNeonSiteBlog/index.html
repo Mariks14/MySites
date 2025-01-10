@@ -21,7 +21,31 @@
       text-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 40px rgba(255, 0, 255, 0.6), 0 0 50px rgba(255, 0, 255, 0.4);
     }
 
+    
+
     .gradient-border {
+      position: relative;
+      padding: 5px 10px;
+    }
+
+    .gradient-border::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 30px; 
+      border: 3px solid transparent;
+      background: linear-gradient(45deg,rgb(107, 0, 128),rgb(0, 255, 234)) border-box;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+    /* .gradient-border {
       --borderWidth: 2px;
       background: #1D1F20;
       position: relative;
@@ -39,7 +63,7 @@
       z-index: -1;
       animation: animatedgradient 5s ease alternate infinite;
       background-size: 300% 300%;
-    }
+    } */
 
 
     /* @keyframes animatedgradient {
@@ -139,7 +163,7 @@
   
     <!-- Контент, центрируем с помощью flex -->
     <!-- Контент, центрируем с помощью flex и добавляем стиль -->
-    <div class="py-12 absolute text-center px-4 animate__animated animate__zoomIn z-10 border-2 border-white rounded-xl backdrop-blur-sm">
+    <div class="py-12 absolute text-center px-4 animate__animated animate__zoomIn z-10 gradient-border backdrop-blur-sm">
         <h2 class="text-5xl md:text-6xl font-extrabold text-pink-500 mb-4">Добро пожаловать!</h2>
         <p class="text-lg md:text-xl text-gray-300 mb-6">Лучший мерч для фанатов аниме. Уникальные коллекции, вдохновленные вашими любимыми персонажами.</p>
         <a href="#shop" class=" bg-purple-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-pink-500 animate__animated animate__pulse animate__infinite">Перейти к покупкам</a>
@@ -158,24 +182,446 @@
       },
     });
   </script>
+
+  <!-- об авторе -->
+  <section class="bg-black text-white py-16 px-8 relative overflow-hidden" id="about-mavi">
+    <!-- Абстрактный фон -->
+    <div class="absolute inset-0 z-0">
+      <!-- Неоновые круги -->
+      <div class="absolute top-10 left-20 w-72 h-72 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 opacity-30 blur-2xl animate-pulse"></div>
+      <div class="absolute bottom-20 right-40 w-80 h-80 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-40 blur-2xl animate-pulse"></div>
+      <!-- Линии -->
+      <div class="absolute top-0 left-1/2 w-96 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-60 blur-lg"></div>
+      <div class="absolute bottom-0 left-1/4 w-80 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50 blur-lg"></div>
+    </div>
     
-    <!-- About Section -->
-    <section id="about" class="py-16 bg-black">
-        <div class="container mx-auto animate__animated animate__fadeInUp">
-        <h2 class="text-3xl font-bold text-center text-pink-500 mb-8">О нас</h2>
-        <p class="text-center text-gray-300 max-w-2xl mx-auto">
-            Мы создаем уникальный аниме-мерч для фанатов. Одежда, аксессуары и многое другое — все, чтобы вы могли выразить свою любовь к аниме!
+    <div class="relative z-10 max-w-4xl mx-auto flex flex-col lg:flex-row items-center gap-8">
+      <!-- Фото автора -->
+      <div id="author-photo" class="w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 opacity-0 transition-transform duration-300 hover:scale-125 transform">
+        <img src="img/authorPhoto.jpg" alt="Mavi" class="transition-transform duration-300 hover:scale-125 transform w-full h-full object-cover">
+      </div>
+      
+      <!-- Описание автора -->
+      <div id="author-description" class="opacity-0">
+        <h2 class="text-4xl font-bold text-purple-400 mb-4">О Mavi</h2>
+        <p class="text-lg leading-relaxed text-gray-300 mb-6">
+          Привет! Меня зовут Mavi, и я — digital-художница. Я обожаю создавать яркие, мечтательные образы, вдохновленные ночным небом, светом луны и фантазийными мирами. 
+          Я верю, что искусство — это способ выражать свои чувства и делиться ими с другими. Мне нравится работать с глубокими, насыщенными цветами: 
+          пурпурным, фиолетовым и голубым — они словно переносят меня в другой мир. 
+          Каждый рисунок для меня — это новое путешествие, и я с радостью делюсь этим с вами.
         </p>
+        <p class="text-lg leading-relaxed text-gray-300">
+          Я только начинаю свой путь, но у меня так много идей и проектов! Мне бы хотелось, чтобы мои работы вдохновляли вас так же, как они вдохновляют меня на их создание.
+        </p>
+        <div>
+          <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform">
+            <a href="#portfolio" 
+               id="author-button"
+               class="bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-6 rounded-lg text-lg 
+                      shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                      transition-all transform duration-300">
+              Смотреть работы
+            </a>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- галерея -->
+
+  <section class=" m-12">
     
-    <!-- Footer -->
-    <footer class="bg-black py-6">
-        <div class="container mx-auto text-center text-gray-400">
-        <p>© 2025 Anime Merch Shop. Все права защищены.</p>
-        <p>Создано с любовью для фанатов аниме.</p>
+    <h1 class="text-center mb-10 text-4xl font-extrabold leading-none tracking-tight text-pink-500 md:text-5xl lg:text-6xl dark:text-white">Галлерея артов</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      
+      <div class="grid gap-4">
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art1.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art5.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art8.jpg" alt="">
+          </div>
+      </div>
+      <div class="grid gap-4">
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art2.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
+          </div>
+      </div>
+      <div class="grid gap-4">
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art3.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art9.jpg" alt="">
+          </div>
+      </div>
+      <div class="grid gap-4">
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art10.jpg" alt="">
+          </div>
+          <div>
+              <img class="h-auto max-w-full rounded-lg duration-300 hover:scale-105 transform" src="img/art7.jpg" alt="">
+          </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="bg-black text-white py-16 px-8 relative overflow-hidden" id="about-merch">
+    <!-- Абстрактный фон -->
+    <div class="absolute inset-0 z-0">
+      <!-- Неоновые круги -->
+      <div class="absolute top-40 left-20 w-80 h-80 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 opacity-30 blur-2xl animate-pulse"></div>
+      <div class="absolute top-20 right-40 w-64 h-64 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-40 blur-2xl animate-pulse"></div>
+      <!-- Линии -->
+      <div class="absolute top-0 left-1/2 w-96 h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent opacity-60 blur-lg"></div>
+      <div class="absolute bottom-0 left-1/4 w-80 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50 blur-lg"></div>
+    </div>
+  
+    <!-- Контент -->
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl font-bold text-purple-400 mb-6">Мерч от Mavi</h2>
+      <p class="text-lg leading-relaxed text-gray-300 mb-4">
+        я рада поделиться с вами своим эксклюзивным мерчем. Этот проект для меня — не просто коллекция товаров, а способ сделать моё искусство ближе к вам. 
+        В моем мерче вы найдете множество уникальных вещей, которые отражают мою любовь к творчеству и детали. 
+        Например, я создала 
+        <span class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 font-semibold">
+          арты
+        </span>, которые передают мою страсть к ярким фантазийным образам. 
+        А если вы любите что-то практичное, то вам понравятся мои 
+        <span class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 font-semibold">
+          обложки на паспорт
+        </span> — стильные и креативные аксессуары, которые добавят цвета вашим путешествиям.
+      </p>
+      <p class="text-lg leading-relaxed text-gray-300 mb-4">
+        Но это ещё не всё! Если вы хотите что-то компактное, обратите внимание на 
+        <span class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 font-semibold">
+          брелки
+        </span>. Это не просто милые аксессуары, а настоящие миниатюрные произведения искусства. 
+        И, конечно, моя гордость — 
+        <span class="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 font-semibold">
+          фигурки
+        </span>, которые я делаю с особой любовью к деталям. Каждая из них уникальна и станет прекрасным дополнением к вашей коллекции.
+      </p>
+      <p class="text-lg leading-relaxed text-gray-300">
+        Создание мерча для меня — это возможность делиться своим миром с вами. Каждая вещь, которую я выпускаю, — это часть моей души, моего настроения и вдохновения. 
+        Я надеюсь, что вы полюбите мой мерч так же сильно, как я люблю его создавать. Спасибо, что поддерживаете меня и мой творческий путь!
+      </p>
+      <div>
+        <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform ">
+          <a href="#shop" 
+            id="author-button"
+            class="bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-6 rounded-lg text-lg 
+                    shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all  transform duration-300 ">
+            Перейти в магазин
+          </a>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="bg-black text-white py-16 px-8" id="merch-categories">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-4xl font-bold text-purple-400 mb-8 text-center">Категории мерча</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Карточка 1 -->
+        <a href="#art" class="flex flex-col items-center bg-gradient-to-br from-purple-800 to-blue-800 border-2 border-purple-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.7)] transition-transform duration-300">
+          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch1.jpg" alt="Арты">
+          <div class="flex flex-col justify-between p-4">
+            <h5 class="mb-2 text-xl font-bold text-white">Арты</h5>
+            <p class="text-gray-300">Уникальные цифровые картины, созданные с душой и вдохновением.</p>
+          </div>
+        </a>
+        
+        <!-- Карточка 2 -->
+        <a href="#passport-covers" class="flex flex-col items-center bg-gradient-to-br from-blue-800 to-pink-800 border-2 border-blue-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(0,191,255,0.7)] transition-transform duration-300">
+          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch2.jpg" alt="Обложки на паспорт">
+          <div class="flex flex-col justify-between p-4">
+            <h5 class="mb-2 text-xl font-bold text-white">Обложки на паспорт</h5>
+            <p class="text-gray-300">Практичные и стильные аксессуары для путешественников.</p>
+          </div>
+        </a>
+        
+        <!-- Карточка 3 -->
+        <a href="#keychains" class="flex flex-col items-center bg-gradient-to-br from-pink-800 to-purple-800 border-2 border-pink-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(255,20,147,0.7)] transition-transform duration-300">
+          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch3.jpg" alt="Брелки">
+          <div class="flex flex-col justify-between p-4">
+            <h5 class="mb-2 text-xl font-bold text-white">Брелки</h5>
+            <p class="text-gray-300">Очаровательные аксессуары для ваших ключей или рюкзака.</p>
+          </div>
+        </a>
+        
+        <!-- Карточка 4 -->
+        <a href="#figures" class="flex flex-col items-center bg-gradient-to-br from-purple-900 to-blue-900 border-2 border-purple-600 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.9)] transition-transform duration-300">
+          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch4.jpg" alt="Фигурки">
+          <div class="flex flex-col justify-between p-4">
+            <h5 class="mb-2 text-xl font-bold text-white">Фигурки</h5>
+            <p class="text-gray-300">Уникальные скульптуры для коллекционеров и любителей дизайна.</p>
+          </div>
+        </a>
+  
+      </div>
+    </div>
+  </section>
+  <section class="bg-black text-white py-16 px-8 relative overflow-hidden" id="mavi-blogs">
+ <!-- Абстрактный фон -->
+<div class="absolute inset-0 z-0">
+  
+  <!-- Светящиеся точки -->
+  <div class="absolute top-10 left-10 w-3 h-3 rounded-full bg-pink-500 opacity-80 blur-xs animate-pulse"></div>
+  <div class="absolute bottom-20 right-20 w-4 h-4 rounded-full bg-blue-500 opacity-70 blur-xs animate-pulse"></div>
+  <div class="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-purple-500 opacity-90 blur-xs animate-pulse"></div>
+  <div class="absolute bottom-1/3 right-1/3 w-3 h-3 rounded-full bg-pink-500 opacity-75 blur-xs animate-pulse"></div>
+  <div class="absolute top-1/4 right-1/4 w-3 h-3 rounded-full bg-blue-500 opacity-65 blur-xs animate-pulse"></div>
+  <div class="absolute bottom-10 left-1/3 w-4 h-4 rounded-full bg-purple-500 opacity-80 blur-xs animate-pulse"></div>
+  <div class="absolute top-20 right-40 w-2 h-2 rounded-full bg-pink-500 opacity-60 blur-xs animate-pulse"></div>
+  <div class="absolute bottom-16 left-16 w-3 h-3 rounded-full bg-purple-500 opacity-85 blur-xs animate-pulse"></div>
+  <div class="absolute top-5 right-10 w-3 h-3 rounded-full bg-blue-500 opacity-75 blur-xs animate-pulse"></div>
+  <div class="absolute bottom-8 right-8 w-4 h-4 rounded-full bg-pink-500 opacity-70 blur-xs animate-pulse"></div>
+  <div class="absolute top-12 left-1/2 w-3 h-3 rounded-full bg-purple-500 opacity-90 blur-xs animate-pulse"></div>
+</div>
+  
+    <div class="relative z-10 max-w-4xl mx-auto flex flex-col lg:flex-row items-center gap-8">
+      <!-- Описание автора -->
+      <div id="blog-description" class="opacity-100"> <!-- Исправлено с opacity-0 на opacity-100 -->
+        <h2 class="text-4xl font-bold text-purple-400 mb-4">Блоги Mavi</h2>
+        <p class="text-lg leading-relaxed text-gray-300 mb-6">
+          Я увлекаюсь множеством творческих направлений, которыми с радостью делюсь в своих блогах. 
+          <strong>Рисование</strong> — это моя основная страсть, я создаю работы, вдохновлённые природой и фантазийными мирами. 
+          Мне также нравится <strong>шить</strong> красивые и практичные вещи, которые радуют глаз и сердце. А ещё я увлечена <strong>косплеем</strong>, где могу 
+          воплощать образы своих любимых персонажей и полностью погружаться в миры, которые меня вдохновляют.
+        </p>
+        <p class="text-lg leading-relaxed text-gray-300">
+          Каждый мой блог — это возможность рассказать о своих проектах, поделиться полезными советами и вдохновить вас на 
+          творчество. Будь то создание эскизов, работа с тканями или детали косплейных костюмов — я рада раскрыть все секреты 
+          и тонкости своего ремесла!
+        </p>
+        <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform">
+          <a href="#blogs" 
+             class="bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-6 rounded-lg text-lg 
+                    shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all transform duration-300">
+            Читайте мои блоги
+          </a>
+        </div>
+      </div>
+      
+      <!-- Фото автора -->
+      <div id="author-photo" class="w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 transition-transform duration-300 hover:scale-125 transform">
+        <img src="img/authorPhoto1.jpg" alt="Mavi" class="transition-transform duration-300 hover:scale-125 transform w-full h-full object-cover">
+      </div>
+    </div>
+  </section>
+
+
+ <!-- блоги -->
+  <section class="bg-black text-white py-16">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-12">
+        Мои статьи
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 px-6">
+        <!-- Первая статья -->
+        <div class="relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
+          <div class="relative z-10">
+            <a href="#">
+              <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 hover:underline">
+                Мое любимое аниме
+              </h5>
+            </a>
+            <p class="mb-6 text-gray-300">
+              Я делюсь своими мыслями о самых вдохновляющих аниме, которые изменили мое представление о творчестве и искусстве.
+            </p>
+            <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform ">
+              <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:opacity-90 focus:outline-none shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all  transform duration-300 ">
+                Читать далее
+                <svg class="w-4 h-4 ml-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Вторая статья -->
+        <div class="relative p-6 bg-black border-2 border-blue-500 rounded-lg shadow-lg">
+          <div class="relative z-10">
+            <a href="#">
+              <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 hover:underline">
+                Как я создаю косплей
+              </h5>
+            </a>
+            <p class="mb-6 text-gray-300">
+              Рассказываю о том, как я выбираю персонажей, продумываю костюмы и воплощаю их в жизнь с помощью аксессуаров и грима.
+            </p>
+            <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform ">
+              <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gradient-to-r from-pink-500 to-blue-500 rounded-lg shadow-lg hover:opacity-90 focus:outline-none shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all  transform duration-300 ">
+                Читать далее
+                <svg class="w-4 h-4 ml-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Третья статья -->
+        <div class="relative p-6 bg-black border-2 border-purple-500 rounded-lg shadow-lg">
+          <div class="relative z-10">
+            <a href="#">
+              <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 hover:underline">
+                С чего начать шить
+              </h5>
+            </a>
+            <p class="mb-6 text-gray-300">
+              Простые советы для начинающих: выбор ткани, техники шитья и как избежать распространенных ошибок.
+            </p>
+            <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform ">
+              <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gradient-to-r from-pink-500 to-blue-500 rounded-lg shadow-lg hover:opacity-90 focus:outline-none shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all  transform duration-300 ">
+                Читать далее
+                <svg class="w-4 h-4 ml-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Четвертая статья -->
+        <div class="relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
+          <div class="relative z-10">
+            <a href="#">
+              <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 hover:underline">
+                Как рисовать в digital
+              </h5>
+            </a>
+            <p class="mb-6 text-gray-300">
+              Мои любимые инструменты и техники для создания цифрового искусства, которые помогут сделать первый шаг в digital art.
+            </p>
+            <div class="mt-6 inline-block transition-transform duration-300 hover:scale-125 transform ">
+              <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-black bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:opacity-90 focus:outline-none shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)] 
+                    transition-all  transform duration-300 ">
+                Читать далее
+                <svg class="w-4 h-4 ml-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+              </a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="bg-black text-white py-16">
+    <div class="container mx-auto grid gap-8 lg:grid-cols-2">
+      <!-- Форма обратной связи -->
+      <div class="p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
+        <h2 class="text-3xl font-bold mb-6  bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">
+          Связаться со мной
+        </h2>
+        <form action="#" method="POST">
+          <div class="mb-6">
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-300">Ваше имя</label>
+            <input type="text" id="name" name="name" required class="w-full p-3 rounded-lg bg-gray-900 border-2 border-gray-700 text-white focus:ring-2 focus:ring-pink-500 focus:outline-none">
+          </div>
+          <div class="mb-6">
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-300">Ваш Email</label>
+            <input type="email" id="email" name="email" required class="w-full p-3 rounded-lg bg-gray-900 border-2 border-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+          <div class="mb-6">
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-300">Сообщение</label>
+            <textarea id="message" name="message" rows="5" required class="w-full p-3 rounded-lg bg-gray-900 border-2 border-gray-700 text-white focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 text-sm font-medium text-black bg-gradient-to-r from-pink-500 to-blue-500 rounded-lg shadow-lg hover:opacity-90 focus:outline-none">
+            Отправить
+          </button>
+        </form>
+      </div>
+  
+      <!-- Контактный блок -->
+      <div class="p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
+        <h2 class="text-3xl font-bold mb-6 ">
+          Контакты
+        </h2>
+        <ul class="space-y-4">
+          <li class="flex items-center space-x-4">
+            <svg class="w-6 h-6 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.1 2a1 1 0 011 .9 3.38 3.38 0 013 2.6 4.72 4.72 0 011.1 3.1v4.8a4.72 4.72 0 01-1.1 3.1 3.38 3.38 0 01-3 2.6 1 1 0 01-1 .9H7.9a1 1 0 01-1-.9 3.38 3.38 0 01-3-2.6 4.72 4.72 0 01-1.1-3.1V8.6a4.72 4.72 0 011.1-3.1 3.38 3.38 0 013-2.6 1 1 0 011-.9z" />
+            </svg>
+            <span>Email: <a href="mailto:example@email.com" class="text-blue-300 hover:underline font-bold">example@email.com</a></span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <svg class="w-6 h-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a1 1 0 00-1 1v12a1 1 0 001 1h4l3.29-3.29a1 1 0 01.71-.29h6a1 1 0 011 1v2a1 1 0 011 1h4a1 1 0 001-1V6a1 1 0 00-1-1H3z" />
+            </svg>
+            <span>Telegram: <a href="https://t.me/username" class="text-blue-300 hover:underline font-bold">@username</a></span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <svg class="w-6 h-6 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 2a1 1 0 011 .9V4a1 1 0 001 .9h1a1 1 0 011 1v14a1 1 0 01-1 1h-5a1 1 0 01-1-1v-6h-4v6a1 1 0 01-1 1H6a1 1 0 01-1-1V6a1 1 0 011-1h1a1 1 0 001-.9V2.9a1 1 0 011-.9h8z" />
+            </svg>
+            <span>Instagram: <a href="https://instagram.com/username" class="text-blue-300 hover:underline font-bold">@username</a></span>
+          </li>
+          <li class="flex items-center space-x-4">
+            <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18M9 21v-6H3V3h18v12h-6v6h-6z" />
+            </svg>
+            <span >VK: <a href="https://vk.com/username" class="text-blue-300 hover:underline font-bold">vk.com/username</a></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+
+  
+
+    
+  <!-- About Section -->
+  <section id="about" class="py-16 bg-black">
+      <div class="container mx-auto animate__animated animate__fadeInUp">
+      <h2 class="text-3xl font-bold text-center text-pink-500 mb-8">О нас</h2>
+      <p class="text-center text-gray-300 max-w-2xl mx-auto">
+          Мы создаем уникальный аниме-мерч для фанатов. Одежда, аксессуары и многое другое — все, чтобы вы могли выразить свою любовь к аниме!
+      </p>
+      </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-black py-6">
+      <div class="container mx-auto text-center text-gray-400">
+      <p>© 2025 Anime Merch Shop. Все права защищены.</p>
+      <p>Создано с любовью для фанатов аниме.</p>
+      </div>
+  </footer>
 </body>
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -199,6 +645,57 @@
       delay: 500,
       easing: 'easeInOutQuad',
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const observerOptions = {
+      root: null, // Отслеживание в области окна
+      threshold: 0.2 // Срабатывание, если 20% блока видны
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Анимация фото
+          anime({
+            targets: "#author-photo",
+            opacity: [0, 1],
+            translateY: [-200, 0],
+            duration: 3000,
+            
+            //easing: "easeOutExpo"
+          });
+
+          // Анимация описания
+          anime({
+            targets: "#author-description",
+            opacity: [0, 1],
+            translateX: [50, 0],
+            delay: 300,
+            duration: 2000,
+            easing: "easeOutExpo"
+          });
+
+          // Анимация кнопки
+          // anime({
+          //   targets: "#author-button",
+          //   opacity: [0, 1],
+          //   scale: [0.8, 1],
+          //   delay: 600,
+          //   duration: 1000,
+          //   easing: "easeOutElastic(1, .8)"
+          // });
+
+          // После срабатывания анимации отключаем наблюдатель
+          observer.disconnect();
+        }
+      });
+    }, observerOptions);
+
+    // Начинаем отслеживать блок
+    const target = document.querySelector("#about-mavi");
+    if (target) observer.observe(target);
+  });
+  
 
     
   </script>
