@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.0/lib/anime.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> -->
 
     <style>
       /* Эффект свечения для текста */
@@ -44,6 +45,8 @@
       -webkit-mask-composite: destination-out;
       mask-composite: exclude;
     }
+
+  
 
     /* .gradient-border {
       --borderWidth: 2px;
@@ -91,7 +94,7 @@
         </h1>
 
        <!-- Навигация для десктопа, выровненная по центру -->
-       <nav id="menu" class="hidden md:flex flex-grow justify-center opacity-0">
+       <nav id="menu" class="hidden md:flex flex-grow justify-center opacity-0 translate-x--50px">
            <ul class="flex space-x-4">
                <li class="transition-transform duration-300 hover:scale-125 hover:text-purple-400 transform">
                    <a href="#home">Главная</a>
@@ -129,59 +132,36 @@
     </div>
 </header>
 
-<script>
-    // Скрипт для открытия и закрытия мобильного меню
-    document.getElementById("burger").addEventListener("click", function() {
-        var menu = document.getElementById("mobile-menu");
-        menu.classList.toggle("hidden");
-    });
-</script>
     
     <!-- Hero Section -->
-    <section id="home" class=" relative bg-black h-[80vh] flex items-center justify-center"> <!-- уменьшили высоту слайдера -->
-    <!-- Swiper -->
-    <div class="swiper-container w-full h-full rounded-xl">
-      <div class="swiper-wrapper">
-        <!-- Слайды -->
-        <div class="swiper-slide">
-          <img src="img/hero1.jpg" class="w-full h-full object-cover rounded-xl" alt="Image 1">
-        </div>
-        <div class="swiper-slide">
-          <img src="img/hero2.jpg" class="w-full h-full object-cover rounded-xl" alt="Image 2">
-        </div>
-        <div class="swiper-slide">
-          <img src="img/hero3.jpg" class="w-full h-full object-cover rounded-xl" alt="Image 3">
-        </div>
+    <section id="home" class="relative bg-black h-[80vh] flex items-center justify-center">
+      <!-- Фон с изображением -->
+      <div class="absolute inset-0">
+        <img src="img/hero1.jpg" class="w-full h-full object-cover rounded-xl" alt="Background Image">
+        <div class="absolute inset-0 bg-black opacity-50"></div> <!-- Затемнение фона -->
       </div>
-      <!-- Добавьте навигационные кнопки, если нужно -->
-      <!-- <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div> -->
-    </div>
+    
+      <!-- Текстовый блок -->
+      <div class="py-12 absolute text-center mx-6 px-4 animate__animated animate__zoomIn z-20 gradient-border backdrop-blur-sm max-w-3xl">
+        <h2 class="text-5xl md:text-6xl font-extrabold text-pink-500 ">Добро пожаловать!</h2>
+        <p class="text-lg md:text-xl text-gray-300 mb-6">
+          Лучший мерч для фанатов аниме. Уникальные коллекции, вдохновленные вашими любимыми персонажами.
+        </p>
+        <div class="mt-2 inline-block transition-transform duration-300 hover:scale-125 transform">
+          <a href="#shop" 
+           class="relative z-30 bg-gradient-to-r from-purple-500 to-blue-500  text-white mb-12 py-3 px-6 rounded-lg shadow-lg 
+           shadow-[0px_0px_35px_rgba(128,0,128,0.7)] hover:shadow-[0px_0px_45px_rgba(0,191,255,0.7)]
+                  hover:bg-pink-500 transition duration-300 ease-in-out">
+          Перейти к покупкам
+        </a>
+        </div>
+        
+      </div>
+    </section>
+    
+
   
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black opacity-50"></div>
   
-    <!-- Контент, центрируем с помощью flex -->
-    <!-- Контент, центрируем с помощью flex и добавляем стиль -->
-    <div class="py-12 absolute text-center px-4 animate__animated animate__zoomIn z-10 gradient-border backdrop-blur-sm">
-        <h2 class="text-5xl md:text-6xl font-extrabold text-pink-500 mb-4">Добро пожаловать!</h2>
-        <p class="text-lg md:text-xl text-gray-300 mb-6">Лучший мерч для фанатов аниме. Уникальные коллекции, вдохновленные вашими любимыми персонажами.</p>
-        <a href="#shop" class=" bg-purple-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-pink-500 animate__animated animate__pulse animate__infinite">Перейти к покупкам</a>
-    </div>
-  </section>
-  
-  <script>
-    var swiper = new Swiper('.swiper-container', {
-      loop: true,
-      autoplay: {
-        delay: 5000, // Время для смены изображения
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-  </script>
 
   <!-- об авторе -->
   <section class="bg-black text-white py-16 px-8 relative overflow-hidden" id="about-mavi">
@@ -197,7 +177,7 @@
     
     <div class="relative z-10 max-w-4xl mx-auto flex flex-col lg:flex-row items-center gap-8">
       <!-- Фото автора -->
-      <div id="author-photo" class="w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 opacity-0 transition-transform duration-300 hover:scale-125 transform">
+      <div  class=" author-photo w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 opacity-0 ">
         <img src="img/authorPhoto.jpg" alt="Mavi" class="transition-transform duration-300 hover:scale-125 transform w-full h-full object-cover">
       </div>
       
@@ -230,10 +210,10 @@
 
   <!-- галерея -->
 
-  <section class=" m-12">
+  <section  id="gallery"  class="opacity-0 m-12"   >
     
     <h1 class="text-center mb-10 text-4xl font-extrabold leading-none tracking-tight text-pink-500 md:text-5xl lg:text-6xl dark:text-white">Галлерея артов</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div  class="grid grid-cols-2 md:grid-cols-4 gap-4">
       
       <div class="grid gap-4">
           <div>
@@ -296,7 +276,7 @@
     </div>
   
     <!-- Контент -->
-    <div class="relative z-10 max-w-4xl mx-auto text-center">
+    <div id="merch-description"   class=" opacity-0 relative z-10 max-w-4xl mx-auto text-center ">
       <h2 class="text-4xl font-bold text-purple-400 mb-6">Мерч от Mavi</h2>
       <p class="text-lg leading-relaxed text-gray-300 mb-4">
         я рада поделиться с вами своим эксклюзивным мерчем. Этот проект для меня — не просто коллекция товаров, а способ сделать моё искусство ближе к вам. 
@@ -345,40 +325,52 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         
         <!-- Карточка 1 -->
-        <a href="#art" class="flex flex-col items-center bg-gradient-to-br from-purple-800 to-blue-800 border-2 border-purple-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.7)] transition-transform duration-300">
-          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch1.jpg" alt="Арты">
-          <div class="flex flex-col justify-between p-4">
-            <h5 class="mb-2 text-xl font-bold text-white">Арты</h5>
-            <p class="text-gray-300">Уникальные цифровые картины, созданные с душой и вдохновением.</p>
-          </div>
-        </a>
+         <div class="merch-cards opacity-0 ">
+          <a href="#art" class=" flex flex-col items-center bg-gradient-to-br from-purple-800 to-blue-800 border-2 border-purple-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.7)] transition-transform duration-300">
+            <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch1.jpg" alt="Арты">
+            <div class="flex flex-col justify-between p-4">
+              <h5 class="mb-2 text-xl font-bold text-white">Арты</h5>
+              <p class="text-gray-300">Уникальные цифровые картины, созданные с душой и вдохновением.</p>
+            </div>
+          </a>
+         </div>
+        
         
         <!-- Карточка 2 -->
-        <a href="#passport-covers" class="flex flex-col items-center bg-gradient-to-br from-blue-800 to-pink-800 border-2 border-blue-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(0,191,255,0.7)] transition-transform duration-300">
-          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch2.jpg" alt="Обложки на паспорт">
-          <div class="flex flex-col justify-between p-4">
-            <h5 class="mb-2 text-xl font-bold text-white">Обложки на паспорт</h5>
-            <p class="text-gray-300">Практичные и стильные аксессуары для путешественников.</p>
-          </div>
-        </a>
+        <div class="merch-cards opacity-0 ">
+          <a href="#passport-covers" class=" flex flex-col items-center bg-gradient-to-br from-blue-800 to-pink-800 border-2 border-blue-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(0,191,255,0.7)] transition-transform duration-300">
+            <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch2.jpg" alt="Обложки на паспорт">
+            <div class="flex flex-col justify-between p-4">
+              <h5 class="mb-2 text-xl font-bold text-white">Обложки на паспорт</h5>
+              <p class="text-gray-300">Практичные и стильные аксессуары для путешественников.</p>
+            </div>
+          </a>
+        </div>
+       
         
         <!-- Карточка 3 -->
-        <a href="#keychains" class="flex flex-col items-center bg-gradient-to-br from-pink-800 to-purple-800 border-2 border-pink-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(255,20,147,0.7)] transition-transform duration-300">
-          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch3.jpg" alt="Брелки">
-          <div class="flex flex-col justify-between p-4">
-            <h5 class="mb-2 text-xl font-bold text-white">Брелки</h5>
-            <p class="text-gray-300">Очаровательные аксессуары для ваших ключей или рюкзака.</p>
-          </div>
-        </a>
+        <div class="merch-cards opacity-0 ">
+          <a href="#keychains" class=" flex flex-col items-center bg-gradient-to-br from-pink-800 to-purple-800 border-2 border-pink-500 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(255,20,147,0.7)] transition-transform duration-300">
+            <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch3.jpg" alt="Брелки">
+            <div class="flex flex-col justify-between p-4">
+              <h5 class="mb-2 text-xl font-bold text-white">Брелки</h5>
+              <p class="text-gray-300">Очаровательные аксессуары для ваших ключей или рюкзака.</p>
+            </div>
+          </a>
+        </div>
+        
         
         <!-- Карточка 4 -->
-        <a href="#figures" class="flex flex-col items-center bg-gradient-to-br from-purple-900 to-blue-900 border-2 border-purple-600 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.9)] transition-transform duration-300">
-          <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch4.jpg" alt="Фигурки">
-          <div class="flex flex-col justify-between p-4">
-            <h5 class="mb-2 text-xl font-bold text-white">Фигурки</h5>
-            <p class="text-gray-300">Уникальные скульптуры для коллекционеров и любителей дизайна.</p>
-          </div>
-        </a>
+        <div class="merch-cards opacity-0 ">
+          <a href="#figures"  class=" flex flex-col items-center bg-gradient-to-br from-purple-900 to-blue-900 border-2 border-purple-600 rounded-lg shadow-lg hover:scale-105 hover:shadow-[0px_0px_25px_rgba(128,0,128,0.9)] transition-transform duration-300">
+            <img class="object-cover w-full rounded-t-lg h-48 md:h-60" src="img/merch4.jpg" alt="Фигурки">
+            <div class="flex flex-col justify-between p-4">
+              <h5 class="mb-2 text-xl font-bold text-white">Фигурки</h5>
+              <p class="text-gray-300">Уникальные скульптуры для коллекционеров и любителей дизайна.</p>
+            </div>
+          </a>
+        </div>
+        
   
       </div>
     </div>
@@ -403,7 +395,7 @@
   
     <div class="relative z-10 max-w-4xl mx-auto flex flex-col lg:flex-row items-center gap-8">
       <!-- Описание автора -->
-      <div id="blog-description" class="opacity-100"> <!-- Исправлено с opacity-0 на opacity-100 -->
+      <div  id="about-Blogs" class="opacity-0"> <!-- Исправлено с opacity-0 на opacity-100 -->
         <h2 class="text-4xl font-bold text-purple-400 mb-4">Блоги Mavi</h2>
         <p class="text-lg leading-relaxed text-gray-300 mb-6">
           Я увлекаюсь множеством творческих направлений, которыми с радостью делюсь в своих блогах. 
@@ -427,22 +419,22 @@
       </div>
       
       <!-- Фото автора -->
-      <div id="author-photo" class="w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 transition-transform duration-300 hover:scale-125 transform">
-        <img src="img/authorPhoto1.jpg" alt="Mavi" class="transition-transform duration-300 hover:scale-125 transform w-full h-full object-cover">
+      <div id="author-photo1"  class="opacity-0  w-60 h-60 flex-shrink-0 rounded-full overflow-hidden shadow-lg border-4 border-purple-500 ">
+        <img src="img/authorPhoto1.jpg" alt="Mavi" class="transition-transform duration-300 hover:scale-125 transform w-full h-full object-cover transition-transform duration-300 hover:scale-125 transform">
       </div>
     </div>
   </section>
 
 
  <!-- блоги -->
-  <section class="bg-black text-white py-16">
+  <section id="MaviBlogs" class="bg-black text-white py-16">
     <div class="container mx-auto">
       <h2 class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-12">
         Мои статьи
       </h2>
       <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 px-6">
         <!-- Первая статья -->
-        <div class="relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
+        <div class="blog-card opacity-0 relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
           <div class="relative z-10">
             <a href="#">
               <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 hover:underline">
@@ -465,7 +457,7 @@
         </div>
   
         <!-- Вторая статья -->
-        <div class="relative p-6 bg-black border-2 border-blue-500 rounded-lg shadow-lg">
+        <div class="blog-card opacity-0 relative p-6 bg-black border-2 border-blue-500 rounded-lg shadow-lg">
           <div class="relative z-10">
             <a href="#">
               <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 hover:underline">
@@ -488,7 +480,7 @@
         </div>
   
         <!-- Третья статья -->
-        <div class="relative p-6 bg-black border-2 border-purple-500 rounded-lg shadow-lg">
+        <div class="blog-card opacity-0 relative p-6 bg-black border-2 border-purple-500 rounded-lg shadow-lg">
           <div class="relative z-10">
             <a href="#">
               <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-500 hover:underline">
@@ -511,7 +503,7 @@
         </div>
   
         <!-- Четвертая статья -->
-        <div class="relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
+        <div class="blog-card opacity-0 relative p-6 bg-black border-2 border-pink-500 rounded-lg shadow-lg">
           <div class="relative z-10">
             <a href="#">
               <h5 class="mb-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-pink-500 hover:underline">
@@ -539,9 +531,9 @@
   
 
   <section class="bg-black text-white py-16">
-    <div class="container mx-auto grid gap-8 lg:grid-cols-2">
+    <div class="container mx-auto px-6 grid gap-8 lg:grid-cols-2">
       <!-- Форма обратной связи -->
-      <div class="p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
+      <div id="formContact" class="opacity-0 p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
         <h2 class="text-3xl font-bold mb-6  bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500">
           Связаться со мной
         </h2>
@@ -565,7 +557,7 @@
       </div>
   
       <!-- Контактный блок -->
-      <div class="p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
+      <div id="contactBlock" class="opacity-0 p-8 bg-black border-2 border-pink-500 rounded-lg shadow-lg bg-gradient-to-br from-pink-800 to-purple-800">
         <h2 class="text-3xl font-bold mb-6 ">
           Контакты
         </h2>
@@ -627,76 +619,187 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 <script>
-    // Анимация появления логотипа
-    anime({
-      targets: '#logo',
-      opacity: [0, 1],
-      translateY: [-20, 0],
-      duration: 1000,
-      easing: 'easeInOutQuad',
-    });
-  
-    // Анимация появления меню
-    anime({
-      targets: '#menu',
-      opacity: [0, 1],
-      translateX: [-100, 0],
-      duration: 1000,
-      delay: 500,
-      easing: 'easeInOutQuad',
+
+// Скрипт для открытия и закрытия мобильного меню
+document.getElementById("burger").addEventListener("click", function() {
+        var menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
+
+
+  
+
+
+  // Анимация появления логотипа
+  anime({
+    targets: '#logo',
+    opacity: [0, 1],
+    translateY: [-20, 0],
+    duration: 1000,
+    easing: 'easeInOutQuad',
+  });
+
+  // Анимация появления меню
+  anime({
+    targets: '#menu',
+    opacity: [0, 1],
+    translateX: [-100, 0],
+    duration: 1000,
+    delay: 500,
+    easing: 'easeInOutQuad',
+  });
+
+  
+
+  document.addEventListener("DOMContentLoaded", () => {
     const observerOptions = {
       root: null, // Отслеживание в области окна
-      threshold: 0.2 // Срабатывание, если 20% блока видны
+      threshold: 0.3, // Срабатывание, если 20% блока видны
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Анимация фото
-          anime({
-            targets: "#author-photo",
-            opacity: [0, 1],
-            translateY: [-200, 0],
-            duration: 3000,
-            
-            //easing: "easeOutExpo"
-          });
+    // Функция для анимации блоков
+    const animateBlock = (target, animationCallback) => {
+      if (!target) return; // Проверка наличия элемента
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animationCallback(); // Запускаем анимацию
+            obs.unobserve(entry.target); // Отключаем наблюдение после срабатывания
+          }
+        });
+      }, observerOptions);
 
-          // Анимация описания
-          anime({
-            targets: "#author-description",
-            opacity: [0, 1],
-            translateX: [50, 0],
-            delay: 300,
-            duration: 2000,
-            easing: "easeOutExpo"
-          });
+      observer.observe(target);
+    };
 
-          // Анимация кнопки
-          // anime({
-          //   targets: "#author-button",
-          //   opacity: [0, 1],
-          //   scale: [0.8, 1],
-          //   delay: 600,
-          //   duration: 1000,
-          //   easing: "easeOutElastic(1, .8)"
-          // });
-
-          // После срабатывания анимации отключаем наблюдатель
-          observer.disconnect();
-        }
+    // Анимация для блока "О Mavi"
+    animateBlock(document.querySelector("#about-mavi"), () => {
+      anime({
+        targets: ".author-photo",
+        opacity: [0, 1],
+        translateY: [-50, 0],
+        duration: 2000,
+        easing: "easeOutExpo",
       });
-    }, observerOptions);
 
-    // Начинаем отслеживать блок
-    const target = document.querySelector("#about-mavi");
-    if (target) observer.observe(target);
-  });
-  
+      anime({
+        targets: "#author-description",
+        opacity: [0, 1],
+        translateX: [-50, 0],
+        delay: 300,
+        duration: 2000,
+        easing: "easeOutExpo",
+      });
+    });
+
+    // Анимация для блока "Галерея"
+    animateBlock(document.querySelector("#gallery"), () => {
+      anime({
+        targets: "#gallery", // Анимация всего блока
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        translateY: [50, 0],
+        duration: 2000,
+        easing: "easeInOutQuad",
+      });
+    });
+
+     // Анимация для блока описания мерча
+    animateBlock(document.querySelector("#merch-description"), () => {
+      anime({
+        targets: "#merch-description", // Целевой блок
+        opacity: [0, 1], // Плавное появление
+        translateX: [-50, 0], // Движение слева направо
+        scale: [0.9, 1], // Легкое увеличение масштаба
+        duration: 1500, // Длительность анимации
+        easing: "easeInOutQuad", // Плавная анимация
+      });
+    });
+
+    // Анимация для блока с карточками
+    animateBlock(document.querySelector(".merch-cards"), () => {
+      anime({
+        targets: ".merch-cards", // Анимация каждой карточки
+        opacity: [0, 1], // Плавное появление
+        // translateY: [50, 0], // Подъём карточки
+        // rotateZ: [-50, 0], // Лёгкое вращение
+        // scale: [0.9, 1], // Лёгкое увеличение масштаба
+        translateY: () => [anime.random(30, 90), 0], // Случайный подъём карточки
+         rotateZ: () => [anime.random(-25, 25), 0], // Случайный поворот
+       scale: () => [anime.random(30, 95) / 100, 1], // Случайное увеличение масштаба
+        duration: 1500, // Длительность анимации
+        delay: anime.stagger(10), // Задержка между карточками
+        easing: "easeInOutQuad", // Плавная анимация
+      });
+    });
 
     
-  </script>
+    // Анимация для блока "about-Blogs"
+    const aboutBlogs = document.querySelector("#about-Blogs");
+    animateBlock(aboutBlogs, () => {
+      anime({
+        targets: "#about-Blogs",
+        opacity: [0, 1], // Плавное появление
+        translateX: ["-100%", "0%"], // Выезд слева
+        duration: 1500, // Длительность анимации
+        easing: "easeOutExpo", // Плавная анимация
+      });
+    });
+
+    const authorphoto1 = document.querySelector("#author-photo1");
+    animateBlock(authorphoto1, () => {
+      anime({
+        targets: "#author-photo1",
+        opacity: [0, 1], // Плавное появление
+        translateX: ["100%", "0%"], // Выезд слева
+        duration: 1500, // Длительность анимации
+        easing: "easeOutExpo", // Плавная анимация
+      });
+    });
+
+    // Анимация для блока "MaviBlogs"
+    const maviBlogs = document.querySelector("#MaviBlogs");
+    animateBlock(maviBlogs, () => {
+      anime({
+        targets: "#MaviBlogs .blog-card",
+        opacity: [0, 1],
+        scale: [0.8, 1], // Легкое увеличение масштаба
+        rotateY: [-45, 0], // Эффект вращения
+        translateY: [50, 0], // Подъём снизу
+        delay: anime.stagger(300), // Поочерёдный запуск для каждой карточки
+        duration: 2000,
+        easing: "easeOutExpo", // Плавная анимация
+      });
+    });
+
+    const formContact = document.querySelector("#formContact");
+    animateBlock(formContact, () => {
+      anime({
+        targets: "#formContact",
+        opacity: [0, 1], // Плавное появление
+        translateX: ["-100%", "0%"], // Выезд слева
+        duration: 1500, // Длительность анимации
+        easing: "easeOutExpo", // Плавная анимация
+      });
+    });
+
+    const contactBlock = document.querySelector("#contactBlock");
+    animateBlock(contactBlock, () => {
+      anime({
+        targets: "#contactBlock",
+        opacity: [0, 1], // Плавное появление
+        translateX: ["100%", "0%"], // Выезд слева
+        duration: 1500, // Длительность анимации
+        easing: "easeOutExpo", // Плавная анимация
+      });
+    });
+
+    // Если понадобится добавить еще блоки, можно использовать этот шаблон:
+    // animateBlock(document.querySelector("#block-id"), () => {
+    //   // Добавьте нужную анимацию
+    // });
+  });
+</script>
+
 </html>
