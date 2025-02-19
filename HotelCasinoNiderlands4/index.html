@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ontdek ons charmant hotel in Nederland met prachtige natuur, comfortabele kamers, adembenemende uitzichten en diverse recreatieve activiteiten. Geniet van een ontspannen verblijf met uitstekende klantenservice en avontuurlijke ervaringen.">
+    <meta name="keywords" content="hotel Nederland, natuur, comfortabele kamers, adembenemende uitzichten, bergwandelingen, rustige wandelingen, recreatie, klantenservice, hotelvoorzieningen">
+    <title>Luxueus Hotel in Nederland - Ontdek Onze Prachtige Natuur en Activiteiten</title>
+    <link rel="icon" href="img/home.png" type="image/x-icon">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <style>
+        /* Modal Background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Centered horizontally */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 600px; /* Fixed width */
+            max-width: 100%; /* Responsive width */
+        }
+
+        /* The Close Button */
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Footer Button */
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+        <!-- nav -->
+    <div class=" w-full max-w-7xl">
+        <div x-data="{ open: false }" class="flex flex-col max-w-screen-xl p-5 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
+            <div class="flex flex-row items-center justify-between lg:justify-start">
+                <a class="text-lg font-bold tracking-tighter text-blue-600 transition duration-500 ease-in-out transform tracking-relaxed lg:pr-8" href="/groups/header/"> Royal Oranje Hotel </a>
+                <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
+                    <svg fill="currentColor" viewBox="0 0 20 20" class="w-8 h-8">
+                        <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" style="display: none"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav :class="{'flex': open, 'hidden': !open}" class="flex-col flex-grow hidden md:flex md:justify-end md:flex-row">
+                <ul class="space-y-2 list-none lg:space-y-0 lg:items-center lg:inline-flex">
+                    <li>
+                        <a href="index.html" class="px-2 lg:px-6 py-6 text-sm border-b-2 border-transparent hover:border-blue-600 leading-[22px] md:px-3 text-gray-500 hover:text-blue-500 font-bold"> Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aboutUs.html" class="px-2 lg:px-6 py-6 text-sm border-b-2 border-transparent hover:border-blue-600 leading-[22px] md:px-3 text-gray-500 hover:text-blue-500 font-bold"> About Us </a>
+                    </li>
+                    <li>
+                        <a href="servise.html" class="px-2 lg:px-6 py-6 text-sm border-b-2 border-transparent hover:border-blue-600 leading-[22px] md:px-3 text-gray-500 hover:text-blue-500 font-bold"> Service
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- hero -->
+    <section class="text-gray-600 body-font">
+        <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+            <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Discover our beautiful hotels in the Netherlands
+                    <br class="hidden lg:inline-block">and enjoy unparalleled comfort
+                </h1>
+                <p class="mb-8 leading-relaxed">Our hotels in the Netherlands offer a unique combination of luxury, comfort, and exceptional service. Whether you're looking for a peaceful retreat in a picturesque village or modern comfort in the heart of a bustling city, we have the perfect option for you. Our rooms are elegantly designed with attention to detail and equipped with all modern amenities. We take care of every detail to make your stay unforgettable.</p>
+                <div class="flex justify-center">
+                </div>
+            </div>
+            <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+                <img class="object-cover object-center rounded" alt="hero" src="img/hotel-room-with-view-city_1165863-24464.jpg">
+            </div>
+        </div>
+    </section>
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Discover our beautiful hotels in the Netherlands
+                </h1>
+                <p class="leading-relaxed text-lg">At our hotels, you can expect personalized attention and top-notch service. Our hospitable staff is always ready to assist you and ensure a seamless stay. From gourmet dining to relaxing wellness facilities, we offer a range of services to make your stay even more enjoyable. Explore the beauty of the Netherlands from the comfort of our luxurious accommodations.</p>
+                <span class="inline-block h-1 w-80 rounded bg-indigo-500 mt-8 mb-6"></span>
+            </div>
+        </div>
+    </section>
+
+
+<!-- galery -->
+<div class="bg-white dark:bg-gray-800 h-screen h-full py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <div class="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
+            <div class="flex items-center gap-12">
+                <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl dark:text-white">Gallery</h2>
+
+                <p class="hidden max-w-screen-sm text-gray-500 dark:text-gray-300 md:block">
+                    These photos showcase some of the most beautiful and stylish hotels in the Netherlands. Each hotel has its own unique charm and offers an exceptional experience. Be inspired by their stunning designs and luxurious amenities.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
+                <img src="https://t3.ftcdn.net/jpg/02/94/19/40/360_F_294194023_disE35GtlVLDQx4caNDaWewZI8LbxWFQ.jpg" loading="lazy" alt="Photo by Minh Pham" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">VR</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
+                <img src="https://w0.peakpx.com/wallpaper/205/649/HD-wallpaper-hotel-room-interior-design-luxury-hotel-apartments-modern-interior-design-classic-style-luxury-chandelier.jpg" loading="lazy" alt="Photo by Magicle" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Tech</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
+                <img src="https://t3.ftcdn.net/jpg/04/75/76/86/360_F_475768676_wmwEVWYWNlcqaMoj4khb4GF3F0f4f7TF.jpg" loading="lazy" alt="Photo by Martin Sanchez" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Dev</span>
+            </a>
+            <!-- image - end -->
+
+            <!-- image - start -->
+            <a href="#"
+                class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
+                <img src="https://img.freepik.com/free-photo/luxury-modern-style-bedroom-interior-hotel-bedroom-generative-ai-illustration_1258-151610.jpg" loading="lazy" alt="Photo by Lorenzo Herrera" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+
+                <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+                </div>
+
+                <span class="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Retro</span>
+            </a>
+            <!-- image - end -->
+        </div>
+    </div>
+</div>
+
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="text-center mb-20">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Our Beautiful Hotels in the Netherlands</h1>
+            <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-gray-500">Discover the versatility of our hotels in the Netherlands, each with its own unique charm and excellent facilities. We offer a wide selection, excellent service, and a comfortable stay experience.</p>
+            <div class="flex mt-6 justify-center">
+                <div class="w-80 h-1 rounded-full bg-indigo-500 inline-flex"></div>
+            </div>
+        </div>
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+            <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+                <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Wide Selection of Hotels</h2>
+                    <p class="leading-relaxed text-base">We offer a broad range of hotels in the Netherlands, from luxury resorts to cozy boutique hotels, ensuring you always find the perfect accommodation.</p>
+                </div>
+            </div>
+            <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+                <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                        <circle cx="6" cy="6" r="3"></circle>
+                        <circle cx="6" cy="18" r="3"></circle>
+                        <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                    </svg>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Excellent Service</h2>
+                    <p class="leading-relaxed text-base">Our hotels are known for their excellent service, with friendly staff ready to assist and ensure your stay is pleasant.</p>
+                </div>
+            </div>
+            <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+                <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Comfort and Care</h2>
+                    <p class="leading-relaxed text-base">Our hotels provide a comfortable and carefree experience, with modern amenities and a focus on customer satisfaction to make your stay unforgettable.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+      
+
+        <!--
+    Pricing Cards by twitter.com/namyakhann
+    -->
+    <div class="flex  items-center justify-center bg-[#000]">
+        <!-- Button 1 -->
+        <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+            <div class="mx-auto mb-8 max-w-screen-md  lg:mb-12 text-center">
+                <h2 class="mb-10 text-4xl font-bold tracking-tight text-white">Our prices</h2>
+            </div>
+            <div class="space-y-8  lg:grid md:grid-cols-3 lg:space-y-0 lg:gap-10">
+                <!-- Pricing Card -->
+                <div class="mx-auto flex max-w-lg space-y-8 items-start flex-col rounded-3xl border border-gray-200 bg-white p-6 text-gray-900 xl:p-8">
+
+                    <h3 class="text-lg font-normal">Standard Room</h3>
+                    <div class="my-8 flex items-baseline justify-center">
+                        <span class="mr-2 text-5xl font-extrabold">€100</span>
+                        <span class="text-gray-600">/per night</span>
+                    </div>
+
+                    <p class="font-light text-gray-600 sm:text-sm">Ideal for a comfortable and relaxing stay with excellent amenities.</p>
+                    <a class="cursor-pointer bg-gray-900 w-full rounded-md p-3 text-center text-sm font-semibold text-white shadow-sm hover:-translate-y-1" href="#contact">Book Now</a>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left text-gray-600 text-sm">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Comfortable beds</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Free Wi-Fi</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Daily cleaning service</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>24/7 Reception</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Free Breakfast</span>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <!-- Pricing Card 2-->
+                <div class="mx-auto flex max-w-lg space-y-8 items-start flex-col rounded-3xl bg-[#D8FA6D] p-6 text-gray-900 xl:p-8">
+
+                    <h3 class="text-lg font-normal">Comfortable Room</h3>
+                    <div class="my-8 flex items-baseline justify-center">
+                        <span class="mr-2 text-5xl font-extrabold">€150</span>
+                        <span class="text-gray-600">/per night</span>
+                    </div>
+
+                    <p class="font-light text-gray-600 sm:text-sm">The perfect choice for a luxurious stay with excellent amenities and extra comfort.</p>
+                    <a class="cursor-pointer bg-gray-900 w-full rounded-md p-3 text-center text-sm font-semibold text-white shadow-sm hover:-translate-y-1"  href="#contact">Book Now</a>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left text-gray-600 text-sm">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Comfortable beds</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Free Wi-Fi</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Daily cleaning service</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>24/7 Reception</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Free Breakfast</span>
+                        </li>
+                    </ul>
+
+                </div>
+
+                
+                <!-- Pricing Card 3-->
+                <div class="mx-auto flex max-w-lg space-y-8 items-start flex-col rounded-3xl bg-[#DCA6F3] p-6 text-center text-gray-900 xl:p-8">
+
+                    <h3 class="text-lg font-normal">Lux Room</h3>
+                    <div class="my-8 flex items-baseline justify-center">
+                        <span class="mr-2 text-5xl font-extrabold">$250</span>
+                        <span class="text-gray-600">/per night</span>
+                    </div>
+
+                    <p class="font-light text-gray-600 sm:text-sm">Enjoy unparalleled luxury in our exclusive Suite. Exceptional comfort and first-class service.</p>
+                    <a class="cursor-pointer bg-gray-900 w-full rounded-md p-3 text-sm font-semibold text-white shadow-sm hover:-translate-y-1" href="#contact">Book now</a>
+                    <!-- List -->
+                    <ul role="list" class="mb-8 space-y-4 text-left text-gray-600 text-sm">
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Luxurious Furnishings</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Personalized Concierge Service</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Exclusive Access to VIP Amenities</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Private Spa Services</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <!-- Icon -->
+                            <svg class="h-5 w-5 flex-shrink-0 bg-gray-900 rounded-full p-0.5 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Gourmet In-Room Dining</span>
+                        </li>
+                    </ul>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="py-5 dark:bg-gray-900">
+        <div class="container flex flex-col items-center justify-center w-full p-6 mx-auto text-center xl:px-0">
+            <div class="text-sm font-bold tracking-wider text-indigo-600 uppercase">Testimonials</div>
+            <h2 class="max-w-2xl mt-3 text-3xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-4xl dark:text-white">What our customers say</h2>
+            <p class="max-w-2xl py-4 text-lg leading-normal text-gray-500 lg:text-xl xl:text-xl dark:text-gray-300">In this section, you can view reviews of our hotels in the Netherlands. Read what other guests have said about their experiences and discover why our hotels are so highly rated.</p>
+        </div>
+        <div class="container p-6 mx-auto mb-10 xl:px-0">
+            <div class="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
+                <div class="lg:col-span-2 xl:col-auto">
+                    <div class="flex flex-col justify-between w-full h-full px-6 py-6 bg-gray-100 dark:bg-gray-800 md:px-14 rounded-2xl md:py-14 dark:bg-trueGray-800">
+                        <p class="text-xl leading-normal dark:text-gray-300">The Amstel Hotel in Amsterdam is a real gem. The luxurious rooms are stylishly furnished and offer breathtaking views of the Amstel River. The staff is extremely friendly and attentive, ensuring an unforgettable experience. The gourmet restaurants and extensive wellness center make this hotel the perfect choice for a luxury stay in Amsterdam.</p>
+                        <div class="flex items-center mt-8 space-x-3">
+                            <div class="flex-shrink-0 overflow-hidden rounded-full w-14 h-14">
+                                <img alt="Avatar" src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?crop=faces&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwxfDB8MXxhbGx8fHx8fHx8fHwxNjIwMTQ5ODEx&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=100&amp;h=100" loading="lazy" />
+                            </div>
+                            <div>
+                                <div class="text-lg font-medium text-gray-200">Sarah Steiner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="flex flex-col justify-between w-full h-full px-6 py-6 bg-gray-100 dark:bg-gray-800 md:px-14 rounded-2xl md:py-14 dark:bg-trueGray-800">
+                        <p class="text-xl leading-normal dark:text-gray-300">Hotel des Indes in The Hague is a beautiful blend of historic charm and modern luxury. The elegant rooms are beautifully renovated, and the location in the heart of the city is ideal for exploring local attractions. The hotel offers an excellent restaurant and a top-class spa, contributing to a luxurious and relaxing experience.</p>
+                        <div class="flex items-center mt-8 space-x-3">
+                            <div class="flex-shrink-0 overflow-hidden rounded-full w-14 h-14">
+                                <img alt="Avatar" src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;crop=faces&amp;fit=crop&amp;w=100&amp;h=100&amp;q=80" loading="lazy" />
+                            </div>
+                            <div>
+                                <div class="text-lg font-medium text-gray-200">Dylan Ambrose</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="flex flex-col justify-between w-full h-full px-6 py-6 bg-gray-100 dark:bg-gray-800 md:px-14 rounded-2xl md:py-14 dark:bg-trueGray-800">
+                        <p class="text-xl leading-normal dark:text-gray-300">Hotel New York in Rotterdam offers a unique experience with its historic building and unique atmosphere. The view of the harbor and the iconic architecture are impressive, and the rooms are comfortable and stylishly furnished. The hotel restaurant serves delicious meals, and the staff is always ready to help. This hotel is the perfect choice for an authentic and comfortable stay in Rotterdam.</p>
+                        <div class="flex items-center mt-8 space-x-3">
+                            <div class="flex-shrink-0 overflow-hidden rounded-full w-14 h-14">
+                                <img alt="Avatar" src="https://images.unsplash.com/photo-1624224971170-2f84fed5eb5e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=100&amp;h=100&amp;crop=faces&amp;q=80" loading="lazy" />
+                            </div>
+                            <div>
+                                <div class="text-lg font-medium text-gray-200">Gabrielle Winn</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+
+    <section class="">
+        <div class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+                <div class="lg:text-center">
+                    <h2 class="font-heading mb-4 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg md:w-64 md:mx-auto text-xs font-semibold tracking-widest text-black uppercase title-font">
+                        Why Choose Us?
+                    </h2>
+                    <p class="font-heading mt-2 text-3xl leading-8 font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                        Discover why our hotels are the best choice.
+                    </p>
+                    <p class="mt-4 max-w-2xl text-lg text-gray-500 lg:mx-auto">
+                        Our hotels in the Netherlands offer a unique combination of stylish interiors, excellent locations, and impeccable service. Enjoy a luxurious stay with a personal touch and modern amenities tailored to your needs.
+                    </p>
+                </div>
+    
+                <div class="mt-10">
+                    <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                        <div class="relative">
+                            <dt>
+                                <div class="absolute flex items-center justify-center h-16 w-16 rounded-md bg-primary-500 text-white">
+                                    <i class="bi bi-palette text-3xl text-gray-900"></i> <!-- Stylish Interiors icon -->
+                                </div>
+                                <p class="font-heading ml-16 text-lg leading-6 font-bold text-gray-700">Stylish Interiors</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Our rooms are designed with attention to detail and luxury. Each hotel features a unique interior that creates a stylish and comfortable atmosphere.
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div class="absolute flex items-center justify-center h-16 w-16 rounded-md bg-primary-500 text-white">
+                                    <i class="bi bi-map text-3xl text-gray-900"></i> <!-- Excellent Location icon -->
+                                </div>
+                                <p class="font-heading ml-16 text-lg leading-6 font-bold text-gray-700">Excellent Location</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Our hotels are strategically located in the most beautiful cities of the Netherlands, providing easy access to attractions, restaurants, and shopping areas.
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div class="absolute flex items-center justify-center h-16 w-16 rounded-md bg-primary-500 text-white">
+                                    <i class="bi bi-laptop text-3xl text-gray-900"></i> <!-- Modern Amenities icon -->
+                                </div>
+                                <p class="font-heading ml-16 text-lg leading-6 font-bold text-gray-700">Modern Amenities</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Enjoy top-notch facilities such as luxurious spas, fitness centers, and gourmet restaurants that make your stay even more enjoyable.
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div class="absolute flex items-center justify-center h-16 w-16 rounded-md bg-primary-500 text-white">
+                                    <i class="bi bi-people text-3xl text-gray-900"></i> <!-- Personalized Service icon -->
+                                </div>
+                                <p class="font-heading ml-16 text-lg leading-6 font-bold text-gray-700">Personalized Service</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500">
+                                Our staff offers personal and attentive service, with your wishes and needs always being the top priority.
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+    
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+
+    <section>
+        <div class="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-24 max-w-7xl">
+            <div class="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-3">
+                <div class="p-6">
+                    <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://images.unsplash.com/photo-1495365200479-c4ed1d35e1aa?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="blog">
+    
+                    <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Experience Elegance in Each of Our Hotels</h1>
+                    <p class="mx-auto text-base leading-relaxed text-gray-500">
+                        Our hotels offer unmatched beauty and luxury. From refined rooms to breathtaking views, each hotel is carefully designed to combine elegance and comfort that exceeds your expectations. Enjoy an unparalleled atmosphere where every detail is infused with style and sophistication.
+                    </p>
+                    <div class="mt-4"></div>
+                </div>
+                <div class="p-6">
+                    <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://images.unsplash.com/photo-1444201983204-c43cbd584d93?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="blog">
+    
+                    <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Discover Our Breathtaking Hotels</h1>
+                    <p class="mx-auto text-base leading-relaxed text-gray-500">
+                        Be enchanted by the beauty of our hotels. Each property is a masterpiece of design and luxury, with tastefully decorated rooms and stunning architecture. Our hotels offer a serene environment with modern amenities, perfect for an unforgettable stay.
+                    </p>
+                    <div class="mt-4"></div>
+                </div>
+                <div class="p-6">
+                    <img class="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl" src="https://images.unsplash.com/photo-1533759413974-9e15f3b745ac?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="blog">
+    
+                    <h1 class="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">Luxurious Stays in Our Unique Hotels</h1>
+                    <p class="mx-auto text-base leading-relaxed text-gray-500">
+                        Experience ultimate luxury and beauty in our unique hotels. With stunning interiors, modern facilities, and impeccable service, we offer a sanctuary where elegance and comfort come together. Each hotel is an oasis of peace and refinement, designed to make your stay unforgettable.
+                    </p>
+                    <div class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="relative p-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                    <div class="">
+                        <h1 href="#" class="text-gray-900 font-bold text-4xl">Why Our Hotels in the Netherlands Are the Number One Choice</h1>
+                        <div class="py-5 text-sm font-regular text-gray-900 flex">
+                        </div>
+                        <hr>
+                        <p class="text-base leading-8 my-5">
+                            Our hotels in the Netherlands not only provide a comfortable place to stay but also offer an exceptional experience of luxury and hospitality. Every detail is carefully curated to make your stay unforgettable. From refined interiors to attentive service, we ensure that every aspect of your stay meets your highest expectations.
+                        </p>
+    
+                        <h3 class="text-2xl font-bold my-5">Outstanding Locations</h3>
+    
+                        <p class="text-base leading-8 my-5">
+                            Our hotels are located in the most prestigious neighborhoods in the Netherlands. Whether you want to stroll through the charming streets of Amsterdam, discover the rich culture of The Hague, or relax on the North Sea coast, we ensure you're always close to top attractions and picturesque locations.
+                        </p>
+    
+                        <p class="text-base leading-8 my-5">Our hospitality and attention to detail are unmatched. Upon arrival, you'll be greeted with a warm smile and personal attention, making every stay a special experience.</p>
+    
+                        <p class="text-base leading-8 my-5">
+                            Enjoy refined gastronomy in our hotels, where local flavors and modern trends are harmoniously combined. Start your day with a delicious breakfast with a view, enjoy a romantic candlelight dinner, or sample exclusive wines in an atmospheric lounge bar. After a day full of adventure, our luxury spa offers the ultimate relaxation and rejuvenation.
+                        </p>
+    
+                        <p class="text-base leading-8 my-5">
+                            Our bespoke offerings ensure that every guest has a unique experience. Whether you're looking for a romantic getaway or business arrangements, we ensure your stay is special and tailor-made. With us, you choose not just a place to stay, but a complete vacation experience, filled with comfort and beauty.
+                        </p>
+    
+                        <p class="text-base leading-8 my-5">
+                            We look forward to welcoming you and ensuring that your stay with us becomes an unforgettable experience. Feel special and enjoy every moment spent with us!
+                        </p>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class=" " id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 text-center">
+            <h2 class="text-4xl font-bold dark:text-gray-900">Contact</h2>
+            <p class="pt-6 pb-6 text-base max-w-2xl text-center m-auto dark:text-gray-400">
+                Would you like to get in touch with us? Choose one of the options below and let us show you how we can change the way businesses operate on the internet.
+            </p>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 grid md:grid-cols-2 lg:grid-cols-2 gap-y-8 md:gap-x-8 md:gap-y-8 lg:gap-x-8 lg:gap-y-16">
+            <div>
+                <h2 class="text-lg font-bold dark:text-gray-900">Contact Us</h2>
+                <p class="max-w-sm mt-4 mb-4 dark:text-gray-400">Have something to say? We are here to help. Fill out the form or send us an email or call us.</p>
+                <div class="flex items-center mt-8 space-x-2 text-dark-600 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" aria-hidden="true" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z">
+                        </path>
+                    </svg><span>14th Avenue Glory Road</span>
+                </div>
+                <div class="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" aria-hidden="true" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75">
+                        </path>
+                    </svg>
+                    <a href="mailto:hello@company.com">hello@company.com</a>
+                </div>
+                <div class="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" aria-hidden="true" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z">
+                        </path>
+                    </svg>
+                    <a href="tel:11111111111">
+                        +31 64 7471452</a>
+                </div>
+            </div>
+            <div>
+                <form>
+                    <input type="checkbox" id="" class="hidden" style="display:none" name="botcheck">
+                    <div class="mb-5">
+                        <input type="text" placeholder="Full Name" autocomplete="false"
+                            class="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white rounded-md outline-none dark:placeholder:text-gray-200 dark:bg-gray-900 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
+                            name="name" id="name">
+                    </div>
+                    <div class="mb-5">
+                        <label for="email" class="sr-only">Email Address</label>
+                        <input id="email" type="email" placeholder="Email Address" autocomplete="false"
+                            class="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white rounded-md outline-none dark:placeholder:text-gray-200 dark:bg-gray-900 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
+                            name="email">
+                    </div>
+                    <div class="mb-3">
+                        <textarea placeholder="Your Message"
+                            class="w-full px-4 py-3 border-2 placeholder:text-gray-800 dark:text-white dark:placeholder:text-gray-200 dark:bg-gray-900 rounded-md outline-none h-36 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100 dark:border-gray-600 dark:focus:border-white dark:ring-0"
+                            name="message" id="message">
+                        </textarea>
+                    </div>
+                    <button type="submit" id="submitBtn"
+                        class="w-full py-4 font-semibold text-sm tracking-wide text-white bg-gray-800 border border-gray-800 rounded-md focus:outline-none focus:ring-4 hover:bg-gray-700">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message Sent</h5>
+            </div>
+            <div class="modal-body">
+                Your message has been sent successfully. Thank you for reaching out!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalFooter">Ok</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-gray-800 text-white py-4 px-3 mt-16">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
+                <p class="text-xs text-gray-400 md:text-sm">Copyright ... &copy; All Rights Reserved (no)</p>
+            </div>
+            <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
+                <ul class="list-reset flex justify-center flex-wrap text-xs md:text-sm gap-3">
+                    <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    <li class="mx-4"><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    
+
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('.close-btn, #closeModalFooter').click(function(){
+        $('#successModal').fadeOut();
+    });
+    
+    document.getElementById('submitBtn').onclick = function(e) {
+        e.preventDefault(); 
+
+       
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var message = document.getElementById('message').value.trim();
+
+        if (!name || !email || !message) {
+            alert('Alle velden moeten worden ingevuld.');
+            return;
+        }
+
+       
+        var formData = {
+            name: name,
+            email: email,
+            message: message
+        };
+
+        
+        fetch('https://httpbin.org/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then(response => response.json())
+            .then(data => {
+                
+                $('#successModal').fadeIn();
+
+
+                
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('message').value = '';
+            }).catch(error => {
+            console.error('Error:', error);
+        });
+
+        return false;
+    }
+</script>
