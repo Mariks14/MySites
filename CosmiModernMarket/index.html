@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmi Shop</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .backdrop-blur-xl {
+            backdrop-filter: blur(20px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        /* Hover Effects */
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 70%;
+            max-height: 70vh;
+            margin: auto;
+            position: relative;
+            transform: scale(0.85);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(0.9);
+        }
+
+        /* Page Transition */
+        .page-transition {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: pageEnter 0.5s ease-out forwards;
+        }
+
+        @keyframes pageEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-white bg-black/50 p-2 rounded-full hover:bg-black/70 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <img id="modalImage" src="" alt="" class="  rounded-2xl max-h-[70vh] mx-auto">
+            <div id="modalInfo" class="bg-white/10 backdrop-blur-xl rounded-xl p-6 mt-1 text-white animate-slide-up">
+                <h3 id="modalTitle" class="text-2xl font-bold mb-2"></h3>
+                <p id="modalDescription" class="text-white/70"></p>
+                <div id="modalPrice" class="text-xl font-medium mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="min-h-screen w-full relative overflow-x-hidden">
+        <!-- Background Overlay -->
+        <div class="absolute inset-0 z-0 bg-black/80"></div>
+
+        <!-- Main Content -->
+        <div class="relative z-10 min-h-screen page-transition">
+            <!-- Top Navigation Bar -->
+            <nav class="px-4 md:px-8 py-4">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center justify-between">
+                            <a href="index.html" class="text-2xl font-bold text-white hover-scale">Cosmi Market</a>
+                            <button class="md:hidden text-white" onclick="toggleMenu()">
+                                <i data-lucide="menu" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                        <div id="mobileMenu" class="hidden md:flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                            <a href="collection.html" class="text-white/90 hover:text-white transition-colors hover-scale">Moonish</a>
+                            <a href="new-in.html" class="text-white/90 hover:text-white transition-colors hover-scale">New In</a>
+                            <a href="hot-drops.html" class="text-white/90 hover:text-white transition-colors hover-scale">Hot drops</a>
+                            <a href="collection.html" class="text-white/90 hover:text-white transition-colors hover-scale">Collection</a>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <button class="flex items-center space-x-2 text-white/90 hover:text-white hover-scale">
+                                <i data-lucide="globe" class="w-5 h-5"></i>
+                            </button>
+                            <div class="bg-white/10 backdrop-blur-md rounded-full px-4 py-2 flex items-center space-x-4 hover-glow">
+                                <span class="text-white/90">Cosmi SHOP</span>
+                                <span class="hidden sm:inline text-xs text-white/70">NEW COLLECTION</span>
+                                <span class="hidden sm:inline text-xs text-white/50">MOONISH</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Product Sections -->
+            <main class="px-4 md:px-8 py-8 md:py-12 space-y-8">
+                <div class="max-w-7xl mx-auto">
+                    <!-- First Product Section -->
+                    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-4 md:p-8 mb-8 hover-glow animate-fade-in">
+                        <div class="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-4">
+                            <div>
+                                <div class="text-6xl md:text-8xl font-bold text-white/90">01</div>
+                                <div class="space-y-1 mt-4">
+                                    <div class="text-sm text-white/70">CLASSIC HOODIE</div>
+                                    <div class="text-sm text-white/70">BY 02 STUDIO</div>
+                                    <div class="text-sm text-white/70">THE LATE 2050</div>
+                                </div>
+                            </div>
+                            <div class="space-y-1 md:text-right">
+                                <div class="text-sm text-white/70">LINING:</div>
+                                <div class="text-sm text-white/70">53% COTTON</div>
+                                <div class="text-sm text-white/70">47% POLYESTER</div>
+                                <div class="mt-4">
+                                    <div class="text-sm text-white/70">POCKET BAG:</div>
+                                    <div class="text-sm text-white/70">100% COTTON</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8">
+                            <!-- Nike Card -->
+                            <div class="md:col-span-4">
+                                <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/10 transition-all group hover-scale">
+                                    <div class="relative cursor-pointer" onclick="openModal('Nike Futuristic Sneakers', 'Premium sports footwear with advanced cushioning technology and adaptive fit system.', '199$', 'https://images.unsplash.com/photo-1605408499391-6368c628ef42?q=80&w=800')">
+                                        <img 
+                                            src="https://images.unsplash.com/photo-1605408499391-6368c628ef42?q=80&w=800" 
+                                            alt="Nike Sneakers"
+                                            class="rounded-xl w-full object-cover"
+                                        />
+                                        <button class="absolute bottom-4 right-4 bg-black/20 backdrop-blur-sm p-2 rounded-full hover:bg-black/40 transition-colors">
+                                            <i data-lucide="refresh-cw" class="w-5 h-5 text-white"></i>
+                                        </button>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-white/90 font-medium">NIKE</span>
+                                            <span class="text-white/70 text-sm">SNEAKERS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Main Hoodie Card -->
+                            <div class="md:col-span-8">
+                                <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/10 transition-all hover-scale">
+                                    <div class="relative cursor-pointer" onclick="openModal('Classic Hoodie 2050', 'Premium cotton blend hoodie with minimalist design and advanced thermal regulation.', '119$', 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1200')">
+                                        <img 
+                                            src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1200" 
+                                            alt="Beige Hoodie"
+                                            class="rounded-xl w-full object-cover"
+                                        />
+                                        <div class="absolute bottom-4 right-4 flex items-center space-x-4">
+                                            <span class="text-white/90 text-xl font-medium">119$</span>
+                                            <button class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-white/20 transition-all">
+                                                <span class="text-white">Add to card</span>
+                                                <i data-lucide="plus" class="w-4 h-4 text-white"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Product Section -->
+                    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-4 md:p-8 mb-8 hover-glow animate-fade-in">
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+                            <div>
+                                <div class="text-6xl md:text-8xl font-bold text-white/90">02</div>
+                                <div class="space-y-1 mt-4">
+                                    <div class="text-sm text-white/70">TECH JACKET</div>
+                                    <div class="text-sm text-white/70">BY 02 STUDIO</div>
+                                    <div class="text-sm text-white/70">FUTURE LINE</div>
+                                </div>
+                            </div>
+                            <div class="space-y-1 md:text-right">
+                                <div class="text-sm text-white/70">Key Features:</div>
+                                <div class="text-sm text-white/70">Waterproof and Windproof Material</div>
+                                <div class="text-sm text-white/70">Adjustable Hood with Drawstrings</div>
+                                <div class="mt-4">
+                                    <div class="text-sm text-white/70">Material Composition:</div>
+                                    <div class="text-sm text-white/70">Shell: 100% Polyester</div>
+                                    <div class="text-sm text-white/70">Lining: 100% Polyester</div>
+                                    <div class="text-sm text-white/70">Insulation: 100% Polyester</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/10 transition-all hover-scale">
+                            <div class="relative cursor-pointer" onclick="openModal('Tech Jacket Future', 'Advanced technical jacket with climate control and smart fabric technology.', '199$', 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200')">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200" 
+                                    alt="Tech Jacket"
+                                    class="rounded-xl w-full h-[300px] md:h-[400px] object-cover"
+                                />
+                                <div class="absolute bottom-4 right-4 flex items-center space-x-4">
+                                    <span class="text-white/90 text-xl font-medium">199$</span>
+                                    <button class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-white/20 transition-all">
+                                        <span class="text-white">Add to card</span>
+                                        <i data-lucide="plus" class="w-4 h-4 text-white"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Product Section -->
+                    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-4 md:p-8 hover-glow animate-fade-in">
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+                            <div>
+                                <div class="text-6xl md:text-8xl font-bold text-white/90">03</div>
+                                <div class="space-y-1 mt-4">
+                                    <div class="text-sm text-white/70">SMART WATCH</div>
+                                    <div class="text-sm text-white/70">BY 02 STUDIO</div>
+                                    <div class="text-sm text-white/70">TECH SERIES</div>
+                                </div>
+                            </div>
+                            <div class="space-y-1 md:text-right">
+                                <div class="text-sm text-white/70">Main Functions:</div>
+                                <div class="text-sm text-white/70">Compatible with iOS and Android</div>
+                                <div class="text-sm text-white/70">GPS and GLONASS navigation</div>
+                                <div class="mt-4">
+                                    <div class="text-sm text-white/70">Additional Functions:</div>
+                                    <div class="text-sm text-white/70">Heart rate and sleep monitoring</div>
+                                    <div class="text-sm text-white/70">Notifications about calls and messages</div>
+                                    <div class="text-sm text-white/70">Built-in voice assistant</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/10 transition-all hover-scale">
+                                <div class="relative cursor-pointer" onclick="openModal('Smart Watch Black Edition', 'Next-generation smartwatch with holographic display and biometric sensors.', '299$', 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=1200')">
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=1200" 
+                                        alt="Smart Watch Black"
+                                        class="rounded-xl w-full h-[250px] object-cover"
+                                    />
+                                    <div class="absolute bottom-4 right-4 flex items-center space-x-4">
+                                        <span class="text-white/90 text-xl font-medium">299$</span>
+                                        <button class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-white/20 transition-all">
+                                            <span class="text-white">Add to card</span>
+                                            <i data-lucide="plus" class="w-4 h-4 text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/10 transition-all hover-scale">
+                                <div class="relative cursor-pointer" onclick="openModal('Smart Watch White Edition', 'Minimalist smartwatch with advanced health monitoring and AI assistant.', '299$', 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?q=80&w=1200')">
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?q=80&w=1200" 
+                                        alt="Smart Watch White"
+                                        class="rounded-xl w-full h-[250px] object-cover"
+                                    />
+                                    <div class="absolute bottom-4 right-4 flex items-center space-x-4">
+                                        <span class="text-white/90 text-xl font-medium">299$</span>
+                                        <button class="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full flex items-center space-x-2 hover:bg-white/20 transition-all">
+                                            <span class="text-white">Add to card</span>
+                                            <i data-lucide="plus" class="w-4 h-4 text-white"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            
+
+                        
+  
+        </div>
+        <!-- Login Button -->
+        <button id="scrollButton" class="fixed top-4 right-4 md:top-16 md:right-8 z-50 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 flex items-center space-x-2 hover:bg-white/20 transition-all hover:scale-105">
+            <span class="text-white">Log in</span>
+            <i data-lucide="log-in" class="w-4 h-4 text-white"></i>
+          </button>
+          <!-- Bottom Bar -->
+          <div class="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] md:w-auto">
+            <div class="bg-white/10 backdrop-blur-md rounded-full px-4 md:px-6 py-3 flex items-center justify-center md:space-x-8 hover-glow">
+                <span class="text-white/90 font-medium">NEW·COSMI©</span>
+                <span class="text-white/70">SET 23›</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Modal functionality
+        function openModal(title, description, price, imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalPrice = document.getElementById('modalPrice');
+
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalPrice.textContent = price;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on background click
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Page transition
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.page-transition').style.opacity = '1';
+            document.querySelector('.page-transition').style.transform = 'translateY(0)';
+        });
+
+        
+    </script>
+</body>
+</html>

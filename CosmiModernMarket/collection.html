@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmi Shop</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .backdrop-blur-xl {
+            backdrop-filter: blur(20px);
+        }
+
+        .page-transition {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: pageEnter 0.5s ease-out forwards;
+        }
+
+        @keyframes pageEnter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <div class="min-h-screen w-full relative overflow-x-hidden">
+        <div class="absolute inset-0 z-0 bg-black/80"></div>
+
+        <div class="relative z-10 min-h-screen page-transition">
+            <!-- Top Navigation Bar -->
+            <nav class="px-4 md:px-8 py-4">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex items-center justify-between">
+                        <a href="index.html" class="text-2xl font-bold text-white hover-scale">Cosmi Market</a>
+                        <div class="flex items-center space-x-6">
+                            <a href="index.html" class="text-white/90 hover:text-white transition-colors hover-scale">Home</a>
+                            <a href="collection.html" class="text-white/90 hover:text-white transition-colors hover-scale">Collection</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Collection Grid -->
+            <main class="px-4 md:px-8 py-12">
+                <div class="max-w-7xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white/90 mb-8">Collection</h1>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Collection Cards -->
+                        <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 hover-scale hover-glow">
+                            <img 
+                                src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200"
+                                alt="Tech Collection"
+                                class="rounded-xl w-full h-48 object-cover mb-4"
+                            />
+                            <h3 class="text-xl font-bold text-white/90">Tech Collection</h3>
+                            <p class="text-white/70 mt-2">Advanced wearables for the modern lifestyle</p>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 hover-scale hover-glow">
+                            <img 
+                                src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1200"
+                                alt="Urban Collection"
+                                class="rounded-xl w-full h-48 object-cover mb-4"
+                            />
+                            <h3 class="text-xl font-bold text-white/90">Urban Collection</h3>
+                            <p class="text-white/70 mt-2">Street style meets future fashion</p>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 hover-scale hover-glow">
+                            <img 
+                                src="https://images.unsplash.com/photo-1605408499391-6368c628ef42?q=80&w=800"
+                                alt="Sport Collection"
+                                class="rounded-xl w-full h-48 object-cover mb-4"
+                            />
+                            <h3 class="text-xl font-bold text-white/90">Sport Collection</h3>
+                            <p class="text-white/70 mt-2">Performance wear for the future athlete</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Bottom Bar -->
+            <div class="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2">
+                <div class="bg-white/10 backdrop-blur-md rounded-full px-6 py-3 flex items-center space-x-8 hover-glow">
+                    <span class="text-white/90 font-medium">NEW·COSMI©</span>
+                    <span class="text-white/70">SET 23›</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
