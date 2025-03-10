@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoDesign Studio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#333333',
+            secondary: '#f5f5f7',
+            accent: '#e6e6ea',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            'xl': '1rem',
+            '2xl': '1.5rem',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .animate-element {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .circular-text {
+      animation: rotate 20s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="py-6 flex items-center justify-between">
+      <div class="font-bold text-xl">MyDesign Studio</div>
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="#about" class="text-gray-600 hover:text-black transition-colors">About</a>
+        <a href="#services" class="text-gray-600 hover:text-black transition-colors">Services</a>
+        <a href="#projects" class="text-gray-600 hover:text-black transition-colors">Projects</a>
+        <a href="#contact" class="text-gray-600 hover:text-black transition-colors">Contact Us</a>
+        <button class="bg-white border border-gray-300 rounded-full px-4 py-2 flex items-center space-x-1 hover:bg-gray-100 transition-colors">
+          <span>Discover</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </nav>
+      <button class="md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-12 animate-element">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="flex flex-col justify-center">
+          <h1 class="text-5xl font-bold leading-tight mb-8">We create sites that works</h1>
+          <div class="bg-gray-200 rounded-2xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Person working on laptop" class="w-full h-64 object-cover">
+          </div>
+        </div>
+        <div class="flex flex-col space-y-6">
+          <div class="relative">
+            <div class="bg-gray-200 rounded-2xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Architecture" class="w-full h-64 object-cover">
+            </div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-6 w-32 h-32 flex items-center justify-center">
+              <div class="circular-text">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                  <path id="curve" fill="transparent" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+                  <text>
+                    <textPath href="#curve">
+                      • CLICK TO SEE OUR PROJECTS • CLICK TO SEE OUR PROJECTS
+                    </textPath>
+                  </text>
+                </svg>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
+            </div>
+          </div>
+          <div class="bg-gray-100 rounded-2xl p-4 text-sm">
+            <p class="text-gray-600">24/7 WORK</p>
+            <p class="mt-2">We create sites that will work even when you're asleep, generating leads and converting visitors into customers through the design of our platform.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-12 animate-element">
+      <h2 class="text-3xl font-bold mb-8">About Us</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-gray-800 text-white p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="text-4xl font-bold">x2</div>
+            <div class="text-sm mt-2">the conversion rate</div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-200 p-8 rounded-2xl col-span-1 md:col-span-2 lg:col-span-1">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Mobile app" class="w-full h-full object-contain">
+        </div>
+        <div class="bg-gray-800 text-white p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="text-4xl font-bold">50%</div>
+            <div class="text-sm mt-2">more product request</div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-2xl">
+          <p class="text-gray-800">We conduct a thorough analysis of the market, competitors and target audience, creating an adaptable strategy and setting up basic <strong>SEO strategies</strong> to promote it.</p>
+        </div>
+        <div class="bg-gray-800 text-white p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="text-4xl font-bold">90%</div>
+            <div class="text-sm mt-2">our clients come back</div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-200 p-8 rounded-2xl col-span-1 md:col-span-2">
+          <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Mobile app showcase" class="w-full h-full object-contain">
+        </div>
+        <div class="bg-gray-200 p-8 rounded-2xl col-span-1 ">
+            <p class="text-gray-800">We craft visually stunning and cutting-edge website designs that leave a lasting impression. Every project is a fusion of creativity and functionality, featuring:
+
+                Sleek, modern layouts with bold typography and vibrant color schemes.
+                Custom animations and micro-interactions that bring interfaces to life.
+                Adaptive, pixel-perfect responsiveness for seamless experiences on any device.
+                Unique visual identities tailored to your brand’s personality.
+                High-performance designs optimized for speed and user engagement.</p>
+            
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-12 animate-element">
+      <h2 class="text-3xl font-bold mb-8">Services</h2>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200 pb-4">
+          <div class="flex items-center">
+            <span class="text-gray-400 mr-4">/01</span>
+            <h3 class="text-xl font-medium">UI/UX</h3>
+          </div>
+          <div class="col-span-2 mt-4 md:mt-0">
+            <p class="text-gray-600">UI/UX design focuses on creating user-friendly interfaces that enhance the overall experience of interacting with a product.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200 pb-4">
+          <div class="flex items-center">
+            <span class="text-gray-400 mr-4">/02</span>
+            <h3 class="text-xl font-medium">Branding</h3>
+          </div>
+          <div class="col-span-2 mt-4 md:mt-0">
+            <p class="text-gray-600">Branding is the process of creating a unique identity for a product or company, encompassing elements such as name, logo, design, and messaging.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 border-b border-gray-200 pb-4">
+          <div class="flex items-center">
+            <span class="text-gray-400 mr-4">/03</span>
+            <h3 class="text-xl font-medium">SEO optimization</h3>
+          </div>
+          <div class="col-span-2 mt-4 md:mt-0">
+            <p class="text-gray-600">SEO optimization involves enhancing a website's visibility on search engines through strategies like keyword research, content creation, and link building.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Projects Section -->
+    <section id="projects" class="py-12 animate-element">
+      <h2 class="text-3xl font-bold mb-8">Latest Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-[#f8f3eb] rounded-2xl p-6 flex flex-col">
+          <div class="flex-grow">
+            <img src="https://images.unsplash.com/photo-1493957988430-a5f2e15f39a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="RAK Ceramics" class="w-full h-64 object-cover rounded-xl">
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-bold">RAK Ceramics</h3>
+            <p class="text-gray-600 text-sm mt-2">Ceramic and glass porcelain with floor, mosaics for tiles and sanitary ware.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6">
+          <div class="bg-[#f0f5f0] rounded-2xl p-6 relative">
+            <h3 class="text-xl font-bold">Flower shop</h3>
+            <p class="text-gray-600 text-sm mt-2">Online store for plants delivery</p>
+            <img src="https://images.unsplash.com/photo-1507290439931-a861b5a38200?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Flower shop" class="w-full h-40 object-cover mt-4 rounded-xl">
+            <div class="absolute top-6 right-6 bg-white rounded-full w-8 h-8 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-6 border border-gray-200">
+            <div class="flex justify-between">
+              <div>
+                <h3 class="text-xl font-bold">Level</h3>
+                <p class="text-gray-600 text-sm">Construction</p>
+              </div>
+              <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Level Construction" class="w-24 h-24 object-cover">
+            </div>
+            <button class="mt-6 border border-gray-300 rounded-full px-4 py-2 flex items-center space-x-2 hover:bg-gray-100 transition-colors">
+              <span>See more</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="py-12 animate-element">
+      <div class="bg-gray-200 rounded-2xl p-8">
+        <h2 class="text-4xl font-bold text-center text-gray-400 mb-8">Contact Us</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="name" class="block text-gray-600 mb-2">Name*</label>
+            <input type="text" id="name" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+          </div>
+          <div>
+            <label for="phone" class="block text-gray-600 mb-2">Phone*</label>
+            <input type="tel" id="phone" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-4">By providing your contact information, you agree to receive updates and promotions from us.</p>
+        <div class="flex justify-center mt-6">
+          <button class="bg-white border border-gray-300 rounded-full px-6 py-3 flex items-center space-x-2 hover:bg-gray-100 transition-colors">
+            <span>Send</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-200">
+      <div class="text-center mb-6">
+        <div class="font-bold text-xl">GoDesign Studio</div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
+        <a href="#about" class="hover:text-black transition-colors">About</a>
+        <a href="#services" class="hover:text-black transition-colors">Services</a>
+        <a href="#projects" class="hover:text-black transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-black transition-colors">Contact Us</a>
+      </div>
+      <div class="flex justify-center mt-6 gap-4 text-xs text-gray-400">
+        <a href="#" class="hover:text-gray-600 transition-colors">Instagram</a>
+        <a href="#" class="hover:text-gray-600 transition-colors">Telegram</a>
+        <a href="#" class="hover:text-gray-600 transition-colors">YouTube</a>
+        <a href="#" class="hover:text-gray-600 transition-colors">WhatsApp</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize AnimeJS animations
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate elements when they come into view
+      const animateElements = document.querySelectorAll('.animate-element');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: entry.target,
+              opacity: [0, 1],
+              translateY: [20, 0],
+              easing: 'easeOutExpo',
+              duration: 1000,
+              delay: 200
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      animateElements.forEach(element => {
+        observer.observe(element);
+      });
+      
+      // Button hover animations
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          anime({
+            targets: button,
+            scale: 1.05,
+            duration: 300,
+            easing: 'easeOutQuad'
+          });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+          anime({
+            targets: button,
+            scale: 1,
+            duration: 300,
+            easing: 'easeOutQuad'
+          });
+        });
+      });
+      
+      // Arrow icon animations
+      const arrowIcons = document.querySelectorAll('svg path[d="M14 5l7 7m0 0l-7 7m7-7H3"]');
+      arrowIcons.forEach(icon => {
+        const parentButton = icon.closest('button') || icon.closest('div');
+        if (parentButton) {
+          parentButton.addEventListener('mouseenter', () => {
+            anime({
+              targets: icon.parentElement,
+              translateX: [0, 5],
+              duration: 300,
+              easing: 'easeOutQuad'
+            });
+          });
+          
+          parentButton.addEventListener('mouseleave', () => {
+            anime({
+              targets: icon.parentElement,
+              translateX: [5, 0],
+              duration: 300,
+              easing: 'easeOutQuad'
+            });
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
