@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lamps of the Future — The Light That Inspires</title>
+  <link rel="icon" href="img/hang-lamp.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1a1a1a',
+            secondary: '#f5f2ed',
+            accent: '#e6a27c',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .animate-fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      transition: all 0.3s ease;
+    }
+    .custom-shadow {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-primary text-secondary font-sans">
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 bg-primary/90 backdrop-blur-sm">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold tracking-tight">LUMOO</a>
+        <div class="hidden md:flex space-x-8">
+          <a href="index.html" class="hover:text-accent transition-colors">Home</a>
+          <a href="catalog.html" class="hover:text-accent transition-colors">Catalog</a>
+          <a href="about.html" class="hover:text-accent transition-colors">About Us</a>
+          <a href="blog.html" class="hover:text-accent transition-colors">Blog</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="p-2 rounded-full hover:bg-white/10 transition-colors">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" alt="Search" class="h-6 w-6">
+          </button>
+          <button class="p-2 rounded-full hover:bg-white/10 transition-colors">
+            <img src="https://cdn-icons-png.flaticon.com/512/263/263142.png" alt="Cart" class="h-6 w-6">
+          </button>
+          <button class="md:hidden p-2 rounded-full hover:bg-white/10 transition-colors">
+            <img src="https://cdn-icons-png.flaticon.com/512/3917/3917215.png" alt="Menu" class="h-6 w-6">
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+           alt="Warm lamp light in interior" 
+           class="w-full h-full object-cover opacity-50">
+      <div class="absolute inset-0 bg-gradient-to-r from-primary to-primary/40"></div>
+    </div>
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-3xl animate-fade-in" id="hero-content">
+        <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">Lamps of the future — the light that inspires</h1>
+        <p class="text-xl md:text-2xl mb-10 opacity-90">Innovative technologies for your comfort</p>
+        <a href="catalog.html" class="inline-block bg-accent text-primary font-medium px-8 py-4 rounded-full hover:bg-white transition-colors duration-300">
+          Go to the catalog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advantages Section -->
+  <section class="py-20 bg-secondary text-primary">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 animate-fade-in">Our Advantages</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="flex flex-col items-center text-center animate-fade-in">
+          <div class="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-6">
+            <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="Energy" class="h-10 w-10">
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Energy efficiency</h3>
+          <p class="opacity-75">Our lamps use up to 80% less energy than traditional lighting solutions while providing superior illumination.</p>
+        </div>
+        <div class="flex flex-col items-center text-center animate-fade-in">
+          <div class="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-6">
+            <img src="https://cdn-icons-png.flaticon.com/512/2659/2659986.png" alt="Smart" class="h-10 w-10">
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Smart management</h3>
+          <p class="opacity-75">Control your lighting with voice commands, smartphone apps, or automated schedules for perfect ambiance.</p>
+        </div>
+        <div class="flex flex-col items-center text-center animate-fade-in">
+          <div class="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center mb-6">
+            <img src="https://cdn-icons-png.flaticon.com/512/1336/1336494.png" alt="Design" class="h-10 w-10">
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Stylish design</h3>
+          <p class="opacity-75">Elevate your interior with our award-winning designs that blend seamlessly with any décor style.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Products Section -->
+  <section class="py-20 bg-primary text-secondary">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-end mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold animate-fade-in">Popular Products</h2>
+        <a href="catalog.html" class="text-accent hover:underline">View all</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Product Card 1 -->
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl overflow-hidden custom-shadow product-card animate-fade-in">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+                 alt="Pastel Dots set" 
+                 class="w-full h-64 object-cover">
+            <div class="absolute top-4 right-4">
+              <span class="bg-accent text-primary text-xs font-bold px-3 py-1 rounded-full">BESTSELLER</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Pastel Dots set</h3>
+            <p class="text-sm opacity-75 mb-4">Modular glowing orb lights with aesthetic appeal</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">$99.00</span>
+              <button onclick="window.location.href='product.html';" class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-medium hover:bg-white transition-colors">
+                Add to cart
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl overflow-hidden custom-shadow product-card animate-fade-in">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+                 alt="Lumoo Pendant" 
+                 class="w-full h-64 object-cover">
+            <div class="absolute top-4 right-4">
+              <span class="bg-secondary text-primary text-xs font-bold px-3 py-1 rounded-full">NEW IN</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Lumoo Pendant</h3>
+            <p class="text-sm opacity-75 mb-4">Elegant hanging lamp with adjustable height</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">$129.00</span>
+              <button onclick="window.location.href='product.html';"  class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-medium hover:bg-white transition-colors">
+                Add to cart
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Product Card 3 -->
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl overflow-hidden custom-shadow product-card animate-fade-in">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" 
+                 alt="Tall Cylinder" 
+                 class="w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Tall Cylinder</h3>
+            <p class="text-sm opacity-75 mb-4">Minimalist floor lamp with warm glow</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xl font-bold">$149.00</span>
+              <button onclick="window.location.href='product.html';" class="bg-accent text-primary px-4 py-2 rounded-full text-sm font-medium hover:bg-white transition-colors">
+                Add to cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="py-20 bg-secondary text-primary">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="animate-fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">About Us</h2>
+          <p class="mb-4 opacity-80">At LUMOO, we believe that lighting is more than just functionality—it's about creating atmosphere, enhancing moods, and transforming spaces.</p>
+          <p class="mb-6 opacity-80">Our team of designers and engineers work tirelessly to create lighting solutions that combine cutting-edge technology with timeless aesthetics, ensuring that each product not only illuminates your space but elevates it.</p>
+          <a href="about.html" class="inline-block border-2 border-primary text-primary font-medium px-6 py-3 rounded-full hover:bg-primary hover:text-secondary transition-colors">
+            Learn more about us
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden animate-fade-in">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+               alt="Our team" 
+               class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="py-20 bg-primary text-secondary">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 animate-fade-in">What Our Customers Say</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl p-8 custom-shadow animate-fade-in">
+          <div class="flex items-center mb-6">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="w-14 h-14 rounded-full object-cover mr-4">
+            <div>
+              <h3 class="font-semibold">Emma Thompson</h3>
+              <div class="flex mt-1">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+              </div>
+            </div>
+          </div>
+          <p class="opacity-80">"The Pastel Dots set has completely transformed my living room. The ability to control the lighting with my phone is incredible, and the soft glow creates the perfect ambiance for evenings."</p>
+        </div>
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl p-8 custom-shadow animate-fade-in">
+          <div class="flex items-center mb-6">
+            <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Customer" class="w-14 h-14 rounded-full object-cover mr-4">
+            <div>
+              <h3 class="font-semibold">Michael Chen</h3>
+              <div class="flex mt-1">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+              </div>
+            </div>
+          </div>
+          <p class="opacity-80">"I've tried several smart lighting systems, but LUMOO's products are by far the most intuitive and reliable. The energy savings are impressive, and the designs are simply stunning."</p>
+        </div>
+        <div class="bg-primary/50 backdrop-blur-sm rounded-2xl p-8 custom-shadow animate-fade-in">
+          <div class="flex items-center mb-6">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-14 h-14 rounded-full object-cover mr-4">
+            <div>
+              <h3 class="font-semibold">Sarah Johnson</h3>
+              <div class="flex mt-1">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Star" class="h-4 w-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/1828/1828961.png" alt="Half Star" class="h-4 w-4">
+              </div>
+            </div>
+          </div>
+          <p class="opacity-80">"The customer service is exceptional. When I had questions about setting up my Tall Cylinder lamp, the team was quick to respond and incredibly helpful. Highly recommend!"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="py-20 bg-secondary text-primary">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 animate-fade-in">Gallery</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-fade-in">
+        <div class="overflow-hidden rounded-lg">
+          <img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+               alt="Gallery image" 
+               class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="overflow-hidden rounded-lg">
+          <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=770&q=80" 
+               alt="Gallery image" 
+               class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="overflow-hidden rounded-lg">
+          <img src="https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=770&q=80" 
+               alt="Gallery image" 
+               class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+        </div>
+        <div class="overflow-hidden rounded-lg">
+          <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+               alt="Gallery image" 
+               class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 bg-primary text-secondary">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div>
+          <h3 class="text-2xl font-bold mb-6">LUMOO</h3>
+          <p class="opacity-75 mb-6">Innovative lighting solutions for modern living.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="p-2 rounded-full bg-white/10 hover:bg-accent/80 transition-colors">
+              <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="h-5 w-5">
+            </a>
+            <a href="#" class="p-2 rounded-full bg-white/10 hover:bg-accent/80 transition-colors">
+              <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" class="h-5 w-5">
+            </a>
+            <a href="#" class="p-2 rounded-full bg-white/10 hover:bg-accent/80 transition-colors">
+              <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" class="h-5 w-5">
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">Shop</h4>
+          <ul class="space-y-3">
+            <li><a href="catalog.html" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">All Products</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">New Arrivals</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Bestsellers</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Special Offers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">Company</h4>
+          <ul class="space-y-3">
+            <li><a href="about.html" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">About Us</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Careers</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Contact</a></li>
+            <li><a href="blog.html" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-6">Support</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">FAQ</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Shipping & Returns</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Warranty</a></li>
+            <li><a href="#" class="opacity-75 hover:opacity-100 hover:text-accent transition-colors">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-12 pt-8 text-center opacity-60">
+        <p>&copy; 2024 LUMOO. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Anime.js Animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animate fade-in elements
+      const fadeElements = document.querySelectorAll('.animate-fade-in');
+      
+      anime({
+        targets: fadeElements,
+        opacity: [0, 1],
+        translateY: [20, 0],
+        easing: 'easeOutExpo',
+        duration: 1200,
+        delay: anime.stagger(100, {start: 300}),
+      });
+
+      // Animate hero content
+      anime({
+        targets: '#hero-content',
+        opacity: [0, 1],
+        translateY: [40, 0],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        delay: 300
+      });
+
+      // Hover effects for product cards
+      const productCards = document.querySelectorAll('.product-card');
+      
+      productCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          anime({
+            targets: card,
+            translateY: -10,
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+            duration: 300,
+            easing: 'easeOutQuad'
+          });
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          anime({
+            targets: card,
+            translateY: 0,
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+            duration: 300,
+            easing: 'easeOutQuad'
+          });
+        });
+      });
+
+      // Button hover animation
+      const buttons = document.querySelectorAll('button, a.bg-accent, a.border-2');
+      
+      buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+          anime({
+            targets: button,
+            scale: 1.05,
+            duration: 200,
+            easing: 'easeOutQuad'
+          });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+          anime({
+            targets: button,
+            scale: 1,
+            duration: 200,
+            easing: 'easeOutQuad'
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
