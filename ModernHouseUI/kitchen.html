@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Home Dashboard - Kitchen</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Chart.js for circular gauges and graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #a960ee 0%, #ff8aaa 100%);
+      --secondary-gradient: linear-gradient(135deg, #ff8aaa 0%, #ffc390 100%);
+      --kitchen-gradient: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+      --bathroom-gradient: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+      --bedroom-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      --card-bg: rgba(60, 60, 60, 0.85);
+      --card-radius: 20px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2068&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: white;
+    }
+
+    .dashboard {
+      background-color: rgba(40, 40, 40, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-item {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: white;
+      color: #333;
+      transform: translateY(-2px);
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .gradient-bg {
+      background: var(--kitchen-gradient);
+    }
+
+    .secondary-gradient-bg {
+      background: var(--secondary-gradient);
+    }
+
+    .toggle {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      border-radius: 13px;
+      background-color: #444;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .toggle.active {
+      background: var(--kitchen-gradient);
+    }
+
+    .toggle-handle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    .toggle.active .toggle-handle {
+      transform: translateX(24px);
+    }
+
+    .circular-progress {
+      position: relative;
+      width: 150px;
+      height: 150px;
+    }
+
+    .circular-progress canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .circular-progress .value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(80, 80, 80, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .control-btn:hover {
+      background-color: rgba(100, 100, 100, 0.8);
+      transform: scale(1.1);
+    }
+
+    .control-btn.primary {
+      background-color: rgba(54, 209, 220, 0.2);
+    }
+
+    .control-btn.primary:hover {
+      background-color: rgba(54, 209, 220, 0.4);
+    }
+
+    .side-menu {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      padding: 15px 0;
+    }
+
+    .side-menu-item {
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .side-menu-item:hover {
+      background-color: rgba(80, 80, 80, 0.5);
+    }
+
+    .scene-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scene-card:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    /* Animation classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-900">
+  <div class="container mx-auto p-4">
+    <!-- Top Navigation -->
+    <div class="dashboard p-4 mb-6 fade-in">
+      <div class="flex justify-center space-x-2 p-2">
+        <a href="favorites.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          Favorites
+        </a>
+        <a href="index.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Living room
+        </a>
+        <a href="kitchen.html" class="nav-item active flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Kitchen
+        </a>
+        <a href="bathroom.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          Bathroom
+        </a>
+        <a href="bedroom.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Bedroom
+        </a>
+        <div class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="grid grid-cols-12 gap-6">
+      <!-- Side Menu -->
+      <div class="col-span-1">
+        <div class="side-menu h-full flex flex-col items-center justify-between fade-in">
+          <div>
+            <div class="side-menu-item mb-4">
+              <div class="control-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-span-7">
+        <div class="grid grid-cols-1 gap-6">
+          <!-- Live Camera -->
+          <div class="card p-4 fade-in">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1556911261-6bd341186b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                   class="w-full h-64 object-cover rounded-xl" alt="Kitchen">
+              <div class="absolute top-4 left-4 bg-black bg-opacity-50 px-3 py-1 rounded-full flex items-center">
+                <div class="w-2 h-2 bg-red-500 rounded-full mr-2 pulse"></div>
+                <span class="text-sm">Live</span>
+              </div>
+              <div class="absolute bottom-4 left-4">
+                <h3 class="text-lg font-semibold">Live Camera</h3>
+                <p class="text-sm text-gray-300">Kitchen</p>
+              </div>
+              <div class="absolute top-4 right-4 control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Water Usage Graph -->
+          <div class="card p-4 fade-in">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-lg font-semibold">Water Usage</h3>
+                <p class="text-sm text-gray-400">Kitchen - Last 7 days</p>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <canvas id="waterChart" height="200"></canvas>
+            </div>
+          </div>
+
+          <!-- Controls Grid -->
+          <div class="grid grid-cols-12 gap-4 fade-in">
+            <!-- Cooking Mode Scene -->
+            <div class="col-span-4">
+              <div class="card p-4 scene-card">
+                <div class="flex items-center mb-2">
+                  <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Cooking mode</h3>
+                    <p class="text-xs text-gray-400">Scene</p>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <div class="control-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Smart Fridge -->
+            <div class="col-span-4">
+              <div class="card gradient-bg p-4 h-full">
+                <div class="flex items-center mb-4">
+                  <div class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Smart Fridge</h3>
+                    <p class="text-xs text-gray-200">Kitchen</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="font-medium">On</span>
+                  <div class="toggle active" id="fridge-toggle">
+                    <div class="toggle-handle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Coffee Maker -->
+            <div class="col-span-4">
+              <div class="card p-4">
+                <div class="flex items-center mb-4">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Coffee Maker</h3>
+                    <p class="text-xs text-gray-400">Kitchen</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Off</span>
+                  <div class="toggle" id="coffee-toggle">
+                    <div class="toggle-handle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dishwasher -->
+            <div class="col-span-4">
+              <div class="card p-4">
+                <div class="flex items-center mb-4">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Dishwasher</h3>
+                    <p class="text-xs text-gray-400">Kitchen</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Off</span>
+                  <div class="toggle" id="dishwasher-toggle">
+                    <div class="toggle-handle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Oven -->
+            <div class="col-span-4">
+              <div class="card p-4">
+                <div class="flex items-center mb-4">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Oven</h3>
+                    <p class="text-xs text-gray-400">Kitchen</p>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Off</span>
+                  <div class="toggle" id="oven-toggle">
+                    <div class="toggle-handle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Breakfast Mode Scene -->
+            <div class="col-span-4">
+              <div class="card p-4 scene-card">
+                <div class="flex items-center mb-2">
+                  <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Breakfast mode</h3>
+                    <p class="text-xs text-gray-400">Scene</p>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <div class="control-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar -->
+      <div class="col-span-4">
+        <div class="grid grid-cols-1 gap-6">
+          <!-- Refrigerator Temperature -->
+          <div class="card p-6 fade-in">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-xl font-semibold">Refrigerator</h3>
+                <p class="text-sm text-gray-400">Temperature</p>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+            <div class="circular-progress mx-auto mb-4" id="temp-gauge">
+              <canvas id="temp-chart" width="150" height="150"></canvas>
+              <div class="value">
+                <span id="temp-value">4°C</span>
+                <p class="text-xs text-gray-400 text-center mt-1">Temperature</p>
+              </div>
+            </div>
+            <div class="flex justify-center mt-4 space-x-4">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+              </div>
+              <div class="control-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grocery List -->
+          <div class="card p-4 fade-in">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-lg font-semibold">Grocery List</h3>
+                <p class="text-sm text-gray-400">Items to buy</p>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 border border-gray-400 rounded-sm mr-2"></div>
+                  <span>Milk</span>
+                </div>
+                <span class="text-xs text-gray-400">2 liters</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 border border-gray-400 rounded-sm mr-2"></div>
+                  <span>Eggs</span>
+                </div>
+                <span class="text-xs text-gray-400">12 pcs</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 border border-gray-400 rounded-sm mr-2"></div>
+                  <span>Bread</span>
+                </div>
+                <span class="text-xs text-gray-400">1 loaf</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 border border-gray-400 rounded-sm mr-2"></div>
+                  <span>Cheese</span>
+                </div>
+                <span class="text-xs text-gray-400">200g</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 border border-gray-400 rounded-sm mr-2"></div>
+                  <span>Tomatoes</span>
+                </div>
+                <span class="text-xs text-gray-400">500g</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kitchen Timer -->
+          <div class="card p-4 fade-in">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-lg font-semibold">Kitchen Timer</h3>
+                <p class="text-sm text-gray-400">Cooking pasta</p>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="flex justify-center items-center mb-4">
+              <span class="text-4xl font-bold" id="timer-display">08:45</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="control-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize animations when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fade in animations
+      anime({
+        targets: '.fade-in',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: anime.stagger(200)
+      });
+
+      // Initialize temperature gauge
+      const tempCtx = document.getElementById('temp-chart').getContext('2d');
+      const tempChart = new Chart(tempCtx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [40, 60],
+            backgroundColor: [
+              'rgba(54, 209, 220, 0.8)',
+              'rgba(60, 60, 60, 0.2)'
+            ],
+            borderWidth: 0,
+            cutout: '80%'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            tooltip: {
+              enabled: false
+            },
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+
+      // Initialize water usage chart
+      const waterCtx = document.getElementById('waterChart').getContext('2d');
+      const waterChart = new Chart(waterCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Water Usage (L)',
+            data: [45, 38, 62, 51, 49, 35, 42],
+            backgroundColor: 'rgba(54, 209, 220, 0.6)',
+            borderColor: 'rgba(54, 209, 220, 1)',
+            borderWidth: 1,
+            borderRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)'
+              }
+            },
+            x: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+
+      // Toggle functionality
+      document.querySelectorAll('.toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          toggle.classList.toggle('active');
+          
+          // Animate the toggle
+          anime({
+            targets: toggle.querySelector('.toggle-handle'),
+            translateX: toggle.classList.contains('active') ? 24 : 0,
+            easing: 'easeOutExpo',
+            duration: 300
+          });
+
+          // Update the text based on toggle ID
+          const textElement = toggle.previousElementSibling;
+          textElement.textContent = toggle.classList.contains('active') ? 'On' : 'Off';
+          textElement.className = toggle.classList.contains('active') ? 'font-medium' : 'text-gray-400';
+        });
+      });
+
+      // Kitchen timer functionality
+      let timerInterval;
+      let timerRunning = false;
+      const timerDisplay = document.getElementById('timer-display');
+      const timerPlayBtn = document.querySelector('.control-btn.primary');
+      
+      timerPlayBtn.addEventListener('click', () => {
+        if (!timerRunning) {
+          // Start timer
+          timerRunning = true;
+          timerPlayBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          `;
+          
+          timerInterval = setInterval(() => {
+            const [minutes, seconds] = timerDisplay.textContent.split(':').map(Number);
+            let totalSeconds = minutes * 60 + seconds - 1;
+            
+            if (totalSeconds < 0) {
+              clearInterval(timerInterval);
+              timerRunning = false;
+              timerDisplay.textContent = '00:00';
+              return;
+            }
+            
+            const newMinutes = Math.floor(totalSeconds / 60);
+            const newSeconds = totalSeconds % 60;
+            timerDisplay.textContent = `${String(newMinutes).padStart(2, '0')}:${String(newSeconds).padStart(2, '0')}`;
+          }, 1000);
+        } else {
+          // Pause timer
+          timerRunning = false;
+          clearInterval(timerInterval);
+          timerPlayBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          `;
+        }
+      });
+
+      // Hover effects for cards
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          anime({
+            targets: card,
+            translateY: -5,
+            boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+            easing: 'easeOutExpo',
+            duration: 300
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          anime({
+            targets: card,
+            translateY: 0,
+            boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
+            easing: 'easeOutExpo',
+            duration: 300
+          });
+        });
+      });
+
+      // Control button hover effects
+      document.querySelectorAll('.control-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+          anime({
+            targets: btn,
+            scale: 1.1,
+            easing: 'easeOutExpo',
+            duration: 300
+          });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+          anime({
+            targets: btn,
+            scale: 1,
+            easing: 'easeOutExpo',
+            duration: 300
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

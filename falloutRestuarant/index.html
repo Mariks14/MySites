@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vault-Tec Provisions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vaultBlue: '#1a4b8c',
+            vaultYellow: '#d4af37',
+            vaultDarkBlue: '#0f325e',
+            vaultLightBlue: '#2a5ea1',
+            vaultGold: '#c6a030',
+            vaultRust: '#8b4513',
+          },
+          fontFamily: {
+            fallout: ['Roboto Condensed', 'sans-serif'],
+            vaultScript: ['Brush Script MT', 'cursive'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background-color: #1a4b8c;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='pattern' width='300' height='300' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 0 0 L 300 300 M 300 0 L 0 300' stroke='%23113366' stroke-width='1'/%3E%3Cpath d='M 150 0 L 150 300 M 0 150 L 300 150' stroke='%23113366' stroke-width='0.5'/%3E%3C/pattern%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeBlend mode='overlay' in='SourceGraphic'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23pattern)' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    
+    .metal-panel {
+      background-color: #1a4b8c;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 10 0 L 0 0 0 10' fill='none' stroke='%23113366' stroke-width='0.5'/%3E%3C/pattern%3E%3Cpattern id='grid' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Crect width='100' height='100' fill='url(%23smallGrid)'/%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='%23113366' stroke-width='1'/%3E%3C/pattern%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='2' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%231a4b8c' filter='url(%23noise)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)' opacity='0.1'/%3E%3C/svg%3E");
+      border: 2px solid #d4af37;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .metal-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.1' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' filter='url(%23scratches)' opacity='0.1'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 1;
+    }
+    
+    .vault-button {
+      background-color: #d4af37;
+      color: #1a4b8c;
+      border: 2px solid #d4af37;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .vault-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.1' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' filter='url(%23scratches)' opacity='0.1'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    
+    .vault-button:hover {
+      background-color: #1a4b8c;
+      color: #d4af37;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+    
+    .vault-input {
+      background-color: #0f325e;
+      border: 2px solid #d4af37;
+      color: #d4af37;
+    }
+    
+    .vault-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.5);
+    }
+    
+    .crt-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .crt-effect::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.1) 50%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    .vault-logo {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .vault-logo::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 4px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .vault-logo::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background-color: #d4af37;
+      border-radius: 50%;
+    }
+    
+    .horizontal-lines::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -30px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background-color: #d4af37;
+      box-shadow: 0 -10px 0 #d4af37, 0 10px 0 #d4af37;
+    }
+    
+    .horizontal-lines::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background-color: #d4af37;
+      box-shadow: 0 -10px 0 #d4af37, 0 10px 0 #d4af37;
+    }
+    
+    .scratch-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='10'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' stroke='%23d4af37' stroke-width='1' filter='url(%23scratches)' opacity='0.05'/%3E%3C/svg%3E");
+      z-index: 1000;
+      opacity: 0.3;
+    }
+    
+    .flicker-animation {
+      animation: flicker 5s infinite;
+    }
+    
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      98% { opacity: 1; }
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 5px rgba(212, 175, 55, 0.7);
+    }
+    
+    .vault-divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #d4af37, transparent);
+    }
+    
+    .radiation-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #d4af37;
+      position: relative;
+    }
+    
+    .radiation-icon::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      width: 30px;
+      height: 30px;
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .radiation-icon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 30px;
+      height: 30px;
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .hover-glow:hover {
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.9);
+    }
+    
+    .hover-scale {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+    
+    .vault-number {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: bold;
+      color: #d4af37;
+      position: relative;
+      display: inline-block;
+      padding: 0 5px;
+    }
+    
+    .vault-number::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f325e;
+      border-radius: 4px;
+      z-index: -1;
+    }
+    
+    .scroll-indicator {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      40% {
+        transform: translateY(-20px) translateX(-50%);
+      }
+      60% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+    
+    .loading-bar {
+      height: 4px;
+      background: linear-gradient(to right, #d4af37, #d4af37);
+      background-size: 20% 100%;
+      animation: loading 2s infinite linear;
+    }
+    
+    @keyframes loading {
+      0% {
+        background-position: -100% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+    
+    .pip-boy-frame {
+      border: 8px solid #0f325e;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pip-boy-frame::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+      pointer-events: none;
+    }
+    
+    .pip-boy-screen {
+      background-color: #1a4b8c;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .pip-boy-screen::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%);
+      pointer-events: none;
+    }
+    
+    .vault-tec-logo {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body class="bg-vaultBlue min-h-screen">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" 
+                 alt="Vault Background" 
+                 class="w-full h-full object-cover opacity-20">
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <div class="vault-logo horizontal-lines relative w-32 h-32 mx-auto mb-8"></div>
+                <h1 class="text-6xl md:text-8xl font-bold mb-6 text-vaultYellow">
+                    VAULT-TEC
+                    <span class="block text-4xl md:text-5xl mt-2">PROVISIONS</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-12 text-vaultYellow opacity-80">
+                    Revolutionizing dining for an uncertain future
+                </p>
+                <button class="vault-button modern">
+                    EXPLORE MENU
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span class="text-sm">Scroll to explore</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider"></div>
+
+    <!-- Featured Products -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="section-header">
+                <h2>FEATURED PRODUCTS</h2>
+                <p>Vault-Tec approved sustenance for the discerning survivor</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Card 1 -->
+                <div class="product-card p-6">
+                    <div class="relative mb-4">
+                        <img src="https://images.unsplash.com/photo-1587080413959-06b859fb107d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                             alt="Nuka-Cola Quantum" 
+                             class="w-full h-48 object-cover rounded-lg">
+                        <span class="absolute top-2 right-2 bg-vaultYellow text-vaultBlue px-3 py-1 rounded-full text-sm font-semibold">
+                            NEW
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-vaultYellow">Nuka-Cola Quantum</h3>
+                    <p class="text-vaultYellow opacity-80 mb-4">
+                        The latest in radiation-enhanced refreshment technology
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <div class="engagement-counter">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <span>4.9 (128)</span>
+                        </div>
+                        <button class="vault-button modern">ORDER NOW</button>
+                    </div>
+                </div>
+
+                <!-- More product cards... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-vaultDarkBlue bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">122</div>
+                    <div class="label">Vaults Served</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">10M+</div>
+                    <div class="label">Meals Delivered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">99.9%</div>
+                    <div class="label">Survival Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">24/7</div>
+                    <div class="label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="section-header">
+                <h2>WHY CHOOSE VAULT-TEC</h2>
+                <p>The future of survival dining is here</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <h3>Quality Assured</h3>
+                    <p>Every product meets strict Vault-Tec quality standards</p>
+                </div>
+                <!-- More feature cards... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-20 bg-vaultDarkBlue bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <div class="section-header">
+                <h2>LATEST FROM THE VAULT</h2>
+                <p>Stay informed with the latest survival tips and product updates</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="blog-card">
+                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                         alt="Blog Post">
+                    <div class="content">
+                        <h3>Survival Cooking 101</h3>
+                        <p>Learn essential cooking techniques for the post-apocalyptic world</p>
+                        <div class="meta">
+                            <span>5 min read</span>
+                            <span>2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- More blog cards... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-6 text-vaultYellow">JOIN THE VAULT-TEC NETWORK</h2>
+                <p class="mb-8 text-vaultYellow opacity-80">Stay updated with the latest survival tips and exclusive offers</p>
+                <form class="flex flex-col md:flex-row gap-4">
+                    <input type="email" placeholder="Enter your Pip-Boy ID" class="modern-input flex-1">
+                    <button type="submit" class="vault-button modern">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-vaultDarkBlue py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Footer content... -->
+            </div>
+        </div>
+    </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Loading screen
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const loadingProgress = document.getElementById('loading-progress');
+      const loadingText = document.getElementById('loading-text');
+      
+      const loadingMessages = [
+        "Initializing Vault-Tec systems...",
+        "Calibrating radiation detectors...",
+        "Loading nutritional databases...",
+        "Establishing Pip-Boy connection...",
+        "Scanning for vault dwellers...",
+        "Preparing Vault-Tec Provisions..."
+      ];
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          
+          setTimeout(() => {
+            anime({
+              targets: loadingScreen,
+              opacity: [1, 0],
+              duration: 800,
+              easing: 'easeInOutQuad',
+              complete: function() {
+                loadingScreen.style.display = 'none';
+              }
+            });
+          }, 500);
+        }
+        
+        loadingProgress.style.width = `${progress}%`;
+        
+        if (progress < 20) {
+          loadingText.textContent = loadingMessages[0];
+        } else if (progress < 40) {
+          loadingText.textContent = loadingMessages[1];
+        } else if (progress < 60) {
+          loadingText.textContent = loadingMessages[2];
+        } else if (progress < 80) {
+          loadingText.textContent = loadingMessages[3];
+        } else if (progress < 90) {
+          loadingText.textContent = loadingMessages[4];
+        } else {
+          loadingText.textContent = loadingMessages[5];
+        }
+      }, 200);
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+    });
+
+    // Anime.js animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate the hero section
+      anime({
+        targets: 'header .metal-panel',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo',
+        duration: 1200
+      });
+
+      // Animate the category cards
+      anime({
+        targets: '.category-card',
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        delay: anime.stagger(200),
+        easing: 'easeOutElastic(1, .5)',
+        duration: 1500
+      });
+
+      // Animate the featured image
+      anime({
+        targets: '.featured-image',
+        opacity: [0, 1],
+        easing: 'easeInOutSine',
+        duration: 1000,
+        complete: function() {
+          anime({
+            targets: '.featured-image',
+            filter: ['brightness(1)', 'brightness(1.2)', 'brightness(1)'],
+            duration: 3000,
+            loop: true,
+            easing: 'easeInOutSine'
+          });
+        }
+      });
+
+      // Animate testimonials
+      anime({
+        targets: '.testimonial',
+        translateX: [-50, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(150),
+        easing: 'easeOutQuad',
+        duration: 1000
+      });
+      
+      // Vault-Tec logo animation
+      anime({
+        targets: '.vault-logo',
+        rotateY: [0, 360],
+        duration: 3000,
+        easing: 'easeInOutSine',
+        delay: 1000
+      });
+      
+      // Radiation icon animation
+      anime({
+        targets: '.radiation-icon::before, .radiation-icon::after',
+        rotate: [0, 360],
+        duration: 8000,
+        loop: true,
+        easing: 'linear'
+      });
+      
+      // Glow text animation
+      anime({
+        targets: '.glow-text',
+        textShadow: [
+          '0 0 5px rgba(212, 175, 55, 0.7)',
+          '0 0 10px rgba(212, 175, 55, 0.9)',
+          '0 0 5px rgba(212, 175, 55, 0.7)'
+        ],
+        duration: 3000,
+        loop: true,
+        easing: 'easeInOutSine'
+      });
+
+      // Add hover animations to all interactive elements
+      const interactiveElements = document.querySelectorAll('a, button');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', function() {
+          anime({
+            targets: this,
+            scale: 1.05,
+            duration: 300,
+            easing: 'easeOutElastic(1, .5)'
+          });
+        });
+        
+        el.addEventListener('mouseleave', function() {
+          anime({
+            targets: this,
+            scale: 1,
+            duration: 300,
+            easing: 'easeOutElastic(1, .5)'
+          });
+        });
+      });
+      
+      // Initialize charts
+      if (document.getElementById('radiationChart')) {
+        const radiationCtx = document.getElementById('radiationChart').getContext('2d');
+        new Chart(radiationCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Vault-Tec', 'Competitor A', 'Competitor B', 'Wasteland'],
+            datasets: [{
+              label: 'Radiation Absorption (rads)',
+              data: [12, 32, 45, 78],
+              backgroundColor: '#d4af37',
+              borderColor: '#0f325e',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                ticks: {
+                  color: '#d4af37'
+                }
+              },
+              x: {
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                ticks: {
+                  color: '#d4af37'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#d4af37'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      if (document.getElementById('nutritionChart')) {
+        const nutritionCtx = document.getElementById('nutritionChart').getContext('2d');
+        new Chart(nutritionCtx, {
+          type: 'radar',
+          data: {
+            labels: ['Protein', 'Carbs', 'Vitamins', 'Minerals', 'Fiber', 'Rad Resistance'],
+            datasets: [{
+              label: 'Vault-Tec',
+              data: [85, 70, 90, 80, 75, 95],
+              backgroundColor: 'rgba(212, 175, 55, 0.2)',
+              borderColor: '#d4af37',
+              borderWidth: 2,
+              pointBackgroundColor: '#d4af37'
+            }, {
+              label: 'Competitors',
+              data: [60, 50, 40, 55, 45, 30],
+              backgroundColor: 'rgba(15, 50, 94, 0.2)',
+              borderColor: '#0f325e',
+              borderWidth: 2,
+              pointBackgroundColor: '#0f325e'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                pointLabels: {
+                  color: '#d4af37'
+                },
+                ticks: {
+                  color: '#d4af37',
+                  backdropColor: 'transparent'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#d4af37'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      // Parallax effect on scroll
+      window.addEventListener('scroll', function() {
+        const scrollY = window.scrollY;
+        
+        // Apply parallax to various elements
+        document.querySelectorAll('.metal-panel').forEach(panel => {
+          const speed = 0.05;
+          const yPos = -(scrollY * speed);
+          panel.style.backgroundPosition = `0px ${yPos}px`;
+        });
+      });
+      
+      // Random flicker effect for terminals
+      setInterval(() => {
+        const terminals = document.querySelectorAll('.pip-boy-screen');
+        terminals.forEach(terminal => {
+          if (Math.random() > 0.95) {
+            terminal.style.opacity = '0.8';
+            setTimeout(() => {
+              terminal.style.opacity = '1';
+            }, 100);
+          }
+        });
+      }, 2000);
+    });
+        // Your existing JavaScript/Anime.js animations...
+    </script>
+</body>
+</html>
+

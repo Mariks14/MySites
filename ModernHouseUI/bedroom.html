@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Home Dashboard - Bedroom</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- Chart.js for circular gauges and graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --primary-gradient: linear-gradient(135deg, #a960ee 0%, #ff8aaa 100%);
+      --secondary-gradient: linear-gradient(135deg, #ff8aaa 0%, #ffc390 100%);
+      --kitchen-gradient: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+      --bathroom-gradient: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+      --bedroom-gradient: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      --card-bg: rgba(60, 60, 60, 0.85);
+      --card-radius: 20px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: white;
+    }
+
+    .dashboard {
+      background-color: rgba(40, 40, 40, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .nav-item {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: white;
+      color: #333;
+      transform: translateY(-2px);
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .gradient-bg {
+      background: var(--bedroom-gradient);
+    }
+
+    .secondary-gradient-bg {
+      background: var(--secondary-gradient);
+    }
+
+    .toggle {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      border-radius: 13px;
+      background-color: #444;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .toggle.active {
+      background: var(--bedroom-gradient);
+    }
+
+    .toggle-handle {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    .toggle.active .toggle-handle {
+      transform: translateX(24px);
+    }
+
+    .circular-progress {
+      position: relative;
+      width: 150px;
+      height: 150px;
+    }
+
+    .circular-progress canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .circular-progress .value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(80, 80, 80, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .control-btn:hover {
+      background-color: rgba(100, 100, 100, 0.8);
+      transform: scale(1.1);
+    }
+
+    .control-btn.primary {
+      background-color: rgba(255, 117, 140, 0.2);
+    }
+
+    .control-btn.primary:hover {
+      background-color: rgba(255, 117, 140, 0.4);
+    }
+
+    .side-menu {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      padding: 15px 0;
+    }
+
+    .side-menu-item {
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .side-menu-item:hover {
+      background-color: rgba(80, 80, 80, 0.5);
+    }
+
+    .scene-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .scene-card:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    /* Animation classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-900">
+  <div class="container mx-auto p-4">
+    <!-- Top Navigation -->
+    <div class="dashboard p-4 mb-6 fade-in">
+      <div class="flex justify-center space-x-2 p-2">
+        <a href="favorites.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          Favorites
+        </a>
+        <a href="index.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Living room
+        </a>
+        <a href="kitchen.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Kitchen
+        </a>
+        <a href="bathroom.html" class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          Bathroom
+        </a>
+        <a href="bedroom.html" class="nav-item active flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Bedroom
+        </a>
+        <div class="nav-item flex items-center px-4 py-2 rounded-full">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="grid grid-cols-12 gap-6">
+      <!-- Side Menu -->
+      <div class="col-span-1">
+        <div class="side-menu h-full flex flex-col items-center justify-between fade-in">
+          <div>
+            <div class="side-menu-item mb-4">
+              <div class="control-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="side-menu-item">
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-span-7">
+        <div class="grid grid-cols-1 gap-6">
+          <!-- Live Camera -->
+          <div class="card p-4 fade-in">
+            <div class="relative">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                   class="w-full h-64 object-cover rounded-xl" alt="Bedroom">
+              <div class="absolute top-4 left-4 bg-black bg-opacity-50 px-3 py-1 rounded-full flex items-center">
+                <div class="w-2 h-2 bg-red-500 rounded-full mr-2 pulse"></div>
+                <span class="text-sm">Live</span>
+              </div>
+              <div class="absolute bottom-4 left-4">
+                <h3 class="text-lg font-semibold">Live Camera</h3>
+                <p class="text-sm text-gray-300">Bedroom</p>
+              </div>
+              <div class="absolute top-4 right-4 control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sleep Quality Graph -->
+          <div class="card p-4 fade-in">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-lg font-semibold">Sleep Quality</h3>
+                <p class="text-sm text-gray-400">Last 7 nights</p>
+              </div>
+              <div class="control-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <canvas id="sleepChart" height="200"></canvas>
+            </div>
+          </div>
+
+          <!-- Controls Grid -->
+          <div class="grid grid-cols-12 gap-4 fade-in">
+            <!-- Sleep Mode Scene -->
+            <div class="col-span-4">
+              <div class="card p-4 scene-card">
+                <div class="flex items-center mb-2">
+                  <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 

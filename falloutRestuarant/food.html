@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drinks - Vault-Tec Provisions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vaultBlue: '#1a4b8c',
+            vaultYellow: '#d4af37',
+            vaultDarkBlue: '#0f325e',
+            vaultLightBlue: '#2a5ea1',
+            vaultGold: '#c6a030',
+            vaultRust: '#8b4513',
+          },
+          fontFamily: {
+            fallout: ['Roboto Condensed', 'sans-serif'],
+            vaultScript: ['Brush Script MT', 'cursive'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background-color: #1a4b8c;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='pattern' width='300' height='300' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 0 0 L 300 300 M 300 0 L 0 300' stroke='%23113366' stroke-width='1'/%3E%3Cpath d='M 150 0 L 150 300 M 0 150 L 300 150' stroke='%23113366' stroke-width='0.5'/%3E%3C/pattern%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeBlend mode='overlay' in='SourceGraphic'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23pattern)' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    
+    .metal-panel {
+      background-color: #1a4b8c;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 10 0 L 0 0 0 10' fill='none' stroke='%23113366' stroke-width='0.5'/%3E%3C/pattern%3E%3Cpattern id='grid' width='100' height='100' patternUnits='userSpaceOnUse'%3E%3Crect width='100' height='100' fill='url(%23smallGrid)'/%3E%3Cpath d='M 100 0 L 0 0 0 100' fill='none' stroke='%23113366' stroke-width='1'/%3E%3C/pattern%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='2' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%231a4b8c' filter='url(%23noise)'/%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)' opacity='0.1'/%3E%3C/svg%3E");
+      border: 2px solid #d4af37;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5), inset 0 0 10px rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .metal-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.1' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' filter='url(%23scratches)' opacity='0.1'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 1;
+    }
+    
+    .vault-button {
+      background-color: #d4af37;
+      color: #1a4b8c;
+      border: 2px solid #d4af37;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .vault-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.1' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='5'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' filter='url(%23scratches)' opacity='0.1'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    
+    .vault-button:hover {
+      background-color: #1a4b8c;
+      color: #d4af37;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+    
+    .crt-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .crt-effect::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.1) 50%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    .vault-logo {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .vault-logo::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border: 4px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .vault-logo::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background-color: #d4af37;
+      border-radius: 50%;
+    }
+    
+    .horizontal-lines::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -30px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background-color: #d4af37;
+      box-shadow: 0 -10px 0 #d4af37, 0 10px 0 #d4af37;
+    }
+    
+    .horizontal-lines::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 4px;
+      background-color: #d4af37;
+      box-shadow: 0 -10px 0 #d4af37, 0 10px 0 #d4af37;
+    }
+    
+    .scratch-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cfilter id='scratches' x='-50%25' y='-50%25' width='200%25' height='200%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='1' seed='1' stitchTiles='stitch'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='10'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='none' stroke='%23d4af37' stroke-width='1' filter='url(%23scratches)' opacity='0.05'  fill='none' stroke='%23d4af37' stroke-width='1' filter='url(%23scratches)' opacity='0.05'/%3E%3C/svg%3E");
+      z-index: 1000;
+      opacity: 0.3;
+    }
+    
+    .flicker-animation {
+      animation: flicker 5s infinite;
+    }
+    
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+      96% { opacity: 0.9; }
+      98% { opacity: 1; }
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 5px rgba(212, 175, 55, 0.7);
+    }
+    
+    .vault-divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #d4af37, transparent);
+    }
+    
+    .radiation-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #d4af37;
+      position: relative;
+    }
+    
+    .radiation-icon::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(0deg);
+      width: 30px;
+      height: 30px;
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .radiation-icon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 30px;
+      height: 30px;
+      border: 2px solid #d4af37;
+      border-radius: 50%;
+    }
+    
+    .hover-glow:hover {
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.9);
+    }
+    
+    .hover-scale {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+    
+    .vault-number {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: bold;
+      color: #d4af37;
+      position: relative;
+      display: inline-block;
+      padding: 0 5px;
+    }
+    
+    .vault-number::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f325e;
+      border-radius: 4px;
+      z-index: -1;
+    }
+    
+    .pip-boy-frame {
+      border: 8px solid #0f325e;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .pip-boy-frame::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0) 50%);
+      pointer-events: none;
+    }
+    
+    .pip-boy-screen {
+      background-color: #1a4b8c;
+      padding: 20px;
+      position: relative;
+    }
+    
+    .pip-boy-screen::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%);
+      pointer-events: none;
+    }
+    
+    .nuka-glow {
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.5);
+      position: relative;
+    }
+    
+    .nuka-glow::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(0, 195, 255, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .quantum-glow {
+      box-shadow: 0 0 15px rgba(0, 195, 255, 0.8);
+      position: relative;
+    }
+    
+    .quantum-glow::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center, rgba(0, 195, 255, 0.4) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .loading-bar {
+      height: 4px;
+      background: linear-gradient(to right, #d4af37, #d4af37);
+      background-size: 20% 100%;
+      animation: loading 2s infinite linear;
+    }
+    
+    @keyframes loading {
+      0% {
+        background-position: -100% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+  </style>
+</head>
+<body class="text-vaultYellow font-fallout min-h-screen crt-effect">
+  <div class="scratch-overlay"></div>
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 bg-vaultBlue z-50 flex flex-col items-center justify-center">
+    <div class="vault-logo horizontal-lines relative w-32 h-32 mb-8"></div>
+    <h1 class="text-4xl font-bold mb-4 flicker-animation">VAULT-TEC PROVISIONS</h1>
+    <p class="text-xl mb-8 font-vaultScript">Revolutionizing dining for an uncertain future.</p>
+    <div class="w-64 bg-vaultDarkBlue rounded-full h-4 mb-4 overflow-hidden">
+      <div id="loading-progress" class="h-full bg-vaultYellow transition-all duration-300" style="width: 0%"></div>
+    </div>
+    <p id="loading-text" class="text-sm">Initializing Vault-Tec systems...</p>
+  </div>
+  
+  <!-- Navigation -->
+  <nav class="metal-panel sticky top-0 z-40 p-4">
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+      <div class="flex items-center">
+        <div class="vault-logo horizontal-lines relative w-10 h-10 mr-3"></div>
+        <span class="text-2xl font-bold tracking-wider">VAULT-TEC PROVISIONS</span>
+      </div>
+      
+      <div class="block lg:hidden">
+        <button id="menu-toggle" class="flex items-center px-3 py-2 border rounded border-vaultYellow hover:text-vaultGold hover:border-vaultGold">
+          <svg class="fill-current h-5 w-5" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div id="menu" class="hidden w-full lg:flex lg:w-auto lg:items-center mt-4 lg:mt-0">
+        <div class="text-lg lg:flex">
+          <a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 mr-6 hover-glow transition-colors duration-300">
+            Home
+          </a>
+          <a href="drinks.html" class="block mt-4 lg:inline-block lg:mt-0 mr-6 hover-glow transition-colors duration-300">
+            Drinks
+          </a>
+          <a href="food.html" class="block mt-4 lg:inline-block lg:mt-0 mr-6 hover-glow transition-colors duration-300">
+            Food
+          </a>
+          <a href="contact.html" class="block mt-4 lg:inline-block lg:mt-0 hover-glow transition-colors duration-300">
+            Contact
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-vaultDarkBlue opacity-30 z-0"></div>
+    <div class="container mx-auto px-4 z-10 relative">
+      <div class="metal-panel p-8 max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 glow-text">VAULT-TEC BEVERAGES</h1>
+        <p class="text-xl md:text-2xl mb-8 font-vaultScript">Scientifically formulated for optimal hydration</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter Categories -->
+  <section class="py-8 container mx-auto px-4">
+    <div class="metal-panel p-4 rounded-lg mb-8">
+      <div class="flex flex-wrap justify-center gap-4">
+        <button class="filter-btn vault-button font-bold py-2 px-4 rounded-md transition-all duration-300 active">
+          ALL
+        </button>
+        <button class="filter-btn border border-vaultYellow hover:bg-vaultYellow hover:text-vaultBlue font-bold py-2 px-4 rounded-md transition-all duration-300">
+          NUKA-COLA
+        </button>
+        <button class="filter-btn border border-vaultYellow hover:bg-vaultYellow hover:text-vaultBlue font-bold py-2 px-4 rounded-md transition-all duration-300">
+          VAULT-TEC PURIFIED
+        </button>
+        <button class="filter-btn border border-vaultYellow hover:bg-vaultYellow hover:text-vaultBlue font-bold py-2 px-4 rounded-md transition-all duration-300">
+          SUNSET SARSAPARILLA
+        </button>
+        <button class="filter-btn border border-vaultYellow hover:bg-vaultYellow hover:text-vaultBlue font-bold py-2 px-4 rounded-md transition-all duration-300">
+          ALCOHOLIC
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Drinks Grid -->
+  <section class="py-8 container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Drink 1 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="nuka-cola">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame nuka-glow">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Nuka-Cola Quantum" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+          <span class="absolute top-2 right-2 bg-vaultYellow text-vaultBlue px-2 py-1 rounded-full text-sm font-bold">RARE</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">NUKA-COLA QUANTUM</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★★</span>
+          </div>
+          <span class="text-sm">(56 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">The legendary glowing blue variant of Nuka-Cola. Twice the calories, twice the carbohydrates, twice the caffeine, and twice the taste! Approved by Vault-Tec scientists.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">75</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+      
+      <!-- Drink 2 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="vault-tec-purified">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Vault-Tec Purified Water" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+          <span class="absolute top-2 right-2 bg-vaultYellow text-vaultBlue px-2 py-1 rounded-full text-sm font-bold">ESSENTIAL</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">VAULT-TEC PURIFIED WATER</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★★</span>
+          </div>
+          <span class="text-sm">(128 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">The cleanest water in the wasteland, processed through Vault-Tec's proprietary filtration system. Zero radiation guaranteed or your caps back!</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">20</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+      
+      <!-- Drink 3 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="sunset-sarsaparilla">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Sunset Sarsaparilla" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">SUNSET SARSAPARILLA</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★</span><span class="text-vaultDarkBlue">★</span>
+          </div>
+          <span class="text-sm">(42 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">A western favorite with a distinct sassafras flavor. Imported from the Mojave region. Check under the cap for a chance to win a prize!</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">35</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+      
+      <!-- Drink 4 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="nuka-cola">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Nuka-Cola Classic" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">NUKA-COLA CLASSIC</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★</span><span class="text-vaultDarkBlue">★</span>
+          </div>
+          <span class="text-sm">(87 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">The original formula that started it all. A perfect blend of seventeen fruit essences, carbonated water, and just a hint of radiation.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">25</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+      
+      <!-- Drink 5 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="alcoholic">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Vault-Tec Reserve Whiskey" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+          <span class="absolute top-2 right-2 bg-vaultYellow text-vaultBlue px-2 py-1 rounded-full text-sm font-bold">OVERSEER CHOICE</span>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">VAULT-TEC RESERVE WHISKEY</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★★</span>
+          </div>
+          <span class="text-sm">(31 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">Aged in oak barrels within the secure confines of Vault-Tec facilities. A smooth, refined spirit for those special vault celebrations.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">65</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+      
+      <!-- Drink 6 -->
+      <div class="drink-card metal-panel p-6 rounded-lg transition-all duration-300 hover-scale" data-category="vault-tec-purified">
+        <div class="relative mb-4">
+          <div class="pip-boy-frame">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Vault-Tec Electrolyte Solution" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold mb-2 glow-text">VAULT-TEC ELECTROLYTE SOLUTION</h3>
+        <div class="flex items-center mb-2">
+          <div class="flex text-vaultYellow mr-2">
+            <span>★★★★</span><span class="text-vaultDarkBlue">★</span>
+          </div>
+          <span class="text-sm">(45 reviews)</span>
+        </div>
+        <div class="vault-divider mb-4"></div>
+        <p class="mb-4">Scientifically formulated to replenish essential minerals and electrolytes. Recommended for vault maintenance workers and security personnel.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-xl font-bold vault-number">30</span>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300">
+            REQUISITION
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vault-Tec Special Offer -->
+  <section class="py-16 bg-vaultDarkBlue bg-opacity-50">
+    <div class="container mx-auto px-4">
+      <div class="metal-panel p-8 rounded-lg max-w-5xl mx-auto">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+            <div class="pip-boy-frame quantum-glow">
+              <div class="pip-boy-screen">
+                <img src="/placeholder.svg?height=400&width=400" alt="Quantum Bundle" class="w-full rounded-lg special-offer-image">
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2">
+            <div class="flex items-center mb-4">
+              <div class="radiation-icon mr-2"></div>
+              <span class="text-sm font-bold">LIMITED TIME OFFER</span>
+            </div>
+            <h2 class="text-3xl font-bold mb-4 glow-text">QUANTUM SURVIVAL PACK</h2>
+            <div class="vault-divider mb-4"></div>
+            <p class="mb-6">Vault-Tec is proud to present our exclusive Quantum Survival Pack: 3 Nuka-Cola Quantum bottles, 2 Vault-Tec Purified Water containers, and 1 Vault-Tec Reserve Whiskey. The perfect preparation for any nuclear eventuality.</p>
+            <div class="flex items-center mb-6">
+              <span class="text-2xl font-bold line-through mr-3">250</span>
+              <span class="text-3xl font-bold text-vaultYellow vault-number">175</span>
+            </div>
+            <button class="vault-button font-bold py-2 px-6 rounded-md transition-all duration-300 transform hover:scale-105">
+              SECURE YOUR PACK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vault-Tec Beverage Research -->
+  <section class="py-16 container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-12 text-center glow-text">VAULT-TEC BEVERAGE RESEARCH</h2>
+    
+    <div class="metal-panel p-8 rounded-lg max-w-4xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+          <h3 class="text-xl font-bold mb-4">HYDRATION EFFICIENCY RATINGS</h3>
+          <div class="vault-divider mb-4"></div>
+          <div class="h-64 bg-vaultDarkBlue rounded-lg p-4 mb-4">
+            <canvas id="hydrationChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-xl font-bold mb-4">RADIATION CONTENT ANALYSIS</h3>
+          <div class="vault-divider mb-4"></div>
+          <div class="h-64 bg-vaultDarkBlue rounded-lg p-4 mb-4">
+            <canvas id="radiationChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 p-4 bg-vaultDarkBlue rounded-lg">
+        <p class="text-sm">
+          <strong>VAULT-TEC RESEARCH NOTE:</strong> Our studies indicate that Vault-Tec Purified Water provides optimal hydration with zero radiation, while Nuka-Cola Quantum offers superior energy benefits with minimal radiation exposure. All Vault-Tec beverages are certified safe for consumption under normal vault conditions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vault-Tec Beverage Production -->
+  <section class="py-16 bg-vaultDarkBlue bg-opacity-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold mb-12 text-center glow-text">VAULT-TEC PRODUCTION FACILITIES</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- Facility 1 -->
+        <div class="metal-panel p-6 rounded-lg transition-all duration-300 hover-scale">
+          <h3 class="text-xl font-bold mb-2">WATER PURIFICATION SYSTEM</h3>
+          <div class="vault-divider mb-4"></div>
+          <div class="pip-boy-frame mb-4">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Water Purification System" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+          <p class="mb-4">Our state-of-the-art water purification system removes 99.97% of radiation and contaminants, providing the cleanest water in the wasteland. Each vault is equipped with this essential technology.</p>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300 w-full">
+            VIEW TECHNICAL SPECS
+          </button>
+        </div>
+        
+        <!-- Facility 2 -->
+        <div class="metal-panel p-6 rounded-lg transition-all duration-300 hover-scale">
+          <h3 class="text-xl font-bold mb-2">NUKA-COLA BOTTLING PARTNERSHIP</h3>
+          <div class="vault-divider mb-4"></div>
+          <div class="pip-boy-frame mb-4">
+            <div class="pip-boy-screen">
+              <img src="/placeholder.svg?height=300&width=400" alt="Nuka-Cola Bottling Facility" class="w-full h-48 object-cover rounded-md">
+            </div>
+          </div>
+          <p class="mb-4">Through our exclusive partnership with Nuka-Cola Corporation, Vault-Tec provisions secure priority access to the world's favorite soft drink, including rare variants like Quantum.</p>
+          <button class="vault-button font-bold py-2 px-4 rounded-md transition-all duration-300 w-full">
+            PARTNERSHIP DETAILS
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="metal-panel py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <div class="vault-logo horizontal-lines relative w-10 h-10 mr-3"></div>
+            <h3 class="text-xl font-bold">VAULT-TEC</h3>
+          </div>
+          <p>Preparing humanity for a better future underground since 2054.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">EXPLORE</h4>
+          <ul>
+            <li class="mb-2"><a href="index.html" class="hover-glow transition-colors duration-300">Home</a></li>
+            <li class="mb-2"><a href="drinks.html" class="hover-glow transition-colors duration-300">Drinks</a></li>
+            <li class="mb-2"><a href="food.html" class="hover-glow transition-colors duration-300">Food</a></li>
+            <li><a href="contact.html" class="hover-glow transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">LEGAL</h4>
+          <ul>
+            <li class="mb-2"><a href="#" class="hover-glow transition-colors duration-300">Terms of Service</a></li>
+            <li class="mb-2"><a href="#" class="hover-glow transition-colors duration-300">Privacy Policy</a></li>
+            <li><a href="#" class="hover-glow transition-colors duration-300">Radiation Disclaimer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">CONTACT</h4>
+          <p class="mb-2">Vault-Tec Headquarters</p>
+          <p class="mb-2">Commonwealth Division</p>
+          <p>PIP-BOY: #VAULT-TEC-HQ</p>
+        </div>
+      </div>
+      <div class="border-t border-vaultYellow mt-8 pt-8 text-center">
+        <p>© 2077 Vault-Tec Corporation. All rights reserved. Vault-Tec and related logos are registered trademarks of Vault-Tec Corporation.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Loading screen
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const loadingProgress = document.getElementById('loading-progress');
+      const loadingText = document.getElementById('loading-text');
+      
+      const loadingMessages = [
+        "Initializing Vault-Tec systems...",
+        "Calibrating radiation detectors...",
+        "Loading beverage databases...",
+        "Establishing Pip-Boy connection...",
+        "Scanning for vault dwellers...",
+        "Preparing Vault-Tec Beverage inventory..."
+      ];
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          
+          setTimeout(() => {
+            anime({
+              targets: loadingScreen,
+              opacity: [1, 0],
+              duration: 800,
+              easing: 'easeInOutQuad',
+              complete: function() {
+                loadingScreen.style.display = 'none';
+              }
+            });
+          }, 500);
+        }
+        
+        loadingProgress.style.width = `${progress}%`;
+        
+        if (progress < 20) {
+          loadingText.textContent = loadingMessages[0];
+        } else if (progress < 40) {
+          loadingText.textContent = loadingMessages[1];
+        } else if (progress < 60) {
+          loadingText.textContent = loadingMessages[2];
+        } else if (progress < 80) {
+          loadingText.textContent = loadingMessages[3];
+        } else if (progress < 90) {
+          loadingText.textContent = loadingMessages[4];
+        } else {
+          loadingText.textContent = loadingMessages[5];
+        }
+      }, 200);
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+    });
+
+    // Anime.js animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate the header
+      anime({
+        targets: 'header .metal-panel',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        easing: 'easeOutExpo',
+        duration: 1200
+      });
+
+      // Animate the drink cards
+      anime({
+        targets: '.drink-card',
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        delay: anime.stagger(100),
+        easing: 'easeOutElastic(1, .5)',
+        duration: 1500
+      });
+
+      // Animate the special offer image
+      anime({
+        targets: '.special-offer-image',
+        opacity: [0, 1],
+        easing: 'easeInOutSine',
+        duration: 1000,
+        complete: function() {
+          anime({
+            targets: '.quantum-glow',
+            boxShadow: [
+              '0 0 15px rgba(0, 195, 255, 0.5)',
+              '0 0 25px rgba(0, 195, 255, 0.8)',
+              '0 0 15px rgba(0, 195, 255, 0.5)'
+            ],
+            duration: 2000,
+            loop: true,
+            easing: 'easeInOutSine'
+          });
+        }
+      });
+
+      // Filter buttons animation
+      anime({
+        targets: '.filter-btn',
+        translateY: [20, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(50),
+        easing: 'easeOutExpo',
+        duration: 800
+      });
+      
+      // Nuka-Cola glow effect
+      anime({
+        targets: '.nuka-glow',
+        boxShadow: [
+          '0 0 15px rgba(0, 195, 255, 0.5)',
+          '0 0 20px rgba(0, 195, 255, 0.7)',
+          '0 0 15px rgba(0, 195, 255, 0.5)'
+        ],
+        duration: 3000,
+        loop: true,
+        easing: 'easeInOutSine'
+      });
+
+      // Add hover animations to all interactive elements
+      const interactiveElements = document.querySelectorAll('a, button');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', function() {
+          anime({
+            targets: this,
+            scale: 1.05,
+            duration: 300,
+            easing: 'easeOutElastic(1, .5)'
+          });
+        });
+        
+        el.addEventListener('mouseleave', function() {
+          anime({
+            targets: this,
+            scale: 1,
+            duration: 300,
+            easing: 'easeOutElastic(1, .5)'
+          });
+        });
+      });
+      
+      // Initialize charts
+      if (document.getElementById('hydrationChart')) {
+        const hydrationCtx = document.getElementById('hydrationChart').getContext('2d');
+        new Chart(hydrationCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Purified Water', 'Nuka-Cola', 'Quantum', 'Whiskey', 'Electrolyte'],
+            datasets: [{
+              label: 'Hydration Efficiency (%)',
+              data: [100, 65, 45, 20, 90],
+              backgroundColor: '#d4af37',
+              borderColor: '#0f325e',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                ticks: {
+                  color: '#d4af37'
+                }
+              },
+              x: {
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                ticks: {
+                  color: '#d4af37'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#d4af37'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      if (document.getElementById('radiationChart')) {
+        const radiationCtx = document.getElementById('radiationChart').getContext('2d');
+        new Chart(radiationCtx, {
+          type: 'radar',
+          data: {
+            labels: ['Purified Water', 'Nuka-Cola', 'Quantum', 'Whiskey', 'Electrolyte'],
+            datasets: [{
+              label: 'Radiation Level (rads)',
+              data: [0, 15, 35, 5, 2],
+              backgroundColor: 'rgba(212, 175, 55, 0.2)',
+              borderColor: '#d4af37',
+              borderWidth: 2,
+              pointBackgroundColor: '#d4af37'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                angleLines: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                grid: {
+                  color: 'rgba(212, 175, 55, 0.1)'
+                },
+                pointLabels: {
+                  color: '#d4af37'
+                },
+                ticks: {
+                  color: '#d4af37',
+                  backdropColor: 'transparent'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#d4af37'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      // Filter functionality
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterBtns.forEach(b => {
+            b.classList.remove('active', 'vault-button');
+            b.classList.add('border', 'border-vaultYellow');
+          });
+          
+          // Add active class to clicked button
+          this.classList.add('active', 'vault-button');
+          this.classList.remove('border', 'border-vaultYellow');
+          
+          // Get category
+          const category = this.textContent.trim().toLowerCase();
+          
+          // Filter drinks
+          const drinkCards = document.querySelectorAll('.drink-card');
+          drinkCards.forEach(card => {
+            if (category === 'all') {
+              card.style.display = 'block';
+              anime({
+                targets: card,
+                scale: [0.9, 1],
+                opacity: [0, 1],
+                easing: 'easeOutElastic(1, .5)',
+                duration: 800
+              });
+            } else {
+              const cardCategory = card.getAttribute('data-category');
+              if (cardCategory === category) {
+                card.style.display = 'block';
+                anime({
+                  targets: card,
+                  scale: [0.9, 1],
+                  opacity: [0, 1],
+                  easing: 'easeOutElastic(1, .5)',
+                  duration: 800
+                });
+              } else {
+                card.style.display = 'none';
+              }
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
