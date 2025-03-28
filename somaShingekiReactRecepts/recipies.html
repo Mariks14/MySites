@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Shokugeki no Soma</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beige: {
+                            light: '#f5f0e5',
+                            DEFAULT: '#e8dcc8',
+                            dark: '#d6c7a9',
+                        },
+                        accent: {
+                            light: '#f8c9b4',
+                            DEFAULT: '#f0a882',
+                            dark: '#e88a57',
+                        }
+                    },
+                    boxShadow: {
+                        'neumorph': '5px 5px 10px #c9bfad, -5px -5px 10px #fff9e3',
+                        'neumorph-inset': 'inset 5px 5px 10px #c9bfad, inset -5px -5px 10px #fff9e3',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            .neumorph {
+                @apply bg-beige rounded-2xl shadow-neumorph transition-all duration-300;
+            }
+            .neumorph:hover {
+                @apply shadow-neumorph-inset transform scale-[0.98];
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-10px);
+            }
+        }
+        body {
+            background-color: #f5f0e5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .blur-bg {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-beige-light min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Header = () => {
+            return (
+                <header className="py-6 px-4 md:px-8 bg-beige shadow-md sticky top-0 z-50 blur-bg">
+                    <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+                        <div className="flex items-center mb-4 md:mb-0">
+                            <img src="/placeholder.svg?height=50&width=50" alt="Logo" className="h-12 w-12 mr-3 neumorph p-2" />
+                            <h1 className="text-3xl font-bold text-accent-dark text-shadow">Shokugeki no Soma</h1>
+                        </div>
+                        <nav>
+                            <ul className="flex space-x-2 md:space-x-6">
+                                <li><a href="index.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Home</a></li>
+                                <li><a href="recipes.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Recipes</a></li>
+                                <li><a href="characters.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Characters</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+            );
+        };
+
+        const RecipeHero = () => {
+            return (
+                <section className="py-12 px-4 md:px-8 bg-gradient-to-b from-beige to-beige-light">
+                    <div className="container mx-auto text-center">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-accent-dark text-shadow">Soma's Legendary Recipes</h2>
+                        <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">Discover the culinary masterpieces that made Soma Yukihira famous at Totsuki Academy.</p>
+                    </div>
+                </section>
+            );
+        };
+
+        const RecipeCard = ({ recipe, setSelectedRecipe }) => {
+            return (
+                <div className="neumorph p-6 card-hover cursor-pointer" onClick={() => setSelectedRecipe(recipe)}>
+                    <img src={recipe.image || "/placeholder.svg"} alt={recipe.name} className="w-full h-48 object-cover rounded-lg mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-accent-dark">{recipe.name}</h3>
+                    <p className="text-sm text-gray-600 mb-2">Difficulty: {recipe.difficulty}</p>
+                    <p className="text-gray-700 line-clamp-3">{recipe.shortDescription}</p>
+                    <button className="mt-4 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors">
+                        View Full Recipe
+                    </button>
+                </div>
+            );
+        };
+
+        const RecipeDetail = ({ recipe, onClose }) => {
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-beige-light rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6 md:p-8">
+                            <div className="flex justify-between items-start mb-6">
+                                <h2 className="text-3xl font-bold text-accent-dark">{recipe.name}</h2>
+                                <button 
+                                    onClick={onClose}
+                                    className="neumorph h-10 w-10 flex items-center justify-center text-accent-dark"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <div className="md:w-1/2">
+                                    <img src={recipe.image || "/placeholder.svg"} alt={recipe.name} className="w-full rounded-lg neumorph p-2" />
+                                    <div className="mt-4 neumorph p-4">
+                                        <h3 className="text-xl font-semibold mb-3 text-accent-dark">Ingredients</h3>
+                                        <ul className="list-disc pl-5 space-y-1">
+                                            {recipe.ingredients.map((ingredient, index) => (
+                                                <li key={index}>{ingredient}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div className="md:w-1/2">
+                                    <div className="neumorph p-4 mb-4">
+                                        <h3 className="text-xl font-semibold mb-2 text-accent-dark">Description</h3>
+                                        <p>{recipe.description}</p>
+                                    </div>
+                                    
+                                    <div className="neumorph p-4">
+                                        <h3 className="text-xl font-semibold mb-3 text-accent-dark">Instructions</h3>
+                                        <ol className="list-decimal pl-5 space-y-3">
+                                            {recipe.instructions.map((step, index) => (
+                                                <li key={index}>{step}</li>
+                                            ))}
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const RecipeList = () => {
+            const [selectedRecipe, setSelectedRecipe] = React.useState(null);
+            const [filter, setFilter] = React.useState('all');
+            
+            const recipes = [
+                {
+                    id: 1,
+                    name: "Gotcha Pork Roast",
+                    difficulty: "Medium",
+                    category: "main",
+                    image: "/placeholder.svg?height=300&width=400",
+                    shortDescription: "A creative dish that looks like meat but is actually made from vegetables.",
+                    description: "This dish appears to be a perfectly cooked pork roast, but is actually made entirely from vegetables. The 'meat' is a combination of potatoes, mushrooms, and onions, creating a surprising and delicious vegetarian alternative.",
+                    ingredients: [
+                        "Potatoes", 
+                        "Bacon", 
+                        "Mushrooms (Oering)", 
+                        "Onion", 
+                        "Rosemary", 
+                        "Red wine (Pinot Noir)", 
+                        "Sake", 
+                        "Soy sauce", 
+                        "Oil", 
+                        "Salt"
+                    ],
+                    instructions: [
+                        "Peel and cut potatoes into large chunks.",
+                        "Sauté onions until translucent.",
+                        "Add mushrooms and cook until they release their moisture.",
+                        "Wrap the potato in bacon.",
+                        "Sear the wrapped potato on all sides.",
+                        "Add rosemary, red wine, sake, and soy sauce.",
+                        "Simmer until the potato is tender and the sauce has reduced.",
+                        "Serve with the sauce drizzled over the top."
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Fish Cooked in Paper",
+                    difficulty: "Easy",
+                    category: "seafood",
+                    image: "/placeholder.svg?height=300&width=400",
+                    shortDescription: "A delicate fish dish cooked in parchment paper to lock in flavors and moisture.",
+                    description: "This elegant dish involves cooking fish in parchment paper, which seals in moisture and flavors. The fish steams in its own juices along with vegetables and aromatics, creating a perfectly cooked, tender result.",
+                    ingredients: [
+                        "Fresh fish (salmon)", 
+                        "Zucchini", 
+                        "Carrots", 
+                        "Leeks", 
+                        "White wine", 
+                        "Lemon", 
+                        "Thyme", 
+                        "Salt", 
+                        "Pepper"
+                    ],
+                    instructions: [
+                        "Preheat oven to 375°F (190°C).",
+                        "Cut vegetables into thin strips.",
+                        "Place a piece of parchment paper on a baking sheet.",
+                        "Arrange vegetables in the center of the paper.",
+                        "Place fish on top of vegetables.",
+                        "Season with salt, pepper, and thyme.",
+                        "Add a splash of white wine and a slice of lemon.",
+                        "Fold and seal the parchment paper to create a packet.",
+                        "Bake for 15-20 minutes until fish is cooked through.",
+                        "Serve in the paper packet for presentation."
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "Omurice (Omelet with Rice)",
+                    difficulty: "Medium",
+                    category: "breakfast",
+                    image: "/placeholder.svg?height=300&width=400",
+                    shortDescription: "A Japanese favorite combining fried rice wrapped in a thin, creamy omelet.",
+                    description: "Omurice is a popular Japanese dish consisting of fried rice wrapped in a thin, creamy omelet. Soma's version features perfectly seasoned chicken rice with a silky, runny omelet on top that dramatically spreads over the rice when cut.",
+                    ingredients: [
+                        "Eggs", 
+                        "Rice", 
+                        "Chicken fillet", 
+                        "Onion", 
+                        "Peas", 
+                        "Ketchup", 
+                        "Salt", 
+                        "Pepper"
+                    ],
+                    instructions: [
+                        "Dice chicken and onions.",
+                        "Sauté chicken until cooked through.",
+                        "Add onions and cook until translucent.",
+                        "Add cooked rice and peas, stir-fry.",
+                        "Season with ketchup, salt, and pepper.",
+                        "Shape rice into an oval on a plate.",
+                        "Beat eggs and season with salt.",
+                        "Cook eggs in a hot pan, keeping them soft and creamy.",
+                        "Gently place the omelet over the rice.",
+                        "Slice open the top to reveal the creamy interior."
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "Chaliapin Steak",
+                    difficulty: "Medium",
+                    category: "main",
+                    image: "/placeholder.svg?height=300&width=400",
+                    shortDescription: "A tender steak dish made with onions that helped Soma win his first Shokugeki.",
+                    description: "The Chaliapin Steak is a dish that Soma created for his first Shokugeki against Ikumi Mito. It features a budget cut of beef tenderized with grated onions, which contain enzymes that break down the meat's fibers. The result is an incredibly tender steak that melts in your mouth.",
+                    ingredients: [
+                        "Beef steak (chuck or round cut)",
+                        "Onions (lots of them)",
+                        "Garlic",
+                        "Butter",
+                        "Red wine",
+                        "Soy sauce",
+                        "Salt",
+                        "Pepper",
+                        "Vegetable oil"
+                    ],
+                    instructions: [
+                        "Grate onions and spread them on both sides of the steak.",
+                        "Let the steak marinate with the onions for at least 30 minutes.",
+                        "Scrape off the onions and save them.",
+                        "Season the steak with salt and pepper.",
+                        "Sear the steak in a hot pan with oil.",
+                        "Remove the steak and let it rest.",
+                        "In the same pan, sauté the reserved onions until caramelized.",
+                        "Add garlic, red wine, and soy sauce to the onions.",
+                        "Reduce the sauce and finish with butter.",
+                        "Slice the steak and serve topped with the onion sauce."
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "Rainbow Terrine of Seven Vegetables",
+                    difficulty: "Hard",
+                    category: "vegetarian",
+                    image: "/placeholder.svg?height=300&width=400",
+                    shortDescription: "A colorful terrine showcasing seven different vegetables in a stunning presentation.",
+                    description: "This visually stunning dish features seven different vegetables layered to create a rainbow effect when sliced. Each vegetable is prepared differently to highlight its unique flavor and texture, resulting in a harmonious blend of tastes.",
+                    ingredients: [
+                        "Carrots",
+                        "Bell peppers (red, yellow, green)",
+                        "Zucchini",
+                        "Eggplant",
+                        "Sweet potatoes",
+                        "Spinach",
+                        "Cauliflower",
+                        "Gelatin",
+                        "Vegetable stock",
+                        "Herbs and spices"
+                    ],
+                    instructions: [
+                        "Prepare each vegetable separately using different cooking methods (roasting, steaming, sautéing).",
+                        "Season each vegetable differently to enhance its natural flavor.",
+                        "Dissolve gelatin in warm vegetable stock.",
+                        "Line a terrine mold with plastic wrap.",
+                        "Layer the vegetables in the mold, starting with the darkest color.",
+                        "Pour a small amount of gelatin mixture between each layer.",
+                        "Press down gently and refrigerate until set (at least 4 hours).",
+                        "Unmold the terrine and slice to reveal the rainbow pattern.",
+                        "Serve with a complementary sauce or vinaigrette."
+                    ]
+                }
+            ];
+
+            const filteredRecipes = filter === 'all' 
+                ? recipes 
+                : recipes.filter(recipe => recipe.category === filter);
+
+            return (
+                <section className="py-12 px-4 md:px-8">
+                    <div className="container mx-auto">
+                        <div className="mb-8 neumorph p-4 inline-block">
+                            <h3 className="text-lg font-medium mb-3 text-accent-dark">Filter by Category:</h3>
+                            <div className="flex flex-wrap gap-2">
+                                <button 
+                                    onClick={() => setFilter('all')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'all' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    All
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('main')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'main' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Main Dishes
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('seafood')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'seafood' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Seafood
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('breakfast')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'breakfast' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Breakfast
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('vegetarian')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'vegetarian' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Vegetarian
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filteredRecipes.map(recipe => (
+                                <RecipeCard 
+                                    key={recipe.id} 
+                                    recipe={recipe} 
+                                    setSelectedRecipe={setSelectedRecipe} 
+                                />
+                            ))}
+                        </div>
+
+                        {selectedRecipe && (
+                            <RecipeDetail 
+                                recipe={selectedRecipe} 
+                                onClose={() => setSelectedRecipe(null)} 
+                            />
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <footer className="py-8 px-4 md:px-8 bg-beige-dark text-gray-700">
+                    <div className="container mx-auto text-center">
+                        <p>© 2025 Shokugeki no Soma Fan Website. This is a fan-made website and is not affiliated with the official anime or manga.</p>
+                        <p className="mt-2">All characters and recipes are property of their respective owners.</p>
+                    </div>
+                </footer>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div>
+                    <Header />
+                    <main>
+                        <RecipeHero />
+                        <RecipeList />
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters - Shokugeki no Soma</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beige: {
+                            light: '#f5f0e5',
+                            DEFAULT: '#e8dcc8',
+                            dark: '#d6c7a9',
+                        },
+                        accent: {
+                            light: '#f8c9b4',
+                            DEFAULT: '#f0a882',
+                            dark: '#e88a57',
+                        }
+                    },
+                    boxShadow: {
+                        'neumorph': '5px 5px 10px #c9bfad, -5px -5px 10px #fff9e3',
+                        'neumorph-inset': 'inset 5px 5px 10px #c9bfad, inset -5px -5px 10px #fff9e3',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            .neumorph {
+                @apply bg-beige rounded-2xl shadow-neumorph transition-all duration-300;
+            }
+            .neumorph:hover {
+                @apply shadow-neumorph-inset transform scale-[0.98];
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-10px);
+            }
+        }
+        body {
+            background-color: #f5f0e5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .blur-bg {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-beige-light min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Header = () => {
+            return (
+                <header className="py-6 px-4 md:px-8 bg-beige shadow-md sticky top-0 z-50 blur-bg">
+                    <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+                        <div className="flex items-center mb-4 md:mb-0">
+                            <img src="/placeholder.svg?height=50&width=50" alt="Logo" className="h-12 w-12 mr-3 neumorph p-2" />
+                            <h1 className="text-3xl font-bold text-accent-dark text-shadow">Shokugeki no Soma</h1>
+                        </div>
+                        <nav>
+                            <ul className="flex space-x-2 md:space-x-6">
+                                <li><a href="index.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Home</a></li>
+                                <li><a href="recipes.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Recipes</a></li>
+                                <li><a href="characters.html" className="neumorph px-4 py-2 inline-block text-accent-dark font-medium hover:text-accent">Characters</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+            );
+        };
+
+        const CharactersHero = () => {
+            return (
+                <section className="py-12 px-4 md:px-8 bg-gradient-to-b from-beige to-beige-light">
+                    <div className="container mx-auto text-center">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-accent-dark text-shadow">Meet the Chefs</h2>
+                        <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">Get to know the talented and eccentric characters from Totsuki Academy.</p>
+                    </div>
+                </section>
+            );
+        };
+
+        const CharacterDetail = ({ character, onClose }) => {
+            return (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-beige-light rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                        <div className="p-6 md:p-8">
+                            <div className="flex justify-between items-start mb-6">
+                                <h2 className="text-3xl font-bold text-accent-dark">{character.name}</h2>
+                                <button 
+                                    onClick={onClose}
+                                    className="neumorph h-10 w-10 flex items-center justify-center text-accent-dark"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <div className="md:w-1/3">
+                                    <img src={character.image || "/placeholder.svg"} alt={character.name} className="w-full rounded-lg neumorph p-2" />
+                                    
+                                    <div className="mt-4 neumorph p-4">
+                                        <h3 className="text-xl font-semibold mb-3 text-accent-dark">Profile</h3>
+                                        <ul className="space-y-2">
+                                            <li><span className="font-medium">Nickname:</span> {character.nickname}</li>
+                                            <li><span className="font-medium">Year:</span> {character.year}</li>
+                                            <li><span className="font-medium">Specialty:</span> {character.specialty}</li>
+                                            <li><span className="font-medium">Cooking Style:</span> {character.cookingStyle}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div className="md:w-2/3">
+                                    <div className="neumorph p-4 mb-4">
+                                        <h3 className="text-xl font-semibold mb-2 text-accent-dark">Background</h3>
+                                        <p className="mb-3">{character.background}</p>
+                                    </div>
+                                    
+                                    <div className="neumorph p-4">
+                                        <h3 className="text-xl font-semibold mb-3 text-accent-dark">Signature Dishes</h3>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            {character.signatureDishes.map((dish, index) => (
+                                                <li key={index}>
+                                                    <span className="font-medium">{dish.name}:</span> {dish.description}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const CharacterCard = ({ character, setSelectedCharacter }) => {
+            return (
+                <div className="neumorph p-6 card-hover cursor-pointer" onClick={() => setSelectedCharacter(character)}>
+                    <img src={character.image || "/placeholder.svg"} alt={character.name} className="w-full h-64 object-cover rounded-lg mb-4" />
+                    <h3 className="text-xl font-semibold mb-2 text-accent-dark">{character.name}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{character.nickname}</p>
+                    <p className="text-gray-700 line-clamp-3">{character.shortDescription}</p>
+                    <button className="mt-4 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent-dark transition-colors">
+                        View Profile
+                    </button>
+                </div>
+            );
+        };
+
+        const CharacterList = () => {
+            const [selectedCharacter, setSelectedCharacter] = React.useState(null);
+            const [filter, setFilter] = React.useState('all');
+            
+            const characters = [
+                {
+                    id: 1,
+                    name: "Soma Yukihira",
+                    nickname: "The Transfer Student",
+                    year: "First Year (later Second Year)",
+                    specialty: "Innovative Japanese Cuisine",
+                    cookingStyle: "Improvisation and Creativity",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "The main protagonist who transfers to Totsuki Academy after his father closes their family diner.",
+                    background: "Soma is the son of Joichiro Yukihira, a world-renowned chef. He grew up cooking in his family's small diner, Yukihira, where he developed his creative approach to cooking. When his father closes the restaurant to work abroad, Soma enrolls at Totsuki Culinary Academy, determined to improve his skills and eventually surpass his father. Despite being looked down upon for his humble background, Soma's innovative cooking and never-give-up attitude help him rise through the ranks.",
+                    signatureDishes: [
+                        {
+                            name: "Transforming Furikake Gohan",
+                            description: "A dish that changes flavor as you eat it, featuring a jellied broth that melts over hot rice."
+                        },
+                        {
+                            name: "Chaliapin Steak Don",
+                            description: "A tender steak bowl made with a cheap cut of meat tenderized with onions."
+                        },
+                        {
+                            name: "Gotcha Pork Roast",
+                            description: "A vegetable dish disguised as a meat roast, showcasing Soma's creativity."
+                        }
+                    ],
+                    category: "student"
+                },
+                {
+                    id: 2,
+                    name: "Erina Nakiri",
+                    nickname: "God's Tongue",
+                    year: "First Year (later Second Year)",
+                    specialty: "Haute Cuisine",
+                    cookingStyle: "Perfection and Elegance",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "The academy's top student with the 'God's Tongue' that can identify any flavor with perfect accuracy.",
+                    background: "Born into the prestigious Nakiri family that runs Totsuki Academy, Erina possesses the 'God's Tongue,' an incredibly sensitive palate that can identify any flavor with perfect accuracy. This gift made her famous in the culinary world from a young age. Initially cold and arrogant, especially toward Soma, she gradually opens up as the series progresses. Her difficult relationship with her father, Azami Nakiri, plays a significant role in her character development.",
+                    signatureDishes: [
+                        {
+                            name: "Beef Bourguignon",
+                            description: "A French beef stew made with perfect technique and premium ingredients."
+                        },
+                        {
+                            name: "Eggs Benedict",
+                            description: "A breakfast dish elevated to gourmet status with her perfect hollandaise sauce."
+                        }
+                    ],
+                    category: "student"
+                },
+                {
+                    id: 3,
+                    name: "Megumi Tadokoro",
+                    nickname: "The Hospitality Expert",
+                    year: "First Year (later Second Year)",
+                    specialty: "Hospitality-focused Japanese Cuisine",
+                    cookingStyle: "Warm, Comforting Food",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "A shy student who specializes in hospitality-focused cooking that makes diners feel at home.",
+                    background: "Megumi comes from a small port town where she helped at her family's ryokan (traditional inn). Initially lacking confidence and on the verge of expulsion, she grows significantly after meeting Soma. Her cooking style focuses on hospitality and making diners feel comfortable and at home. Despite her initial timidity, Megumi proves to be a talented chef whose warm, nurturing dishes leave a lasting impression on those who eat them.",
+                    signatureDishes: [
+                        {
+                            name: "Rainbow Terrine",
+                            description: "A colorful vegetable terrine that showcases the natural flavors of seasonal vegetables."
+                        },
+                        {
+                            name: "Monkfish Dobu-Jiru",
+                            description: "A traditional fisherman's soup from her hometown, made with tender monkfish liver."
+                        }
+                    ],
+                    category: "student"
+                },
+                {
+                    id: 4,
+                    name: "Takumi Aldini",
+                    nickname: "The Italian Stallion",
+                    year: "First Year (later Second Year)",
+                    specialty: "Italian Cuisine",
+                    cookingStyle: "Traditional Italian with Modern Twists",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "A half-Japanese, half-Italian chef who considers himself Soma's rival.",
+                    background: "Takumi is half-Japanese, half-Italian and was raised in his family's trattoria in Italy. He considers himself Soma's main rival and is always trying to prove himself superior. Takumi is extremely skilled in Italian cuisine and wields a prized mezzaluna knife passed down through his family. Despite his competitive nature, he has a strong sense of honor and fairness in cooking battles.",
+                    signatureDishes: [
+                        {
+                            name: "Insalata Frittata",
+                            description: "A creative dish combining a salad inside an expertly prepared frittata."
+                        },
+                        {
+                            name: "Lemon Butter Semifreddo",
+                            description: "A semi-frozen Italian dessert with a perfect balance of sweet and sour."
+                        }
+                    ],
+                    category: "student"
+                },
+                {
+                    id: 5,
+                    name: "Satoshi Isshiki",
+                    nickname: "The Seventh Seat",
+                    year: "Second Year (later Third Year)",
+                    specialty: "Japanese Cuisine",
+                    cookingStyle: "Traditional Japanese with Modern Techniques",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "A laid-back but extremely talented upperclassman who often wears only an apron.",
+                    background: "Satoshi is a laid-back, eccentric upperclassman who lives in Polar Star Dormitory with Soma and friends. Despite his carefree attitude and habit of wearing only an apron around the dorm, he is an extremely talented chef who held the 7th seat of the Elite Ten Council. Satoshi comes from a traditional Japanese culinary background and specializes in Japanese cuisine, particularly kaiseki (traditional multi-course Japanese dinner).",
+                    signatureDishes: [
+                        {
+                            name: "Smoked Salmon with Vegetable Rainbow",
+                            description: "A visually stunning dish featuring perfectly smoked salmon with colorful vegetables."
+                        },
+                        {
+                            name: "Scorched Pacific Saury Rice Bowl",
+                            description: "A seasonal dish that highlights the natural flavors of autumn pacific saury."
+                        }
+                    ],
+                    category: "elite"
+                },
+                {
+                    id: 6,
+                    name: "Joichiro Yukihira",
+                    nickname: "Asura",
+                    year: "Alumni",
+                    specialty: "Global Cuisine",
+                    cookingStyle: "Innovative and Boundary-Pushing",
+                    image: "/placeholder.svg?height=400&width=300",
+                    shortDescription: "Soma's father and a world-renowned chef who was once the 2nd seat of the Elite Ten.",
+                    background: "Joichiro is Soma's father and a world-renowned chef who travels the globe cooking for special clients. In his youth, he was known as 'Asura' and was the 2nd seat of the Elite Ten at Totsuki Academy. Despite his immense talent, he became disillusioned with high-end cooking and left the academy before graduation. He found joy in cooking again when he opened the small Yukihira Diner and started a family. Joichiro has a record of 489 wins and 1 loss in cooking duels against his son.",
+                    signatureDishes: [
+                        {
+                            name: "Jōichirō Special Rich Ramen",
+                            description: "A complex ramen dish with multiple layers of flavor that appears simple but contains incredible depth."
+                        },
+                        {
+                            name: "Dried Sardines and Strawberry Jam Curry",
+                            description: "An extremely bizarre but delicious curry that showcases his experimental style."
+                        }
+                    ],
+                    category: "staff"
+                }
+            ];
+
+            const filteredCharacters = filter === 'all' 
+                ? characters 
+                : characters.filter(character => character.category === filter);
+
+            return (
+                <section className="py-12 px-4 md:px-8">
+                    <div className="container mx-auto">
+                        <div className="mb-8 neumorph p-4 inline-block">
+                            <h3 className="text-lg font-medium mb-3 text-accent-dark">Filter by Role:</h3>
+                            <div className="flex flex-wrap gap-2">
+                                <button 
+                                    onClick={() => setFilter('all')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'all' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    All
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('student')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'student' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Students
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('elite')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'elite' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Elite Ten
+                                </button>
+                                <button 
+                                    onClick={() => setFilter('staff')} 
+                                    className={`px-4 py-2 rounded-lg transition-colors ${filter === 'staff' ? 'bg-accent text-white' : 'bg-beige-dark text-gray-700'}`}
+                                >
+                                    Staff & Alumni
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {filteredCharacters.map(character => (
+                                <CharacterCard 
+                                    key={character.id} 
+                                    character={character} 
+                                    setSelectedCharacter={setSelectedCharacter} 
+                                />
+                            ))}
+                        </div>
+
+                        {selectedCharacter && (
+                            <CharacterDetail 
+                                character={selectedCharacter} 
+                                onClose={() => setSelectedCharacter(null)} 
+                            />
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <footer className="py-8 px-4 md:px-8 bg-beige-dark text-gray-700">
+                    <div className="container mx-auto text-center">
+                        <p>© 2025 Shokugeki no Soma Fan Website. This is a fan-made website and is not affiliated with the official anime or manga.</p>
+                        <p className="mt-2">All characters and recipes are property of their respective owners.</p>
+                    </div>
+                </footer>
+            );
+        };
+
+        const App = () => {
+            return (
+                <div>
+                    <Header />
+                    <main>
+                        <CharactersHero />
+                        <CharacterList />
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
