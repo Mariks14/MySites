@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Neumorphism Universe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .cosmic-bg {
+                background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%);
+            }
+            
+            .neumorphic-panel {
+                border-radius: 20px;
+                background: linear-gradient(145deg, #233076, #1b2665);
+                box-shadow: 
+                    12px 12px 24px #131c4d,
+                    -12px -12px 24px #2b3c8f,
+                    inset 2px 2px 4px rgba(255, 255, 255, 0.1),
+                    inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+            }
+            
+            .neumorphic-button {
+                border-radius: 15px;
+                background: linear-gradient(145deg, #233076, #1b2665);
+                box-shadow: 
+                    8px 8px 16px #131c4d,
+                    -8px -8px 16px #2b3c8f;
+                transition: all 0.3s ease;
+            }
+            
+            .neumorphic-button:hover {
+                box-shadow: 
+                    4px 4px 8px #131c4d,
+                    -4px -4px 8px #2b3c8f,
+                    inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+                    inset -2px -2px 4px rgba(255, 255, 255, 0.1);
+            }
+            
+            .neumorphic-button:active {
+                box-shadow: 
+                    inset 4px 4px 8px #131c4d,
+                    inset -4px -4px 8px #2b3c8f;
+            }
+            
+            .neumorphic-slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: linear-gradient(145deg, #a78bfa, #8b5cf6);
+                box-shadow: 
+                    4px 4px 8px #131c4d,
+                    -4px -4px 8px #2b3c8f;
+                cursor: pointer;
+            }
+            
+            .star {
+                position: fixed;
+                background-color: white;
+                border-radius: 50%;
+                animation: twinkle var(--duration) infinite ease-in-out;
+                opacity: 0;
+            }
+            
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.2; }
+                50% { opacity: 1; }
+            }
+            
+            .clock-face {
+                background: radial-gradient(circle, #1e3a8a 0%, #4c1d95 100%);
+                box-shadow: 
+                    8px 8px 16px #131c4d,
+                    -8px -8px 16px #2b3c8f,
+                    inset 2px 2px 8px rgba(255, 255, 255, 0.1),
+                    inset -2px -2px 8px rgba(0, 0, 0, 0.3);
+            }
+            
+            .hour-hand, .minute-hand, .second-hand {
+                transform-origin: bottom center;
+                box-shadow: 0 0 8px rgba(165, 180, 252, 0.7);
+            }
+            
+            .hour-hand { background: linear-gradient(to top, #a78bfa, #8b5cf6); }
+            .minute-hand { background: linear-gradient(to top, #818cf8, #6366f1); }
+            .second-hand { background: linear-gradient(to top, #f472b6, #ec4899); }
+            
+            .clock-center {
+                background: linear-gradient(145deg, #ec4899, #f472b6);
+                box-shadow: 0 0 8px rgba(236, 72, 153, 0.8);
+            }
+            
+            .game-masthead {
+                background: linear-gradient(45deg, #4c1d95 30%, #1e3a8a 70%);
+                box-shadow: 
+                    0 10px 25px -5px rgba(0, 0, 0, 0.5),
+                    inset 0 -2px 15px rgba(255, 255, 255, 0.05);
+            }
+            
+            /* Custom scrollbar */
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+            }
+            
+            ::-webkit-scrollbar-track {
+                background: #1b2665;
+                border-radius: 10px;
+            }
+            
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(145deg, #8b5cf6, #6366f1);
+                border-radius: 10px;
+                box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(145deg, #a78bfa, #818cf8);
+            }
+            
+            .scrolling-container {
+                max-height: calc(100vh - 140px);
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                padding-right: 8px;
+            }
+            
+            /* Pulse effect for scroll indicator */
+            .scroll-indicator {
+                animation: pulse 2s infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 0.6; }
+                50% { opacity: 1; }
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="cosmic-bg min-h-screen text-gray-100 font-sans p-4 relative overflow-hidden">
+    <!-- Twinkling stars background -->
+    <div id="stars"></div>
+    
+    <!-- Scroll indicator -->
+    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-10 scroll-indicator">
+        <div class="text-center text-purple-300 animate-bounce">
+            <i class="fas fa-chevron-down text-xl"></i>
+            <div class="text-xs mt-1">SCROLL TO EXPLORE</div>
+        </div>
+    </div>
+    
+    <!-- Main scrolling container -->
+    <div class="scrolling-container mx-auto">
+        <!-- Game Masthead -->
+        <div class="game-masthead rounded-xl p-4 mb-6 text-center border-b-2 border-purple-900">
+            <h1 class="text-4xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-blue-400">COSMIC ODYSSEY</h1>
+            <p class="text-purple-200 mt-2">Navigate the cosmic interface</p>
+        </div>
+        
+        <!-- Content sections -->
+        <div class="space-y-8 max-w-6xl mx-auto">
+            <!-- First row panels -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Control Panel -->
+                <div class="neumorphic-panel p-6 col-span-1">
+                    <h2 class="text-xl font-semibold mb-4 text-purple-200">CONTROL PANEL</h2>
+                    
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm text-purple-300 mb-2">Navigation</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button class="neumorphic-button py-3" title="Up">
+                                    <i class="fas fa-arrow-up text-purple-300"></i>
+                                </button>
+                                <button class="neumorphic-button py-3" title="Left">
+                                    <i class="fas fa-arrow-left text-purple-300"></i>
+                                </button>
+                                <button class="neumorphic-button py-3 col-span-1" title="Action">
+                                    <i class="fas fa-bolt text-yellow-300"></i>
+                                </button>
+                                <button class="neumorphic-button py-3" title="Right">
+                                    <i class="fas fa-arrow-right text-purple-300"></i>
+                                </button>
+                                <button class="neumorphic-button py-3" title="Down">
+                                    <i class="fas fa-arrow-down text-purple-300"></i>
+                                </button>
+                                <button class="neumorphic-button py-3" title="Menu">
+                                    <i class="fas fa-bars text-purple-300"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-purple-300 mb-2">Thrusters</label>
+                            <div class="flex space-x-3">
+                                <button class="neumorphic-button px-4 py-2 flex-1 text-center">
+                                    <span class="text-xs text-purple-300">ENGAGE</span>
+                                </button>
+                                <button class="neumorphic-button px-4 py-2 flex-1 text-center">
+                                    <span class="text-xs text-purple-300">DISENGAGE</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-purple-300 mb-2">Power Level <span id="powerValue">75</span>%</label>
+                            <input type="range" min="0" max="100" value="75" 
+                                   class="neumorphic-slider w-full h-2 rounded-lg appearance-none bg-gray-800 outline-none" 
+                                   id="powerSlider">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm text-purple-300 mb-2">Shield Frequency</label>
+                            <div class="grid grid-cols-5 gap-2">
+                                <button class="neumorphic-button aspect-square flex items-center justify-center bg-purple-900/50">
+                                    <span class="text-xs text-purple-300">α</span>
+                                </button>
+                                <button class="neumorphic-button aspect-square flex items-center justify-center">
+                                    <span class="text-xs text-purple-300">β</span>
+                                </button>
+                                <button class="neumorphic-button aspect-square flex items-center justify-center">
+                                    <span class="text-xs text-purple-300">γ</span>
+                                </button>
+                                <button class="neumorphic-button aspect-square flex items-center justify-center">
+                                    <span class="text-xs text-purple-300">δ</span>
+                                </button>
+                                <button class="neumorphic-button aspect-square flex items-center justify-center">
+                                    <span class="text-xs text-purple-300">ε</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Clock Panel -->
+                <div class="neumorphic-panel p-6 flex flex-col items-center justify-center">
+                    <h2 class="text-xl font-semibold mb-4 text-purple-200">STAR TIME</h2>
+                    
+                    <div class="clock-face w-48 h-48 rounded-full relative flex items-center justify-center mb-4">
+                        <!-- Clock markings -->
+                        <div class="absolute w-full h-full">
+                            <!-- Hour markings -->
+                            <div v-for="i in 12" :key="i" class="absolute w-1 h-3 bg-purple-300 rounded-full" 
+                                 style="transform-origin: 50% 96px; left: 95px; top: 10px;" 
+                                 v-bind:style="{ transform: 'rotate(' + (i * 30) + 'deg)' }"></div>
+                            
+                            <!-- Clock hands -->
+                            <div class="absolute top-1/2 left-1/2 w-1 h-16 bg-purple-200 rounded-full -ml-0.5 -mt-16 hour-hand" id="hour-hand"></div>
+                            <div class="absolute top-1/2 left-1/2 w-0.5 h-24 bg-blue-300 rounded-full -ml-0.25 -mt-24 minute-hand" id="minute-hand"></div>
+                            <div class="absolute top-1/2 left-1/2 w-0.5 h-28 bg-pink-300 rounded-full -ml-0.25 -mt-28 second-hand" id="second-hand"></div>
+                            
+                            <!-- Center dot -->
+                            <div class="absolute top-1/2 left-1/2 w-3 h-3 rounded-full -ml-1.5 -mt-1.5 clock-center"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-2xl font-mono mb-1" id="digital-time">00:00:00</div>
+                        <div class="text-sm text-purple-300" id="date-display">STAR DATE 0000.00</div>
+                    </div>
+                </div>
+                
+                <!-- Status Panel -->
+                <div class="neumorphic-panel p-6">
+                    <h2 class="text-xl font-semibold mb-4 text-purple-200">SHIP STATUS</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs text-purple-300 mb-1">
+                                <span>Hull Integrity</span>
+                                <span id="hullValue">87%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs text-purple-300 mb-1">
+                                <span>Shield Strength</span>
+                                <span id="shieldValue">64%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 64%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs text-purple-300 mb-1">
+                                <span>Warp Core</span>
+                                <span id="coreValue">92%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-pink-500 h-2 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-purple-900/50 mt-4">
+                            <div class="grid grid-cols-3 gap-2 text-center">
+                                <div>
+                                    <div class="neumorphic-panel p-2 rounded-lg">
+                                        <div class="text-2xl font-mono">0.97</div>
+                                        <div class="text-xs text-purple-300 mt-1">GRAVITY</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="neumorphic-panel p-2 rounded-lg">
+                                        <div class="text-2xl font-mono">22°C</div>
+                                        <div class="text-xs text-purple-300 mt-1">TEMP</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="neumorphic-panel p-2 rounded-lg">
+                                        <div class="text-2xl font-mono">1.03</div>
+                                        <div class="text-xs text-purple-300 mt-1">ATMOS</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-4">
+                            <button class="neumorphic-button w-full py-3 flex items-center justify-center space-x-2">
+                                <i class="fas fa-rocket text-purple-300"></i>
+                                <span class="text-sm">INITIATE WARP DRIVE</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scanner Panel -->
+            <div class="neumorphic-panel p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-purple-200">SCANNER ARRAY</h2>
+                    <div class="flex space-x-2">
+                        <button class="neumorphic-button px-3 py-1 text-xs">GRID</button>
+                        <button class="neumorphic-button px-3 py-1 text-xs">RADAR</button>
+                        <button class="neumorphic-button px-3 py-1 text-xs bg-purple-900/50">LIDAR</button>
+                        <button class="neumorphic-button px-3 py-1 text-xs">SONAR</button>
+                    </div>
+                </div>
+                
+                <div class="bg-black/30 rounded-lg p-4 h-48 relative overflow-hidden">
+                    <!-- Scanner visualization -->
+                    <div id="scanner-visualization" class="w-full h-full relative">
+                        <!-- This would show a radar-like visualization with pulsing circles -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500/30" style="width: 80%; height: 80%;"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500/30" style="width: 60%; height: 60%;"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500/30" style="width: 40%; height: 40%;"></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-500/30" style="width: 20%; height: 20%;"></div>
+                        
+                        <!-- Scanner sweep -->
+                        <div class="absolute top-1/2 left-1/2 w-1/2 h-1 origin-left transform -translate-y-1/2" id="scanner-sweep">
+                            <div class="w-full h-0.5 bg-purple-400/70" style="box-shadow: 0 0 10px 2px rgba(167, 139, 250, 0.5);"></div>
+                        </div>
+                        
+                        <!-- Random blips -->
+                        <div class="absolute w-2 h-2 rounded-full bg-purple-400" style="top: 30%; left: 25%;"></div>
+                        <div class="absolute w-3 h-3 rounded-full bg-blue-400" style="top: 60%; left: 70%;"></div>
+                        <div class="absolute w-2 h-2 rounded-full bg-pink-400" style="top: 20%; left: 50%;"></div>
+                    </div>
+                    
+                    <div class="absolute bottom-2 right-2 text-xs text-purple-300">
+                        <span>ACTIVE SCAN: 78% COMPLETE</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    <div class="bg-black/20 rounded p-2 text-center">
+                        <div class="text-white font-mono">0.0045</div>
+                        <div class="text-xs text-purple-300">LY DISTANCE</div>
+                    </div>
+                    <div class="bg-black/20 rounded p-2 text-center">
+                        <div class="text-white font-mono">1.45</div>
+                        <div class="text-xs text-purple-300">SOLAR MASS</div>
+                    </div>
+                    <div class="bg-black/20 rounded p-2 text-center">
+                        <div class="text-white font-mono">G2V</div>
+                        <div class="text-xs text-purple-300">STAR CLASS</div>
+                    </div>
+                    <div class="bg-black/20 rounded p-2 text-center">
+                        <div class="text-white font-mono">3</div>
+                        <div class="text-xs text-purple-300">PLANETS</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional content sections for scrolling -->
+            <div class="neumorphic-panel p-6">
+                <h2 class="text-xl font-semibold mb-4 text-purple-200">STAR CHART</h2>
+                <div class="bg-black/20 rounded-lg h-64 relative overflow-hidden">
+                    <div class="absolute inset-0 grid grid-cols-12 grid-rows-12 gap-1 p-2">
+                        <!-- Generate star chart grid -->
+                        <template x-for="i in 144">
+                            <div class="border border-purple-900/30 rounded-sm relative">
+                                <div x-show="Math.random() > 0.8" class="absolute top-1/2 left-1/2 w-1 h-1 bg-purple-400 rounded-full -translate-x-1/2 -translate-y-1/2" style="box-shadow: 0 0 4px 1px rgba(167, 139, 250, 0.5);"></div>
+                                <div x-show="Math.random() > 0.95" class="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2" style="box-shadow: 0 0 6px 1px rgba(99, 102, 241, 0.5);"></div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="absolute top-2 left-2 flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-purple-400 mr-2" style="box-shadow: 0 0 4px 1px rgba(167, 139, 250, 0.5);"></div>
+                        <span class="text-xs text-purple-300">STAR SYSTEMS</span>
+                    </div>
+                    <div class="absolute bottom-2 left-2 text-xs text-purple-300">
+                        CURRENT SECTOR: QRT-4587
+                    </div>
+                </div>
+            </div>
+            
+            <div class="neumorphic-panel p-6">
+                <h2 class="text-xl font-semibold mb-4 text-purple-200">COMMUNICATIONS</h2>
+                <div class="bg-black/20 rounded-lg h-48 p-4 overflow-y-auto space-y-3">
+                    <div class="flex items-start">
+                        <div class="w-2 h-2 rounded-full bg-blue-400 mt-1.5 mr-2 flex-shrink-0"></div>
+                        <div>
+                            <div class="text-xs text-blue-300">COMMS OFFICER (12:45:32)</div>
+                            <div class="text-sm">Receiving transmission from Starbase Gamma-9. Audio quality stable at 94%.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-2 h-2 rounded-full bg-purple-400 mt-1.5 mr-2 flex-shrink-0"></div>
+                        <div>
+                            <div class="text-xs text-purple-300">SCIENCE OFFICER (12:47:18)</div>
+                            <div class="text-sm">Scans complete. Three planetary bodies detected in orbit around G2V class star.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-2 h-2 rounded-full bg-pink-400 mt-1.5 mr-2 flex-shrink-0"></div>
+                        <div>
+                            <div class="text-xs text-pink-300">ENGINEERING (12:49:05)</div>
+                            <div class="text-sm">Warp core operating within normal parameters. Power fluctuation detected in port nacelle.</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-2 h-2 rounded-full bg-blue-400 mt-1.5 mr-2 flex-shrink-0"></div>
+                        <div>
+                            <div class="text-xs text-blue-300">COMMS OFFICER (12:51:47)</div>
+                            <div class="text-sm">Receiving response from Starbase Gamma-9. Supplies confirmed for delivery at next rendezvous.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex">
+                    <input type="text" class="neumorphic-panel flex-1 px-4 py-2 rounded-l-lg bg-gray-900/50 border-none focus:ring-2 focus:ring-purple-500" placeholder="Enter message...">
+                    <button class="neumorphic-button px-4 py-2 rounded-r-lg">
+                        <i class="fas fa-paper-plane text-purple-300"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Bottom spacing to ensure content scrolls fully into view -->
+            <div class="h-20"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create twinkling stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random size between 1-3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration
+                star.style.setProperty('--duration', `${Math.random() * 5 + 3}s`);
+                
+                // Random delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            
+            // Digital clock
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('digital-time').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Analog clock
+            const hourDeg = (now.getHours() % 12) * 30 + (now.getMinutes() / 2);
+            const minDeg = now.getMinutes() * 6;
+            const secDeg = now.getSeconds() * 6;
+            
+            document.getElementById('hour-hand').style.transform = `rotate(${hourDeg}deg)`;
+            document.getElementById('minute-hand').style.transform = `rotate(${minDeg}deg)`;
+            document.getElementById('second-hand').style.transform = `rotate(${secDeg}deg)`;
+            
+            // Star date (just a fun representation)
+            const starDate = now.getFullYear() + (now.getMonth() + now.getDate() / 30) / 12;
+            document.getElementById('date-display').textContent = `STAR DATE ${starDate.toFixed(2)}`;
+        }
+        
+        // Animate scanner
+        function animateScanner() {
+            let angle = 0;
+            const scannerSweep = document.getElementById('scanner-sweep');
+            
+            setInterval(() => {
+                angle = (angle + 2) % 360;
+                scannerSweep.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            }, 50);
+        }
+        
+        // Update slider value display
+        document.getElementById('powerSlider').addEventListener('input', function() {
+            document.getElementById('powerValue').textContent = this.value;
+        });
+        
+        // Hide scroll indicator when scrolling
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const scrollingContainer = document.querySelector('.scrolling-container');
+        
+        scrollingContainer.addEventListener('scroll', function() {
+            if (this.scrollTop > 20) {
+                scrollIndicator.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            } else {
+                scrollIndicator.classList.remove('opacity-0');
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            updateClock();
+            animateScanner();
+            
+            // Update clock every second
+            setInterval(updateClock, 1000);
+            
+            // Dynamic status updates (just for demo)
+            setInterval(() => {
+                // Simulate minor fluctuations in ship status
+                const hull = 87 + Math.floor(Math.random() * 6 - 3);
+                const shield = 64 + Math.floor(Math.random() * 8 - 4);
+                const core = 92 + Math.floor(Math.random() * 4 - 2);
+                
+                document.getElementById('hullValue').textContent = `${Math.max(0, Math.min(100, hull))}%`;
+                document.getElementById('shieldValue').textContent = `${Math.max(0, Math.min(100, shield))}%`;
+                document.getElementById('coreValue').textContent = `${Math.max(0, Math.min(100, core))}%`;
+                
+                document.querySelector('.bg-purple-500').style.width = `${hull}%`;
+                document.querySelector('.bg-blue-500').style.width = `${shield}%`;
+                document.querySelector('.bg-pink-500').style.width = `${core}%`;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

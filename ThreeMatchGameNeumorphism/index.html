@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Match‑3 Neumorphism + Ads</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <!-- Phaser -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+
+  <!-- Yandex Games SDK -->
+  <!-- Yandex Games SDK: обязательно async defer -->
+  <!-- <script async src="/sdk.js" onload="initSDK()"></script> -->
+  <script src="https://sdk.games.s3.yandex.net/sdk.js" async defer></script>
+   
+
+  <!-- <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.YaGames) {
+        YaGames.init()
+          .then(ysdk => {
+            console.log('Yandex SDK initialized');
+            window.ysdk = ysdk;
+          })
+          .catch(err => console.error('Yandex SDK init error', err));
+      } else {
+        console.error('YaGames is not defined — проверьте подключение SDK');
+      }
+    });
+  </script> -->
+
+  <script>
+    YaGames
+    .init()
+    .then(ysdk => {
+        console.log('Yandex SDK initialized');
+        window.ysdk = ysdk;
+    });
+  </script>
+
+  <style>
+    body { margin:0; overflow:hidden; background:#e0e5ec; font-family:sans-serif; }
+    #bg { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+    #gameCanvas { width: 90vw; height: 75vh; }
+    #gameCanvas canvas {
+      margin:auto; display:block;
+      box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #fff;
+      border-radius:20px;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-start min-h-screen pt-10 pb-10">
+
+  <canvas id="bg"></canvas>
+
+  <div class="flex space-x-4 mb-6">
+    <button id="helpBtn"
+      class="px-4 py-2 bg-[#e0e5ec] shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]
+             rounded-2xl font-medium hover:shadow-none transition">Hint</button>
+  </div>
+
+  <div
+    class="bg-[#e0e5ec] shadow-[inset_8px_8px_15px_#a3b1c6,inset_-8px_-8px_15px_#ffffff]
+           rounded-2xl p-6 text-center mb-6 max-w-md w-full">
+    <h1 class="text-3xl font-bold mb-2">🍭 Match‑3 Neumorphism</h1>
+    <div id="score" class="text-xl font-semibold mb-1">Score: 0</div>
+    <div id="level" class="text-lg text-gray-600">Level: 1 / Target: 100</div>
+  </div>
+
+  <div id="gameCanvas"></div>
+
+  <div id="overlay" class="fixed inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.3)] z-50 invisible">
+    <div class="bg-[#e0e5ec] shadow-[inset_8px_8px_15px_#a3b1c6,inset_-8px_-8px_15px_#ffffff]
+                rounded-2xl p-8 text-center space-y-4">
+      <h2 class="text-2xl font-bold">Game Over</h2>
+      <div class="space-x-4">
+        <button id="restartBtn"
+          class="px-4 py-2 bg-[#e0e5ec] shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff]
+                 rounded-2xl font-medium hover:shadow-none transition">Restart</button>
+        <button id="continueBtn"
+          class="px-4 py-2 bg-[#e0e5ec] shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff]
+                 rounded-2xl font-medium hover:shadow-none transition">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // === Three.js background ===
+  function initBackground() {
+    const canvas = document.getElementById('bg'),
+          renderer = new THREE.WebGLRenderer({canvas,antialias:true});
+    renderer.setSize(innerWidth,innerHeight);
+    const scene = new THREE.Scene(),
+          camera = new THREE.PerspectiveCamera(75,innerWidth/innerHeight,1,4000);
+    camera.position.z = 1000;
+    const geom = new THREE.BufferGeometry(),
+          verts = new Float32Array(60000);
+    for (let i = 0; i < 60000; i++) verts[i] = (Math.random()-0.5)*2000;
+    geom.setAttribute('position', new THREE.BufferAttribute(verts,3));
+    scene.add(new THREE.Points(geom, new THREE.PointsMaterial({color:0xffffff,size:2})));
+    (function anim(){
+      scene.children[0].rotation.x += 0.0005;
+      scene.children[0].rotation.y += 0.0005;
+      renderer.render(scene, camera);
+      requestAnimationFrame(anim);
+    })();
+    window.addEventListener('resize',()=>{
+      renderer.setSize(innerWidth,innerHeight);
+      camera.aspect = innerWidth/innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  }
+  initBackground();
+
+  // === Game params ===
+  const tileSize = 64,
+        maxLevel = 50;
+  let level = 1,
+      board = [],
+      score = 0,
+      canInteract = true,
+      selected = null,
+      phaserGame,
+      hintTiles = [];
+
+  function getSettings(l) {
+    const sw = window.innerWidth;
+    const growLimit = sw < 600 ? 4 : 8;
+    const gridL = Math.min(l, growLimit);
+    return {
+      rows: 5 + gridL,
+      cols: 5 + gridL,
+      types: ['🍎','🍋','🍇','🍒','🥝','🍊','🍍','🍓','🥥','🫐'].slice(0, 4 + gridL),
+      target: l * 100 // снижено до 100 * level
+    };
+  }
+
+  function startLevel(l, keepScore = false) {
+    const { rows, cols, types, target } = getSettings(l);
+
+    if (phaserGame) {
+      phaserGame.destroy(true);
+      document.getElementById('gameCanvas').innerHTML = '';
+    }
+    if (!keepScore) score = 0;
+    board = []; canInteract = true; selected = null;
+    document.getElementById('score').innerText = 'Score: ' + score;
+    document.getElementById('level').innerText = `Level: ${l} / Target: ${target}`;
+
+    phaserGame = new Phaser.Game({
+      type: Phaser.AUTO,
+      width: cols * tileSize,
+      height: rows * tileSize,
+      parent: 'gameCanvas',
+      backgroundColor: '#e0e5ec',
+      scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+      scene: {
+        preload() {},
+        create() {
+          const gfx = this.make.graphics({ add:false });
+          gfx.fillStyle(0xffffff,1);
+          gfx.fillCircle(4,4,4);
+          gfx.generateTexture('particle', 8, 8);
+          for (let r = 0; r < rows; r++) {
+            board[r] = [];
+            for (let c = 0; c < cols; c++) {
+              board[r][c] = spawn(this, c, r, types);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function spawn(scene, c, r, types) {
+    const x = c*tileSize + tileSize/2,
+          y = r*tileSize + tileSize/2;
+    const idx = Phaser.Math.Between(0, types.length-1);
+    const t = scene.add.text(x, y, types[idx], { fontSize:'32px', fontFamily:'Arial' }).setOrigin(0.5);
+    t.type = idx; t.row = r; t.col = c;
+    t.setInteractive().on('pointerdown', () => click(scene, t));
+    return t;
+  }
+
+  function click(scene, tile) {
+    if (!canInteract) return;
+    clearHint();
+    if (!selected) { selected = tile; tile.setScale(1.2); return; }
+    const dist = Math.abs(tile.col - selected.col) + Math.abs(tile.row - selected.row);
+    if (dist === 1) {
+      selected.setScale(1); canInteract = false;
+      swap(scene, selected, tile, true);
+    } else { selected.setScale(1); selected = tile; tile.setScale(1.2); }
+  }
+
+  function swap(scene, t1, t2, allowRevert) {
+    board[t1.row][t1.col] = t2; board[t2.row][t2.col] = t1;
+    [t1.row, t2.row] = [t2.row, t1.row];
+    [t1.col, t2.col] = [t2.col, t1.col];
+
+    scene.tweens.add({ targets: t1, x: t1.col*tileSize+tileSize/2, y: t1.row*tileSize+tileSize/2, duration:200 });
+    scene.tweens.add({
+      targets: t2,
+      x: t2.col*tileSize+tileSize/2, y: t2.row*tileSize+tileSize/2, duration:200,
+      onComplete: () => {
+        const m = getMatches();
+        if (m.length === 0 && allowRevert) swap(scene, t1, t2, false);
+        else if (m.length) clearMatches(scene, m);
+        else { canInteract = true; selected = null; checkGameOver(); }
+      }
+    });
+  }
+
+  function getMatches() {
+    const { rows, cols } = getSettings(level);
+    let out = [];
+    for (let r = 0; r < rows; r++) {
+      let cnt = 1;
+      for (let c = 1; c < cols; c++) {
+        if (board[r][c] && board[r][c-1] && board[r][c].type === board[r][c-1].type) cnt++;
+        else { if (cnt >= 3) for (let k = c-cnt; k < c; k++) out.push([r,k]); cnt = 1; }
+      }
+      if (cnt >= 3) for (let k = cols-cnt; k < cols; k++) out.push([r,k]);
+    }
+    for (let c = 0; c < cols; c++) {
+      let cnt = 1;
+      for (let r = 1; r < rows; r++) {
+        if (board[r][c] && board[r-1][c] && board[r][c].type === board[r-1][c].type) cnt++;
+        else { if (cnt >= 3) for (let k = r-cnt; k < r; k++) out.push([k,c]); cnt = 1; }
+      }
+      if (cnt >= 3) for (let k = rows-cnt; k < rows; k++) out.push([k,c]);
+    }
+    return out.filter((v,i,a)=>a.findIndex(x=>x[0]===v[0]&&x[1]===v[1])===i);
+  }
+
+  function clearMatches(scene, list) {
+    const { target } = getSettings(level);
+    list.forEach(([r,c]) => {
+      const tile = board[r][c];
+      const px = tile.x, py = tile.y;
+      const emitter = scene.add.particles('particle').createEmitter({
+        x: px, y: py,
+        speed: { min:-200, max:200 },
+        scale: { start:1, end:0 },
+        lifespan: 500,
+        quantity: 8
+      });
+      scene.time.delayedCall(500, ()=> emitter.manager.destroy());
+
+      tile.destroy(); board[r][c] = null; score++;
+    });
+    document.getElementById('score').innerText = 'Score: ' + score;
+
+    if (score >= target) {
+      setTimeout(()=>{
+        if (level < maxLevel) { alert(`🎉 Level ${level} complete!`); level++; startLevel(level, false); }
+        else { alert('🏆 All levels done!'); }
+      }, 300);
+    } else scene.time.delayedCall(300, ()=> dropAndFill(scene));
+  }
+
+  function dropAndFill(scene) {
+    const { rows, cols } = getSettings(level);
+    for (let c = 0; c < cols; c++) {
+      let gap = 0;
+      for (let r = rows-1; r >= 0; r--) {
+        if (!board[r][c]) gap++;
+        else if (gap) {
+          const t = board[r][c]; board[r+gap][c] = t; board[r][c] = null;
+          t.row = r+gap;
+          scene.tweens.add({targets:t, y:(r+gap)*tileSize+tileSize/2, duration:200});
+        }
+      }
+      for (let i = 0; i < gap; i++) {
+        const t = spawn(scene, c, -1, getSettings(level).types);
+        board[i][c] = t; t.row = i; t.col = c; t.y = -tileSize;
+        scene.tweens.add({targets:t, y:i*tileSize+tileSize/2, duration:300});
+      }
+    }
+    scene.time.delayedCall(350, ()=> {
+      const m2 = getMatches();
+      if (m2.length) clearMatches(scene, m2);
+      else { canInteract = true; selected = null; checkGameOver(); }
+    });
+  }
+
+  function findHint() {
+    const { rows, cols } = getSettings(level);
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      for (let [dr,dc] of [[1,0],[0,1]]) {
+        const nr = r+dr, nc = c+dc;
+        if (nr<rows && nc<cols) {
+          [board[r][c], board[nr][nc]] = [board[nr][nc], board[r][c]];
+          const m = getMatches();
+          [board[r][c], board[nr][nc]] = [board[nr][nc], board[r][c]];
+          if (m.length) return [[r,c],[nr,nc]];
+        }
+      }
+    }
+    return null;
+  }
+
+  function showHint() {
+    clearHint();
+    const p = findHint(); if (!p) return;
+    p.forEach(([r,c]) => { const t = board[r][c]; t.setScale(1.2); hintTiles.push(t); });
+    setTimeout(clearHint, 1000);
+  }
+  function clearHint() { hintTiles.forEach(t=>t.setScale(1)); hintTiles=[]; }
+  function checkGameOver() {
+    if (!findHint()) {
+      document.getElementById('overlay').classList.replace('invisible','visible');
+      canInteract = false;
+    }
+  }
+
+  function restartGame() {
+    document.getElementById('overlay').classList.replace('visible','invisible');
+    level = 1; startLevel(level, false);
+  }
+  function continueGame() {
+    document.getElementById('overlay').classList.replace('visible','invisible');
+    canInteract = true; startLevel(level, true);
+  }
+
+  // кнопки с рекламой
+  document.getElementById('helpBtn').onclick = () => {
+    if (!canInteract) return;
+    if (window.ysdk) {
+        YaGames.init().then(ysdk.adv.showFullscreenAdv({ callbacks: { onClose: ()=> showHint() } }));
+    } else showHint();
+  };
+
+  document.getElementById('restartBtn').onclick = () => {
+    if (window.ysdk) {
+        YaGames.init().then(ysdk.adv.showFullscreenAdv({ callbacks: { onClose: ()=> restartGame() } }));
+    } else restartGame();
+  };
+  document.getElementById('continueBtn').onclick = () => {
+    if (window.ysdk) {
+        YaGames.init().then(ysdk.adv.showRewardedVideo({ callbacks: { onRewarded: ()=> continueGame(), onClose: ()=> continueGame() } }));
+    } else continueGame();
+  };
+
+  // initial
+  startLevel(level, false);
+  </script>
+</body>
+</html>
