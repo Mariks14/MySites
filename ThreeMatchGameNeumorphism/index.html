@@ -4,18 +4,23 @@
   <meta charset="UTF-8" />
   <title>Match‑3 Neumorphism + Ads</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- ✅ CSP: Разрешаем нужные скрипты -->
+  
 
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/tailwind.min.css" />
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="js/three.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script> -->
   <!-- Phaser -->
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+  <script src="js/phaser.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script> -->
 
   <!-- Yandex Games SDK -->
   <!-- Yandex Games SDK: обязательно async defer -->
   <!-- <script async src="/sdk.js" onload="initSDK()"></script> -->
-  <script src="https://sdk.games.s3.yandex.net/sdk.js" async defer></script>
+  <script src="/sdk.js"></script>
    
 
   <!-- <script>
@@ -33,14 +38,7 @@
     });
   </script> -->
 
-  <script>
-    YaGames
-    .init()
-    .then(ysdk => {
-        console.log('Yandex SDK initialized');
-        window.ysdk = ysdk;
-    });
-  </script>
+  
 
   <style>
     body { margin:0; overflow:hidden; background:#e0e5ec; font-family:sans-serif; }
@@ -87,6 +85,14 @@
       </div>
     </div>
   </div>
+  <script>
+    YaGames
+    .init()
+    .then(ysdk => {
+        console.log('Yandex SDK initialized');
+        window.ysdk = ysdk;
+    });
+  </script>
 
   <script>
   // === Three.js background ===
@@ -165,6 +171,7 @@
           gfx.fillStyle(0xffffff,1);
           gfx.fillCircle(4,4,4);
           gfx.generateTexture('particle', 8, 8);
+          gfx.destroy();
           for (let r = 0; r < rows; r++) {
             board[r] = [];
             for (let c = 0; c < cols; c++) {
@@ -237,30 +244,81 @@
     return out.filter((v,i,a)=>a.findIndex(x=>x[0]===v[0]&&x[1]===v[1])===i);
   }
 
+ 
+
+  function explodeAt(scene, x, y) {
+    for (let i = 0; i < 30; i++) {
+      const particle = scene.add.image(x, y, 'particle');
+      
+      const angle = Phaser.Math.FloatBetween(0, 2 * Math.PI);
+      const speed = Phaser.Math.FloatBetween(50, 150);
+      
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+
+      scene.tweens.add({
+        targets: particle,
+        x: x + vx,
+        y: y + vy,
+        alpha: 0,
+        duration: 600,
+        ease: 'power2',
+        onComplete: () => particle.destroy()
+      });
+    }
+  }
+
   function clearMatches(scene, list) {
     const { target } = getSettings(level);
-    list.forEach(([r,c]) => {
+
+    list.forEach(([r, c]) => {
       const tile = board[r][c];
       const px = tile.x, py = tile.y;
-      const emitter = scene.add.particles('particle').createEmitter({
-        x: px, y: py,
-        speed: { min:-200, max:200 },
-        scale: { start:1, end:0 },
-        lifespan: 500,
-        quantity: 8
-      });
-      scene.time.delayedCall(500, ()=> emitter.manager.destroy());
 
-      tile.destroy(); board[r][c] = null; score++;
+      // 💥 Создаём взрыв из 30 цветных частиц
+      for (let i = 0; i < 30; i++) {
+        const particle = scene.add.image(px, py, 'particle');
+        particle.setTint(Phaser.Display.Color.RandomRGB().color); // 🎨 случайный цвет
+
+        const angle = Phaser.Math.FloatBetween(0, 2 * Math.PI);
+        const speed = Phaser.Math.FloatBetween(50, 150);
+
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+
+        scene.tweens.add({
+          targets: particle,
+          x: px + vx,
+          y: py + vy,
+          alpha: 0,
+          scale: { from: 1, to: 0 },
+          duration: 600,
+          ease: 'power2',
+          onComplete: () => particle.destroy()
+        });
+      }
+
+      // Удаляем тайл
+      tile.destroy();
+      board[r][c] = null;
+      score++;
     });
+
     document.getElementById('score').innerText = 'Score: ' + score;
 
     if (score >= target) {
-      setTimeout(()=>{
-        if (level < maxLevel) { alert(`🎉 Level ${level} complete!`); level++; startLevel(level, false); }
-        else { alert('🏆 All levels done!'); }
+      setTimeout(() => {
+        if (level < maxLevel) {
+          alert(`🎉 Level ${level} complete!`);
+          level++;
+          startLevel(level, false);
+        } else {
+          alert('🏆 All levels done!');
+        }
       }, 300);
-    } else scene.time.delayedCall(300, ()=> dropAndFill(scene));
+    } else {
+      scene.time.delayedCall(300, () => dropAndFill(scene));
+    }
   }
 
   function dropAndFill(scene) {
