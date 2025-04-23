@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo Match - Three in a Row</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e0e5ec;
+            overflow: hidden;
+        }
+        
+        .neo-card {
+            border-radius: 20px;
+            background: #e0e5ec;
+            box-shadow:  8px 8px 15px #b8b9be, 
+                        -8px -8px 15px #ffffff;
+        }
+        
+        .neo-btn {
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow:  5px 5px 10px #b8b9be, 
+                        -5px -5px 10px #ffffff;
+            transition: all 0.2s ease;
+        }
+        
+        .neo-btn:active {
+            box-shadow: inset 5px 5px 10px #b8b9be, 
+                        inset -5px -5px 10px #ffffff;
+        }
+        
+        .neo-btn-red {
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow:  5px 5px 10px #b8b9be, 
+                        -5px -5px 10px #ffffff;
+            transition: all 0.2s ease;
+            color: #ef4444;
+            font-weight: 500;
+        }
+        
+        .neo-btn-red:active {
+            box-shadow: inset 5px 5px 10px #b8b9be, 
+                        inset -5px -5px 10px #ffffff;
+        }
+        
+        .tile {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #e0e5ec;
+            box-shadow:  5px 5px 10px #b8b9be, 
+                        -5px -5px 10px #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tile.selected {
+            box-shadow: inset 5px 5px 10px #b8b9be, 
+                        inset -5px -5px 10px #ffffff;
+        }
+        
+        .tile.hint {
+            animation: hintPulse 1.5s infinite;
+        }
+        
+        .tile.moving {
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        @keyframes hintPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .tile .symbol {
+            font-size: 28px;
+            font-weight: 600;
+            user-select: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .tile .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        .level-up {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4a5568;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .level-up.active {
+            opacity: 1;
+            animation: levelUp 1.5s ease-out;
+        }
+        
+        @keyframes levelUp {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: #e0e5ec;
+            box-shadow: inset 3px 3px 6px #b8b9be, 
+                        inset -3px -3px 6px #ffffff;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .game-over {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-over.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .game-over-content {
+            background: #e0e5ec;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow:  8px 8px 15px rgba(0,0,0,0.2), 
+                        -8px -8px 15px rgba(255,255,255,0.1);
+            max-width: 300px;
+            width: 90%;
+        }
+        
+        .game-over h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+        
+        .game-over p {
+            margin-bottom: 1.5rem;
+            color: #4a5568;
+        }
+        
+        .game-over-btn {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 0.5rem;
+        }
+        
+        .game-over-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .stats-panel {
+            margin-left: 2rem;
+            width: 250px;
+        }
+        
+        .stats-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #e0e5ec;
+            box-shadow:  8px 8px 15px #b8b9be, 
+                        -8px -8px 15px #ffffff;
+        }
+        
+        .stats-table th, .stats-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stats-table th {
+            font-weight: 500;
+            color: #4a5568;
+            background: rgba(0,0,0,0.02);
+        }
+        
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .stats-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #4a5568;
+            text-align: center;
+        }
+        
+        .grid-selector {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .grid-btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .grid-btn.active {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: inset 3px 3px 5px rgba(0,0,0,0.2);
+        }
+        
+        .grid-btn:not(.active) {
+            background: #e0e5ec;
+            color: #4a5568;
+            box-shadow: 3px 3px 5px #b8b9be, 
+                       -3px -3px 5px #ffffff;
+        }
+        
+        .grid-btn:not(.active):active {
+            box-shadow: inset 3px 3px 5px #b8b9be, 
+                       inset -3px -3px 5px #ffffff;
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center p-4">
+    <div id="particles-js"></div>
+    
+    <div class="flex flex-col md:flex-row">
+        <div class="neo-card p-8 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-700">Neo Match</h1>
+                    <p class="text-gray-500">Level <span id="level">1</span></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-gray-500">Score</p>
+                    <p class="text-xl font-semibold text-gray-700"><span id="score">0</span>/<span id="target-score">100</span></p>
+                </div>
+            </div>
+            
+            <div class="progress-bar mb-6">
+                <div id="progress" class="progress-fill" style="width: 0%"></div>
+            </div>
+            
+            <div id="board" class="grid grid-cols-5 gap-3 mb-6"></div>
+            
+            <div class="flex justify-between">
+                <button id="reset" class="neo-btn px-4 py-2 text-gray-700">Reset</button>
+                <button id="hint" class="neo-btn px-4 py-2 text-gray-700">Hint</button>
+            </div>
+        </div>
+        
+        <div class="stats-panel neo-card p-6 h-fit mt-4 md:mt-0">
+            <h3 class="stats-title">Game Stats</h3>
+            <table class="stats-table">
+                <tr>
+                    <th>Max Level</th>
+                    <td id="max-level">1</td>
+                </tr>
+                <tr>
+                    <th>Max Score</th>
+                    <td id="max-score">0</td>
+                </tr>
+            </table>
+            
+            <div class="grid-selector">
+                <button class="grid-btn active" data-size="5">5×5</button>
+                <button class="grid-btn" data-size="6">6×6</button>
+                <button class="grid-btn" data-size="7">7×7</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="level-up" class="level-up">Level Up!</div>
+    
+    <div id="game-over" class="game-over">
+        <div class="game-over-content">
+            <h2>No More Moves!</h2>
+            <p>What would you like to do?</p>
+            <div class="flex flex-wrap justify-center">
+                <button id="continue-btn" class="game-over-btn">Continue</button>
+                <button id="restart-btn" class="neo-btn-red px-4 py-2">Restart</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game state
+            const state = {
+                board: [],
+                selectedTile: null,
+                score: 0,
+                level: 1,
+                targetScore: 100,
+                symbols: ['🍎', '🍊', '🍋', '🍉', '🍇', '🍓', '🍒', '🍑'],
+                size: 5,
+                moving: false,
+                hintTimeout: null,
+                maxLevel: 1,
+                maxScore: 0,
+                boardLocked: false
+            };
+            
+            // Initialize particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 30, density: { enable: true, value_area: 800 } },
+                    color: { value: "#4a5568" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: false },
+                    move: { 
+                        enable: true, 
+                        speed: 1, 
+                        direction: "none", 
+                        random: true, 
+                        straight: false, 
+                        out_mode: "out" 
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: false },
+                        onclick: { enable: false },
+                        resize: true
+                    }
+                }
+            });
+            
+            // DOM elements
+            const boardElement = document.getElementById('board');
+            const scoreElement = document.getElementById('score');
+            const targetScoreElement = document.getElementById('target-score');
+            const levelElement = document.getElementById('level');
+            const progressElement = document.getElementById('progress');
+            const resetButton = document.getElementById('reset');
+            const hintButton = document.getElementById('hint');
+            const levelUpElement = document.getElementById('level-up');
+            const gameOverElement = document.getElementById('game-over');
+            const continueButton = document.getElementById('continue-btn');
+            const restartButton = document.getElementById('restart-btn');
+            const maxLevelElement = document.getElementById('max-level');
+            const maxScoreElement = document.getElementById('max-score');
+            const gridButtons = document.querySelectorAll('.grid-btn');
+            
+            // Initialize game
+            initGame();
+            
+            // Event listeners
+            resetButton.addEventListener('click', initGame);
+            hintButton.addEventListener('click', showHint);
+            continueButton.addEventListener('click', refreshBoard);
+            restartButton.addEventListener('click', initGame);
+            
+            // Grid size selector
+            gridButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (button.classList.contains('active')) return;
+                    
+                    // Update active state
+                    gridButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Change grid size
+                    state.size = parseInt(button.dataset.size);
+                    
+                    // Update board class for grid columns
+                    boardElement.className = `grid grid-cols-${state.size} gap-3 mb-6`;
+                    
+                    // Reset game with new size
+                    initGame();
+                });
+            });
+            
+            function initGame() {
+                state.score = 0;
+                state.level = 1;
+                state.targetScore = 100;
+                state.board = [];
+                state.selectedTile = null;
+                state.boardLocked = false;
+                
+                // Update max stats if current game is better
+                if (state.level > state.maxLevel) {
+                    state.maxLevel = state.level;
+                }
+                if (state.score > state.maxScore) {
+                    state.maxScore = state.score;
+                }
+                
+                // Clear any existing hint timeout
+                if (state.hintTimeout) {
+                    clearTimeout(state.hintTimeout);
+                    state.hintTimeout = null;
+                }
+                
+                // Hide game over popup if visible
+                gameOverElement.classList.remove('active');
+                
+                // Create initial board
+                createValidBoard();
+                
+                renderBoard();
+                updateUI();
+                updateStats();
+            }
+            
+            function createValidBoard() {
+                // Create board with no initial matches
+                do {
+                    // Create random board
+                    for (let row = 0; row < state.size; row++) {
+                        state.board[row] = [];
+                        for (let col = 0; col < state.size; col++) {
+                            state.board[row][col] = getRandomSymbol();
+                        }
+                    }
+                    
+                    // Remove any initial matches
+                    while (findMatches().length > 0) {
+                        for (let match of findMatches()) {
+                            for (let tile of match) {
+                                state.board[tile.row][tile.col] = getRandomSymbol();
+                            }
+                        }
+                    }
+                } while (!hasPossibleMoves()); // Make sure there are possible moves
+            }
+            
+            function refreshBoard() {
+                // Hide game over popup
+                gameOverElement.classList.remove('active');
+                
+                // Reshuffle the board while keeping current score and level
+                createValidBoard();
+                renderBoard();
+                updateUI();
+            }
+            
+            function getRandomSymbol() {
+                return state.symbols[Math.floor(Math.random() * state.symbols.length)];
+            }
+            
+            function renderBoard() {
+                boardElement.innerHTML = '';
+                
+                for (let row = 0; row < state.size; row++) {
+                    for (let col = 0; col < state.size; col++) {
+                        const tile = document.createElement('div');
+                        tile.className = 'tile';
+                        tile.dataset.row = row;
+                        tile.dataset.col = col;
+                        
+                        const symbol = document.createElement('div');
+                        symbol.className = 'symbol';
+                        symbol.textContent = state.board[row][col];
+                        
+                        tile.appendChild(symbol);
+                        tile.addEventListener('click', () => handleTileClick(row, col));
+                        
+                        boardElement.appendChild(tile);
+                    }
+                }
+            }
+            
+            function handleTileClick(row, col) {
+                if (state.moving || state.boardLocked) return;
+                
+                // If no tile is selected, select this one
+                if (state.selectedTile === null) {
+                    state.selectedTile = { row, col };
+                    updateTileSelection();
+                    return;
+                }
+                
+                // If clicking the same tile, deselect it
+                if (state.selectedTile.row === row && state.selectedTile.col === col) {
+                    state.selectedTile = null;
+                    updateTileSelection();
+                    return;
+                }
+                
+                // Check if the clicked tile is adjacent to the selected one
+                const isAdjacent = 
+                    (Math.abs(state.selectedTile.row - row) === 1 && state.selectedTile.col === col) ||
+                    (Math.abs(state.selectedTile.col - col) === 1 && state.selectedTile.row === row);
+                
+                if (isAdjacent) {
+                    // Lock the board during movement
+                    state.boardLocked = true;
+                    
+                    // Swap tiles
+                    swapTiles(state.selectedTile.row, state.selectedTile.col, row, col);
+                } else {
+                    // Select the new tile instead
+                    state.selectedTile = { row, col };
+                    updateTileSelection();
+                }
+            }
+            
+            function updateTileSelection() {
+                const tiles = document.querySelectorAll('.tile');
+                
+                tiles.forEach(tile => {
+                    tile.classList.remove('selected');
+                    
+                    if (state.selectedTile && 
+                        parseInt(tile.dataset.row) === state.selectedTile.row && 
+                        parseInt(tile.dataset.col) === state.selectedTile.col) {
+                        tile.classList.add('selected');
+                    }
+                });
+            }
+            
+            function swapTiles(row1, col1, row2, col2) {
+                state.moving = true;
+                
+                // Get tile elements
+                const tile1 = document.querySelector(`.tile[data-row="${row1}"][data-col="${col1}"]`);
+                const tile2 = document.querySelector(`.tile[data-row="${row2}"][data-col="${col2}"]`);
+                
+                // Mark tiles as moving
+                tile1.classList.add('moving');
+                tile2.classList.add('moving');
+                
+                // Calculate positions
+                const tile1Rect = tile1.getBoundingClientRect();
+                const tile2Rect = tile2.getBoundingClientRect();
+                
+                // Calculate distance between tiles
+                const dx = tile2Rect.left - tile1Rect.left;
+                const dy = tile2Rect.top - tile1Rect.top;
+                
+                // Animate the swap
+                tile1.style.transform = `translate(${dx}px, ${dy}px)`;
+                tile2.style.transform = `translate(${-dx}px, ${-dy}px)`;
+                
+                // Swap in the state after animation starts
+                setTimeout(() => {
+                    const temp = state.board[row1][col1];
+                    state.board[row1][col1] = state.board[row2][col2];
+                    state.board[row2][col2] = temp;
+                    
+                    // Check for matches after swap animation completes
+                    setTimeout(() => {
+                        const matches = findMatches();
+                        
+                        if (matches.length > 0) {
+                            // Matches found - process them
+                            processMatches(matches);
+                            
+                            // Reset tile positions
+                            tile1.style.transform = '';
+                            tile2.style.transform = '';
+                        } else {
+                            // No matches - swap back
+                            tile1.style.transform = `translate(${dx}px, ${dy}px)`;
+                            tile2.style.transform = `translate(${-dx}px, ${-dy}px)`;
+                            
+                            setTimeout(() => {
+                                // Animate back to original positions
+                                tile1.style.transform = '';
+                                tile2.style.transform = '';
+                                
+                                // Swap back in state after animation
+                                setTimeout(() => {
+                                    const temp = state.board[row1][col1];
+                                    state.board[row1][col1] = state.board[row2][col2];
+                                    state.board[row2][col2] = temp;
+                                    
+                                    // Remove moving class
+                                    tile1.classList.remove('moving');
+                                    tile2.classList.remove('moving');
+                                    
+                                    state.selectedTile = null;
+                                    state.moving = false;
+                                    state.boardLocked = false;
+                                    
+                                    // After move, check if there are any possible moves left
+                                    if (!hasPossibleMoves()) {
+                                        showGameOver();
+                                    }
+                                }, 300);
+                            }, 300);
+                        }
+                    }, 300);
+                }, 10);
+            }
+            
+            function findMatches() {
+                const matches = [];
+                
+                // Check horizontal matches
+                for (let row = 0; row < state.size; row++) {
+                    for (let col = 0; col < state.size - 2; col++) {
+                        const symbol = state.board[row][col];
+                        
+                        if (symbol === state.board[row][col + 1] && 
+                            symbol === state.board[row][col + 2]) {
+                            
+                            // Find how long the match is
+                            let matchLength = 3;
+                            while (col + matchLength < state.size && 
+                                   state.board[row][col + matchLength] === symbol) {
+                                matchLength++;
+                            }
+                            
+                            // Add all matching tiles to the match
+                            const match = [];
+                            for (let i = 0; i < matchLength; i++) {
+                                match.push({ row, col: col + i });
+                            }
+                            
+                            matches.push(match);
+                            col += matchLength - 1; // Skip ahead
+                        }
+                    }
+                }
+                
+                // Check vertical matches
+                for (let col = 0; col < state.size; col++) {
+                    for (let row = 0; row < state.size - 2; row++) {
+                        const symbol = state.board[row][col];
+                        
+                        if (symbol === state.board[row + 1][col] && 
+                            symbol === state.board[row + 2][col]) {
+                            
+                            // Find how long the match is
+                            let matchLength = 3;
+                            while (row + matchLength < state.size && 
+                                   state.board[row + matchLength][col] === symbol) {
+                                matchLength++;
+                            }
+                            
+                            // Add all matching tiles to the match
+                            const match = [];
+                            for (let i = 0; i < matchLength; i++) {
+                                match.push({ row: row + i, col });
+                            }
+                            
+                            matches.push(match);
+                            row += matchLength - 1; // Skip ahead
+                        }
+                    }
+                }
+                
+                return matches;
+            }
+            
+            function processMatches(matches) {
+                // Calculate score
+                let points = 0;
+                for (const match of matches) {
+                    points += match.length * 5;
+                    
+                    // Create particle effects for each matched tile
+                    for (const tile of match) {
+                        const tileElement = document.querySelector(`.tile[data-row="${tile.row}"][data-col="${tile.col}"]`);
+                        if (tileElement) {
+                            createParticles(tileElement);
+                        }
+                    }
+                }
+                
+                // Update score
+                state.score += points;
+                
+                // Update max score if current score is higher
+                if (state.score > state.maxScore) {
+                    state.maxScore = state.score;
+                    updateStats();
+                }
+                
+                // Remove matched tiles
+                for (const match of matches) {
+                    for (const tile of match) {
+                        state.board[tile.row][tile.col] = null;
+                    }
+                }
+                
+                // Drop tiles from above
+                dropTiles();
+                
+                // Fill empty spaces
+                setTimeout(() => {
+                    fillEmptySpaces();
+                    
+                    // Check for new matches after filling
+                    setTimeout(() => {
+                        const newMatches = findMatches();
+                        
+                        if (newMatches.length > 0) {
+                            // Chain reaction - more matches
+                            processMatches(newMatches);
+                        } else {
+                            // No more matches - end turn
+                            state.selectedTile = null;
+                            state.moving = false;
+                            state.boardLocked = false;
+                            updateUI();
+                            
+                            // Check if level is complete
+                            if (state.score >= state.targetScore) {
+                                levelUp();
+                            }
+                            
+                            // After all matches are processed, check if there are any possible moves left
+                            if (!hasPossibleMoves()) {
+                                showGameOver();
+                            }
+                        }
+                    }, 300);
+                }, 500);
+            }
+            
+            function dropTiles() {
+                for (let col = 0; col < state.size; col++) {
+                    for (let row = state.size - 1; row >= 0; row--) {
+                        if (state.board[row][col] === null) {
+                            // Find the first non-empty tile above
+                            for (let above = row - 1; above >= 0; above--) {
+                                if (state.board[above][col] !== null) {
+                                    // Move it down
+                                    state.board[row][col] = state.board[above][col];
+                                    state.board[above][col] = null;
+                                    
+                                    // Animate the drop
+                                    const tile = document.querySelector(`.tile[data-row="${above}"][data-col="${col}"]`);
+                                    if (tile) {
+                                        tile.style.transform = `translateY(${(row - above) * 100}%)`;
+                                        setTimeout(() => {
+                                            tile.style.transform = '';
+                                            renderBoard();
+                                        }, 300);
+                                    }
+                                    
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            function fillEmptySpaces() {
+                for (let row = 0; row < state.size; row++) {
+                    for (let col = 0; col < state.size; col++) {
+                        if (state.board[row][col] === null) {
+                            state.board[row][col] = getRandomSymbol();
+                            
+                            // Animate the new tile appearing
+                            const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+                            if (tile) {
+                                tile.style.opacity = '0';
+                                tile.style.transform = 'translateY(-100%)';
+                                setTimeout(() => {
+                                    tile.style.opacity = '1';
+                                    tile.style.transform = '';
+                                    renderBoard();
+                                }, 100);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            function createParticles(element) {
+                const particles = document.createElement('div');
+                particles.className = 'particles';
+                element.appendChild(particles);
+                
+                // Create some random particles
+                for (let i = 0; i < 10; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = '8px';
+                    particle.style.height = '8px';
+                    particle.style.backgroundColor = getRandomColor();
+                    particle.style.borderRadius = '50%';
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    
+                    // Random direction and distance
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 10 + Math.random() * 30;
+                    const duration = 0.5 + Math.random() * 0.5;
+                    
+                    particle.style.transform = 'translate(-50%, -50%)';
+                    particle.style.transition = `all ${duration}s ease-out`;
+                    
+                    particles.appendChild(particle);
+                    
+                    // Animate
+                    setTimeout(() => {
+                        particle.style.transform = `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                        particle.style.opacity = '0';
+                    }, 10);
+                }
+                
+                // Remove after animation
+                setTimeout(() => {
+                    particles.remove();
+                }, 1000);
+            }
+            
+            function getRandomColor() {
+                const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            function updateUI() {
+                scoreElement.textContent = state.score;
+                targetScoreElement.textContent = state.targetScore;
+                levelElement.textContent = state.level;
+                
+                const progress = Math.min(100, (state.score / state.targetScore * 100));
+                progressElement.style.width = `${progress}%`;
+            }
+            
+            function updateStats() {
+                maxLevelElement.textContent = state.maxLevel;
+                maxScoreElement.textContent = state.maxScore;
+            }
+            
+            function levelUp() {
+                state.level++;
+                state.score = 0; // Reset score for next level
+                state.targetScore = state.level * 50 + 50; // Each level requires 50 more points
+                
+                // Update max level if current level is higher
+                if (state.level > state.maxLevel) {
+                    state.maxLevel = state.level;
+                    updateStats();
+                }
+                
+                // Show level up animation
+                levelUpElement.textContent = `Level ${state.level}!`;
+                levelUpElement.classList.add('active');
+                
+                setTimeout(() => {
+                    levelUpElement.classList.remove('active');
+                }, 1500);
+                
+                // Increase difficulty (more symbols)
+                if (state.level % 3 === 0 && state.symbols.length < 12) {
+                    const newSymbols = ['🍍', '🥝', '🥥', '🍈'];
+                    state.symbols.push(newSymbols[Math.floor(Math.random() * newSymbols.length)]);
+                }
+                
+                updateUI();
+                renderBoard();
+            }
+            
+            function showHint() {
+                // Clear any existing hint
+                if (state.hintTimeout) {
+                    clearTimeout(state.hintTimeout);
+                    document.querySelectorAll('.tile.hint').forEach(tile => {
+                        tile.classList.remove('hint');
+                    });
+                }
+                
+                // Find a possible move
+                const move = findPossibleMove();
+                if (!move) {
+                    showGameOver();
+                    return;
+                }
+                
+                // Highlight the tiles with smooth animation
+                const tile1 = document.querySelector(`.tile[data-row="${move.from.row}"][data-col="${move.from.col}"]`);
+                const tile2 = document.querySelector(`.tile[data-row="${move.to.row}"][data-col="${move.to.col}"]`);
+                
+                if (tile1 && tile2) {
+                    tile1.classList.add('hint');
+                    tile2.classList.add('hint');
+                    
+                    // Remove hint after 3 seconds
+                    state.hintTimeout = setTimeout(() => {
+                        tile1.classList.remove('hint');
+                        tile2.classList.remove('hint');
+                        state.hintTimeout = null;
+                    }, 3000);
+                }
+            }
+            
+            function findPossibleMove() {
+                // Check all possible swaps for one that creates a match
+                for (let row = 0; row < state.size; row++) {
+                    for (let col = 0; col < state.size; col++) {
+                        // Check right neighbor
+                        if (col < state.size - 1) {
+                            // Swap
+                            const temp = state.board[row][col];
+                            state.board[row][col] = state.board[row][col + 1];
+                            state.board[row][col + 1] = temp;
+                            
+                            // Check for matches
+                            const matches = findMatches();
+                            
+                            // Swap back
+                            state.board[row][col + 1] = state.board[row][col];
+                            state.board[row][col] = temp;
+                            
+                            if (matches.length > 0) {
+                                return {
+                                    from: { row, col },
+                                    to: { row, col: col + 1 }
+                                };
+                            }
+                        }
+                        
+                        // Check bottom neighbor
+                        if (row < state.size - 1) {
+                            // Swap
+                            const temp = state.board[row][col];
+                            state.board[row][col] = state.board[row + 1][col];
+                            state.board[row + 1][col] = temp;
+                            
+                            // Check for matches
+                            const matches = findMatches();
+                            
+                            // Swap back
+                            state.board[row + 1][col] = state.board[row][col];
+                            state.board[row][col] = temp;
+                            
+                            if (matches.length > 0) {
+                                return {
+                                    from: { row, col },
+                                    to: { row: row + 1, col }
+                                };
+                            }
+                        }
+                    }
+                }
+                
+                return null;
+            }
+            
+            function hasPossibleMoves() {
+                return findPossibleMove() !== null;
+            }
+            
+            function showGameOver() {
+                gameOverElement.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

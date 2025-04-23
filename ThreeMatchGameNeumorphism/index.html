@@ -90,13 +90,55 @@
     .init()
     .then(ysdk => {
         console.log('Yandex SDK initialized');
+        const userLang = ysdk.environment.i18n.lang;
+        lang = userLang.startsWith('ru') ? 'ru' : 'en';
+        updateLocalization();        // применим переводы к UI
         window.ysdk = ysdk;
     });
   </script>
 
   <script>
+
+  const TRANSLATIONS = {
+    en: {
+        hint:      'Hint',
+        restart:   'Restart',
+        cont:      'Continue',
+        gameOver:  'Game Over',
+        score:     'Score',
+        level:     'Level',
+        target:    'Target'
+    },
+    ru: {
+        hint:      'Подсказка',
+        restart:   'Перезапустить',
+        cont:      'Продолжить',
+        gameOver:  'Игра окончена',
+        score:     'Счёт',
+        level:     'Уровень',
+        target:    'Цель'
+    }
+    };
+    let lang = 'en';  // по умолчанию
+
+    function updateLocalization() {
+      const t = TRANSLATIONS[lang];
+      document.getElementById('helpBtn').innerText       = t.hint;
+      document.getElementById('restartBtn').innerText    = t.restart;
+      document.getElementById('continueBtn').innerText   = t.cont;
+      document.querySelector('#overlay h2').innerText    = t.gameOver;
+
+      // при запуске уровня или после чистки совпадений вызывайте:
+      const { target } = getSettings(level);
+      document.getElementById('score').innerText = `${t.score}: ${score}`;
+      document.getElementById('level').innerText = `${t.level}: ${level} / ${t.target}: ${target}`;
+    }
+
+
+
   // === Three.js background ===
   function initBackground() {
+    
     const canvas = document.getElementById('bg'),
           renderer = new THREE.WebGLRenderer({canvas,antialias:true});
     renderer.setSize(innerWidth,innerHeight);
@@ -147,7 +189,7 @@
 
   function startLevel(l, keepScore = false) {
     const { rows, cols, types, target } = getSettings(l);
-
+    updateLocalization();
     if (phaserGame) {
       phaserGame.destroy(true);
       document.getElementById('gameCanvas').innerHTML = '';
@@ -270,6 +312,7 @@
 
   function clearMatches(scene, list) {
     const { target } = getSettings(level);
+    updateLocalization(); 
 
     list.forEach(([r, c]) => {
       const tile = board[r][c];
