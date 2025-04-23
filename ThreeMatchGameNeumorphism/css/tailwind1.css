@@ -479,11 +479,18 @@ video {
 .fixed {
   position: fixed;
 }
+.relative {
+  position: relative;
+}
 .inset-0 {
   inset: 0px;
 }
 .z-50 {
   z-index: 50;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 .mb-1 {
   margin-bottom: 0.25rem;
@@ -505,6 +512,10 @@ video {
 }
 .max-w-md {
   max-width: 28rem;
+}
+.select-none {
+  -webkit-user-select: none;
+  user-select: none;
 }
 .flex-col {
   flex-direction: column;
