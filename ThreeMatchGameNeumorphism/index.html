@@ -147,8 +147,8 @@
       
       // Обновляем UI под загруженные значения
       updateLocalization();
-      document.getElementById('score').innerText = `${t.score}: ${score}`;
-      document.getElementById('level').innerText = `${t.level}: ${level} / ${t.target}: ${getSettings(level).target}`;
+      document.getElementById('score').innerText = `Score: ${score}`;
+      document.getElementById('level').innerText = `Level: ${level} / Target: ${getSettings(level).target}`;
 
       // 3. Запускаем игру с учётом сохранения
       startLevel(level, true);
@@ -282,10 +282,9 @@
     }
     if (!keepScore) score = 0;
     board = []; canInteract = true; selected = null;
-    
-    const t = TRANSLATIONS[lang];
-    document.getElementById('score').innerText = `${t.score}: ${score}`;
-    document.getElementById('level').innerText = `${t.level}: ${l} / ${t.target}: ${target}`;
+    document.getElementById('score').innerText = 'Score: ' + score;
+    document.getElementById('level').innerText = `Level: ${l} / Target: ${target}`;
+    updateLocalization(); 
 
     phaserGame = new Phaser.Game({
       type: Phaser.AUTO,
@@ -441,8 +440,9 @@
       board[r][c] = null;
       score++;
     });
-    const t = TRANSLATIONS[lang];
-    document.getElementById('score').innerText = `${t.score}: ${score}`;
+
+    document.getElementById('score').innerText = 'Score: ' + score;
+    updateLocalization(); 
 
     if (score >= target) {
       setTimeout(() => {
@@ -457,10 +457,10 @@
       scene.time.delayedCall(300, () => dropAndFill(scene));
     }
     try {
-      saveGame();
-    } catch (e) {
-      console.warn('Error saving game:', e);
-    }
+    saveGame();
+  } catch (e) {
+    console.warn('Error saving game:', e);
+  }
 
   }
 
