@@ -41,6 +41,12 @@
   
 
   <style>
+    body {
+    user-select: none; /* Запрещает выделение текста */
+    -webkit-user-select: none; /* Для Safari */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для Edge */
+}
     body { margin:0; overflow:hidden; background:#e0e5ec; font-family:sans-serif; }
     #bg { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
     #gameCanvas {
@@ -48,6 +54,7 @@
   aspect-ratio: 1 / 1;
   margin: auto;
   position: relative;
+  
 }
 
 #gameCanvas canvas {
@@ -178,6 +185,9 @@
 
   <script>
 
+    document.addEventListener('contextmenu', (event) => {
+        event.preventDefault(); // Отключает контекстное меню при нажатии ПКМ
+    });
 
 
     const TRANSLATIONS = {
@@ -307,16 +317,30 @@
               board[r][c] = spawn(this, c, r, types);
             }
           }
+          // // ✅ Сообщаем Яндексу, что игра готова
+          // if (window.ysdk && window.ysdk.loadingAPI) {
+          //   ysdk.loadingAPI.ready();
+          // }
         }
+        
       }
     });
-    // игра загрузилась
-    YaGames.init()
-    .then((ysdk) => {
-        // Сообщаем платформе, что игра загрузилась и можно начинать играть.
-        ysdk.features.LoadingAPI?.ready()
-    })
-    .catch(console.error);
+
+    // Гарантированно после отрисовки всего
+    setTimeout(() => {
+      if (window.ysdk?.features?.LoadingAPI?.ready) {
+        ysdk.features.LoadingAPI.ready();
+        console.log("✅ Yandex GameReady sent");
+      }
+    }, 0);
+    
+    // // игра загрузилась
+    // YaGames.init()
+    // .then((ysdk) => {
+    //     // Сообщаем платформе, что игра загрузилась и можно начинать играть.
+    //     ysdk.features.LoadingAPI?.ready()
+    // })
+    // .catch(console.error);
   }
 
   function spawn(scene, c, r, types) {
