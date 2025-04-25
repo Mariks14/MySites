@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo Memory Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .neo-card {
+            background: #f0f0f0;
+            border-radius: 15px;
+            box-shadow:  8px 8px 15px #d3d3d3, 
+                        -8px -8px 15px #ffffff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: transparent;
+            user-select: none;
+        }
+        
+        .neo-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .neo-card.active {
+            color: #333;
+            box-shadow: inset 4px 4px 8px #d3d3d3, 
+                        inset -4px -4px 8px #ffffff;
+        }
+        
+        .neo-card.matched {
+            color: #4CAF50;
+            box-shadow:  4px 4px 8px #d3d3d3, 
+                        -4px -4px 8px #ffffff,
+                        inset 0 0 0 3px #4CAF50;
+        }
+        
+        .neo-card.hint {
+            animation: hintGlow 1.5s ease-in-out;
+        }
+        
+        .neo-button {
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            box-shadow:  5px 5px 10px #d3d3d3, 
+                        -5px -5px 10px #ffffff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .neo-button:hover {
+            box-shadow:  2px 2px 5px #d3d3d3, 
+                        -2px -2px 5px #ffffff;
+        }
+        
+        .neo-button:active {
+            box-shadow: inset 3px 3px 6px #d3d3d3, 
+                        inset -3px -3px 6px #ffffff;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: #f0f0f0;
+            box-shadow: inset 3px 3px 6px #d3d3d3, 
+                        inset -3px -3px 6px #ffffff;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        @keyframes hintGlow {
+            0%, 100% {
+                box-shadow:  8px 8px 15px #d3d3d3, 
+                            -8px -8px 15px #ffffff;
+            }
+            50% {
+                box-shadow:  0 0 15px 5px rgba(76, 175, 80, 0.5), 
+                            inset 0 0 10px rgba(76, 175, 80, 0.3);
+            }
+        }
+        
+        .win-animation {
+            animation: winPulse 0.5s ease-in-out 3;
+        }
+        
+        @keyframes winPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <div id="particles-js"></div>
+    
+    <div class="container mx-auto px-4 py-8 flex flex-col items-center">
+        <h1 class="text-4xl font-bold mb-6 text-gray-700">Neo Memory Match</h1>
+        
+        <div class="flex justify-between w-full max-w-md mb-6">
+            <div class="flex flex-col items-center">
+                <span class="text-gray-600 mb-2">Score</span>
+                <div class="text-2xl font-bold text-gray-700" id="score">0</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <span class="text-gray-600 mb-2">Moves</span>
+                <div class="text-2xl font-bold text-gray-700" id="moves">0</div>
+            </div>
+            
+            <button id="hint-btn" class="neo-button flex items-center">
+                <i class="fas fa-lightbulb mr-2"></i> Hint
+            </button>
+        </div>
+        
+        <div class="mb-6 w-full max-w-md">
+            <div class="text-gray-600 mb-2 text-center">Progress</div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <div id="game-board" class="grid grid-cols-6 gap-3 mb-8"></div>
+        
+        <button id="reset-btn" class="neo-button">
+            <i class="fas fa-redo mr-2"></i> New Game
+        </button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize particles.js
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#000000"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#000000",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Game variables
+            const boardSize = 6;
+            const totalPairs = (boardSize * boardSize) / 2;
+            const icons = [
+                'fa-heart', 'fa-star', 'fa-bell', 'fa-flag', 'fa-key', 'fa-gem',
+                'fa-moon', 'fa-sun', 'fa-cloud', 'fa-umbrella', 'fa-tree', 'fa-leaf',
+                'fa-paw', 'fa-bug', 'fa-fish', 'fa-dog', 'fa-cat', 'fa-horse'
+            ].slice(0, totalPairs);
+            
+            let cards = [];
+            let openedCards = [];
+            let matchedPairs = 0;
+            let score = 0;
+            let moves = 0;
+            let canPlay = true;
+            let hintAvailable = true;
+            
+            // DOM elements
+            const gameBoard = document.getElementById('game-board');
+            const scoreElement = document.getElementById('score');
+            const movesElement = document.getElementById('moves');
+            const progressFill = document.getElementById('progress-fill');
+            const hintButton = document.getElementById('hint-btn');
+            const resetButton = document.getElementById('reset-btn');
+            
+            // Initialize game
+            initGame();
+            
+            // Event listeners
+            hintButton.addEventListener('click', useHint);
+            resetButton.addEventListener('click', initGame);
+            
+            function initGame() {
+                // Reset game state
+                cards = [];
+                openedCards = [];
+                matchedPairs = 0;
+                score = 0;
+                moves = 0;
+                canPlay = true;
+                hintAvailable = true;
+                
+                // Update UI
+                scoreElement.textContent = score;
+                movesElement.textContent = moves;
+                progressFill.style.width = '0%';
+                
+                // Create pairs of icons
+                let gameIcons = [];
+                for (let i = 0; i < totalPairs; i++) {
+                    gameIcons.push(icons[i]);
+                    gameIcons.push(icons[i]);
+                }
+                
+                // Shuffle icons
+                gameIcons = shuffleArray(gameIcons);
+                
+                // Clear game board
+                gameBoard.innerHTML = '';
+                
+                // Create cards
+                for (let i = 0; i < boardSize * boardSize; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'neo-card w-12 h-12 sm:w-16 sm:h-16';
+                    card.dataset.index = i;
+                    card.dataset.icon = gameIcons[i];
+                    
+                    card.addEventListener('click', () => flipCard(card));
+                    
+                    gameBoard.appendChild(card);
+                    cards.push(card);
+                }
+            }
+            
+            function flipCard(card) {
+                if (!canPlay || card.classList.contains('active') || card.classList.contains('matched')) {
+                    return;
+                }
+                
+                // Flip the card
+                card.classList.add('active');
+                card.innerHTML = `<i class="fas ${card.dataset.icon}"></i>`;
+                openedCards.push(card);
+                
+                // Check for match
+                if (openedCards.length === 2) {
+                    canPlay = false;
+                    moves++;
+                    movesElement.textContent = moves;
+                    
+                    if (openedCards[0].dataset.icon === openedCards[1].dataset.icon) {
+                        // Match found
+                        setTimeout(() => {
+                            openedCards[0].classList.add('matched');
+                            openedCards[1].classList.add('matched');
+                            openedCards = [];
+                            canPlay = true;
+                            
+                            matchedPairs++;
+                            score += 5;
+                            scoreElement.textContent = score;
+                            
+                            // Update progress
+                            const progress = (matchedPairs / totalPairs) * 100;
+                            progressFill.style.width = `${progress}%`;
+                            
+                            // Check if all pairs are matched
+                            if (matchedPairs === totalPairs) {
+                                setTimeout(() => {
+                                    gameBoard.classList.add('win-animation');
+                                    setTimeout(() => {
+                                        gameBoard.classList.remove('win-animation');
+                                        initGame();
+                                    }, 1500);
+                                }, 500);
+                            }
+                        }, 500);
+                    } else {
+                        // No match
+                        setTimeout(() => {
+                            openedCards[0].classList.remove('active');
+                            openedCards[1].classList.remove('active');
+                            openedCards[0].innerHTML = '';
+                            openedCards[1].innerHTML = '';
+                            openedCards = [];
+                            canPlay = true;
+                        }, 1000);
+                    }
+                }
+            }
+            
+            function useHint() {
+                if (!hintAvailable || matchedPairs === totalPairs) return;
+                
+                hintAvailable = false;
+                hintButton.disabled = true;
+                hintButton.classList.add('opacity-50');
+                
+                // Find all hidden, unmatched cards
+                const hiddenCards = cards.filter(card => 
+                    !card.classList.contains('active') && 
+                    !card.classList.contains('matched')
+                );
+                
+                if (hiddenCards.length < 2) return;
+                
+                // Group cards by icon
+                const iconGroups = {};
+                hiddenCards.forEach(card => {
+                    if (!iconGroups[card.dataset.icon]) {
+                        iconGroups[card.dataset.icon] = [];
+                    }
+                    iconGroups[card.dataset.icon].push(card);
+                });
+                
+                // Find a pair to reveal
+                let pairToReveal = [];
+                for (const icon in iconGroups) {
+                    if (iconGroups[icon].length >= 2) {
+                        pairToReveal = [iconGroups[icon][0], iconGroups[icon][1]];
+                        break;
+                    }
+                }
+                
+                if (pairToReveal.length === 0) return;
+                
+                // Show hint
+                pairToReveal.forEach(card => {
+                    card.classList.add('hint');
+                    card.innerHTML = `<i class="fas ${card.dataset.icon}"></i>`;
+                });
+                
+                // Hide after delay
+                setTimeout(() => {
+                    pairToReveal.forEach(card => {
+                        card.classList.remove('hint');
+                        card.innerHTML = '';
+                    });
+                    
+                    // Re-enable hint after cooldown
+                    setTimeout(() => {
+                        hintAvailable = true;
+                        hintButton.disabled = false;
+                        hintButton.classList.remove('opacity-50');
+                    }, 3000);
+                }, 1500);
+            }
+            
+            function shuffleArray(array) {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
+            }
+        });
+    </script>
+</body>
+</html>
