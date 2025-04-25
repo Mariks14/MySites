@@ -13,6 +13,7 @@
             font-family: 'Poppins', sans-serif;
             background-color: #e0e5ec;
             overflow: hidden;
+            touch-action: manipulation;
         }
         
         .neo-card {
@@ -51,8 +52,8 @@
         }
         
         .tile {
-            width: 60px;
-            height: 60px;
+            width: 100%;
+            aspect-ratio: 1/1;
             border-radius: 12px;
             background: #e0e5ec;
             box-shadow:  5px 5px 10px #b8b9be, 
@@ -87,7 +88,7 @@
         }
         
         .tile .symbol {
-            font-size: 28px;
+            font-size: clamp(16px, 4vw, 28px);
             font-weight: 600;
             user-select: none;
             transition: transform 0.3s ease;
@@ -116,7 +117,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: bold;
             color: #4a5568;
             opacity: 0;
@@ -138,7 +139,7 @@
         }
         
         .progress-bar {
-            height: 20px;
+            height: clamp(12px, 3vw, 20px);
             border-radius: 10px;
             background: #e0e5ec;
             box-shadow: inset 3px 3px 6px #b8b9be, 
@@ -176,23 +177,23 @@
         
         .game-over-content {
             background: #e0e5ec;
-            padding: 2rem;
+            padding: clamp(1rem, 3vw, 2rem);
             border-radius: 20px;
             text-align: center;
             box-shadow:  8px 8px 15px rgba(0,0,0,0.2), 
                         -8px -8px 15px rgba(255,255,255,0.1);
-            max-width: 300px;
-            width: 90%;
+            max-width: 90%;
+            width: 300px;
         }
         
         .game-over h2 {
-            font-size: 1.5rem;
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
             margin-bottom: 1rem;
             color: #4a5568;
         }
         
         .game-over p {
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
             color: #4a5568;
         }
         
@@ -200,12 +201,13 @@
             background: linear-gradient(90deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: clamp(0.4rem, 2vw, 0.5rem) clamp(1rem, 3vw, 1.5rem);
             border-radius: 12px;
             font-weight: 500;
             cursor: pointer;
             transition: transform 0.2s ease;
             margin: 0.5rem;
+            font-size: clamp(0.875rem, 3vw, 1rem);
         }
         
         .game-over-btn:active {
@@ -213,8 +215,8 @@
         }
         
         .stats-panel {
-            margin-left: 2rem;
-            width: 250px;
+            margin-left: clamp(0.5rem, 2vw, 2rem);
+            width: clamp(200px, 30vw, 250px);
         }
         
         .stats-table {
@@ -229,9 +231,10 @@
         }
         
         .stats-table th, .stats-table td {
-            padding: 0.75rem 1rem;
+            padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
             text-align: left;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: clamp(0.75rem, 2.5vw, 0.875rem);
         }
         
         .stats-table th {
@@ -245,25 +248,27 @@
         }
         
         .stats-title {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 3vw, 1.25rem);
             font-weight: 500;
-            margin-bottom: 1rem;
+            margin-bottom: clamp(0.5rem, 2vw, 1rem);
             color: #4a5568;
             text-align: center;
         }
         
         .grid-selector {
-            margin-top: 1.5rem;
+            margin-top: clamp(0.75rem, 2vw, 1.5rem);
             display: flex;
             justify-content: space-between;
+            gap: clamp(0.25rem, 1vw, 0.5rem);
         }
         
         .grid-btn {
-            padding: 0.5rem 0.75rem;
+            padding: clamp(0.25rem, 1vw, 0.5rem) clamp(0.5rem, 1.5vw, 0.75rem);
             border-radius: 8px;
-            font-size: 0.875rem;
+            font-size: clamp(0.75rem, 2.5vw, 0.875rem);
             font-weight: 500;
             transition: all 0.2s ease;
+            flex: 1;
         }
         
         .grid-btn.active {
@@ -283,37 +288,58 @@
             box-shadow: inset 3px 3px 5px #b8b9be, 
                        inset -3px -3px 5px #ffffff;
         }
+        
+        /* Responsive layout */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .flex-col-reverse-md {
+                flex-direction: column-reverse;
+            }
+            
+            .stats-panel {
+                margin-left: 0;
+                margin-bottom: 1rem;
+                width: 100%;
+            }
+            
+            .game-container {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body class="h-screen flex items-center justify-center p-4">
     <div id="particles-js"></div>
     
-    <div class="flex flex-col md:flex-row">
-        <div class="neo-card p-8 w-full max-w-md mx-4">
-            <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col md:flex-row game-container">
+        <div class="neo-card p-4 sm:p-6 md:p-8 w-full max-w-md mx-0 md:mx-4">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
                 <div>
-                    <h1 class="text-2xl font-semibold text-gray-700">Neo Match</h1>
-                    <p class="text-gray-500">Level <span id="level">1</span></p>
+                    <h1 class="text-xl sm:text-2xl font-semibold text-gray-700">Neo Match</h1>
+                    <p class="text-sm sm:text-base text-gray-500">Level <span id="level">1</span></p>
                 </div>
                 <div class="text-right">
-                    <p class="text-gray-500">Score</p>
-                    <p class="text-xl font-semibold text-gray-700"><span id="score">0</span>/<span id="target-score">100</span></p>
+                    <p class="text-sm sm:text-base text-gray-500">Score</p>
+                    <p class="text-lg sm:text-xl font-semibold text-gray-700"><span id="score">0</span>/<span id="target-score">100</span></p>
                 </div>
             </div>
             
-            <div class="progress-bar mb-6">
+            <div class="progress-bar mb-4 sm:mb-6">
                 <div id="progress" class="progress-fill" style="width: 0%"></div>
             </div>
             
-            <div id="board" class="grid grid-cols-5 gap-3 mb-6"></div>
+            <div id="board" class="grid grid-cols-5 gap-2 sm:gap-3 mb-4 sm:mb-6"></div>
             
-            <div class="flex justify-between">
-                <button id="reset" class="neo-btn px-4 py-2 text-gray-700">Reset</button>
-                <button id="hint" class="neo-btn px-4 py-2 text-gray-700">Hint</button>
+            <div class="flex justify-between gap-2 sm:gap-3">
+                <button id="reset" class="neo-btn px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base text-gray-700">Reset</button>
+                <button id="hint" class="neo-btn px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base text-gray-700">Hint</button>
             </div>
         </div>
         
-        <div class="stats-panel neo-card p-6 h-fit mt-4 md:mt-0">
+        <div class="stats-panel neo-card p-4 sm:p-6 h-fit mt-4 md:mt-0">
             <h3 class="stats-title">Game Stats</h3>
             <table class="stats-table">
                 <tr>
@@ -348,12 +374,6 @@
     </div>
     
     <script>
-        
-
-
-
-
-
         document.addEventListener('DOMContentLoaded', () => {
             // Game state
             const state = {
@@ -368,7 +388,8 @@
                 hintTimeout: null,
                 maxLevel: 1,
                 maxScore: 0,
-                boardLocked: false
+                boardLocked: false,
+                swapAnimation: null
             };
             
             // Initialize particles.js
@@ -437,7 +458,7 @@
                     state.size = parseInt(button.dataset.size);
                     
                     // Update board class for grid columns
-                    boardElement.className = `grid grid-cols-${state.size} gap-3 mb-6`;
+                    boardElement.className = `grid grid-cols-${state.size} gap-2 sm:gap-3 mb-4 sm:mb-6`;
                     
                     // Reset game with new size
                     initGame();
@@ -464,6 +485,12 @@
                 if (state.hintTimeout) {
                     clearTimeout(state.hintTimeout);
                     state.hintTimeout = null;
+                }
+                
+                // Cancel any ongoing animations
+                if (state.swapAnimation) {
+                    cancelAnimationFrame(state.swapAnimation);
+                    state.swapAnimation = null;
                 }
                 
                 // Hide game over popup if visible
@@ -561,8 +588,8 @@
                     // Lock the board during movement
                     state.boardLocked = true;
                     
-                    // Swap tiles
-                    swapTiles(state.selectedTile.row, state.selectedTile.col, row, col);
+                    // Swap tiles with smooth animation
+                    animateSwap(state.selectedTile.row, state.selectedTile.col, row, col);
                 } else {
                     // Select the new tile instead
                     state.selectedTile = { row, col };
@@ -584,18 +611,20 @@
                 });
             }
             
-            function swapTiles(row1, col1, row2, col2) {
+            function animateSwap(row1, col1, row2, col2) {
                 state.moving = true;
                 
                 // Get tile elements
                 const tile1 = document.querySelector(`.tile[data-row="${row1}"][data-col="${col1}"]`);
                 const tile2 = document.querySelector(`.tile[data-row="${row2}"][data-col="${col2}"]`);
                 
+                if (!tile1 || !tile2) return;
+                
                 // Mark tiles as moving
                 tile1.classList.add('moving');
                 tile2.classList.add('moving');
                 
-                // Calculate positions
+                // Get positions
                 const tile1Rect = tile1.getBoundingClientRect();
                 const tile2Rect = tile2.getBoundingClientRect();
                 
@@ -603,18 +632,39 @@
                 const dx = tile2Rect.left - tile1Rect.left;
                 const dy = tile2Rect.top - tile1Rect.top;
                 
-                // Animate the swap
-                tile1.style.transform = `translate(${dx}px, ${dy}px)`;
-                tile2.style.transform = `translate(${-dx}px, ${-dy}px)`;
+                // Set initial positions
+                tile1.style.transform = 'translate(0, 0)';
+                tile2.style.transform = 'translate(0, 0)';
                 
-                // Swap in the state after animation starts
-                setTimeout(() => {
-                    const temp = state.board[row1][col1];
-                    state.board[row1][col1] = state.board[row2][col2];
-                    state.board[row2][col2] = temp;
+                // Animation variables
+                let startTime = null;
+                const duration = 300; // ms
+                
+                const animate = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
                     
-                    // Check for matches after swap animation completes
-                    setTimeout(() => {
+                    // Calculate current positions
+                    const currentDx = dx * progress;
+                    const currentDy = dy * progress;
+                    
+                    // Apply transformations
+                    tile1.style.transform = `translate(${currentDx}px, ${currentDy}px)`;
+                    tile2.style.transform = `translate(${-currentDx}px, ${-currentDy}px)`;
+                    
+                    if (progress < 1) {
+                        state.swapAnimation = requestAnimationFrame(animate);
+                    } else {
+                        // Animation complete
+                        state.swapAnimation = null;
+                        
+                        // Swap in the game state
+                        const temp = state.board[row1][col1];
+                        state.board[row1][col1] = state.board[row2][col2];
+                        state.board[row2][col2] = temp;
+                        
+                        // Check for matches
                         const matches = findMatches();
                         
                         if (matches.length > 0) {
@@ -625,38 +675,76 @@
                             tile1.style.transform = '';
                             tile2.style.transform = '';
                         } else {
-                            // No matches - swap back
-                            tile1.style.transform = `translate(${dx}px, ${dy}px)`;
-                            tile2.style.transform = `translate(${-dx}px, ${-dy}px)`;
-                            
-                            setTimeout(() => {
-                                // Animate back to original positions
-                                tile1.style.transform = '';
-                                tile2.style.transform = '';
-                                
-                                // Swap back in state after animation
-                                setTimeout(() => {
-                                    const temp = state.board[row1][col1];
-                                    state.board[row1][col1] = state.board[row2][col2];
-                                    state.board[row2][col2] = temp;
-                                    
-                                    // Remove moving class
-                                    tile1.classList.remove('moving');
-                                    tile2.classList.remove('moving');
-                                    
-                                    state.selectedTile = null;
-                                    state.moving = false;
-                                    state.boardLocked = false;
-                                    
-                                    // After move, check if there are any possible moves left
-                                    if (!hasPossibleMoves()) {
-                                        showGameOver();
-                                    }
-                                }, 300);
-                            }, 300);
+                            // No matches - animate back
+                            animateSwapBack(row1, col1, row2, col2);
                         }
-                    }, 300);
-                }, 10);
+                    }
+                };
+                
+                state.swapAnimation = requestAnimationFrame(animate);
+            }
+            
+            function animateSwapBack(row1, col1, row2, col2) {
+                // Get tile elements
+                const tile1 = document.querySelector(`.tile[data-row="${row1}"][data-col="${col1}"]`);
+                const tile2 = document.querySelector(`.tile[data-row="${row2}"][data-col="${col2}"]`);
+                
+                if (!tile1 || !tile2) return;
+                
+                // Get positions
+                const tile1Rect = tile1.getBoundingClientRect();
+                const tile2Rect = tile2.getBoundingClientRect();
+                
+                // Calculate distance between tiles
+                const dx = tile2Rect.left - tile1Rect.left;
+                const dy = tile2Rect.top - tile1Rect.top;
+                
+                // Animation variables
+                let startTime = null;
+                const duration = 300; // ms
+                
+                const animate = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Calculate current positions (reversing)
+                    const currentDx = dx * (1 - progress);
+                    const currentDy = dy * (1 - progress);
+                    
+                    // Apply transformations
+                    tile1.style.transform = `translate(${currentDx}px, ${currentDy}px)`;
+                    tile2.style.transform = `translate(${-currentDx}px, ${-currentDy}px)`;
+                    
+                    if (progress < 1) {
+                        state.swapAnimation = requestAnimationFrame(animate);
+                    } else {
+                        // Animation complete
+                        state.swapAnimation = null;
+                        
+                        // Swap back in the game state
+                        const temp = state.board[row1][col1];
+                        state.board[row1][col1] = state.board[row2][col2];
+                        state.board[row2][col2] = temp;
+                        
+                        // Reset tile positions and classes
+                        tile1.style.transform = '';
+                        tile2.style.transform = '';
+                        tile1.classList.remove('moving');
+                        tile2.classList.remove('moving');
+                        
+                        state.selectedTile = null;
+                        state.moving = false;
+                        state.boardLocked = false;
+                        
+                        // After move, check if there are any possible moves left
+                        if (!hasPossibleMoves()) {
+                            showGameOver();
+                        }
+                    }
+                };
+                
+                state.swapAnimation = requestAnimationFrame(animate);
             }
             
             function findMatches() {
