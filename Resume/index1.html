@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Resume — Full‑Stack .NET Engineer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@latest/build/spline-viewer.js"></script>
+    <meta name="theme-color" content="#0a0a0b" />
+</head>
+<body class="bg-neutral-950 text-neutral-100 antialiased selection:bg-indigo-500/30 selection:text-white" style="font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, Apple Color Emoji, Segoe UI Emoji;">
+<!-- Background: Spline + gradients -->
+<div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0">
+        <spline-viewer loading="eager" class="w-full h-full opacity-70" url="https://prod.spline.design/6YIP9N6agN1iYm3P/scene.splinecode"></spline-viewer>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/40 to-neutral-950/90 pointer-events-none"></div>
+    <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"></div>
+    <div class="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-fuchsia-500/10 blur-3xl"></div>
+</div>
+
+<!-- Top Nav -->
+<header class="sticky top-0 z-40">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mt-3 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
+            <div class="flex items-center justify-between px-4 py-3 sm:px-6">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-md border border-white/15 bg-white/5 flex items-center justify-center tracking-tight text-sm font-semibold">AV</div>
+                    <span class="hidden sm:block text-sm font-medium text-neutral-300">Full‑Stack .NET Engineer</span>
+                </a>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#about" class="text-sm text-neutral-300 hover:text-white transition-colors">About</a>
+                    <a href="#skills" class="text-sm text-neutral-300 hover:text-white transition-colors">Skills</a>
+                    <a href="#experience" class="text-sm text-neutral-300 hover:text-white transition-colors">Experience</a>
+                    <a href="#projects" class="text-sm text-neutral-300 hover:text-white transition-colors">Projects</a>
+                    <a href="#contact" class="text-sm text-neutral-300 hover:text-white transition-colors">Contact</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="mailto:hello@example.com" class="hidden sm:inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-neutral-200 hover:border-white/20 hover:bg-white/10 transition">
+                        <i data-lucide="mail" class="h-4 w-4"></i>
+                        Email
+                    </a>
+                    <a href="#contact" class="inline-flex items-center gap-2 rounded-lg bg-indigo-500/90 px-3 py-2 text-sm text-white hover:bg-indigo-500 transition">
+                        <i data-lucide="send" class="h-4 w-4"></i>
+                        Hire me
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero -->
+<section id="about" class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div data-animate data-delay="80" class="lg:col-span-7 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="flex items-center gap-3">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5">
+            <i data-lucide="sparkles" class="h-4 w-4 text-indigo-400"></i>
+          </span>
+                <span class="text-xs font-medium text-neutral-300">Available for full-time & contract • Remote / Hybrid</span>
+            </div>
+            <h1 class="mt-5 text-4xl sm:text-5xl tracking-tight font-semibold text-white">
+                .NET Engineer focused on robust backends and delightful interfaces
+            </h1>
+            <p class="mt-4 text-neutral-300 text-base leading-relaxed">
+                I build scalable APIs, real-time services, and modern cross‑platform apps. Passionate about clean architecture,
+                performance, and thoughtful developer experience.
+            </p>
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+                <a href="#" class="inline-flex items-center gap-2 rounded-xl bg-white/90 text-neutral-900 px-4 py-2.5 text-sm font-medium hover:bg-white transition">
+                    <i class="bi bi-download text-base"></i>
+                    Download CV
+                </a>
+                <a href="#projects" class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-neutral-200 hover:border-white/20 hover:bg-white/10 transition">
+                    <i data-lucide="folder-code" class="h-4 w-4"></i>
+                    View projects
+                </a>
+                <div class="ml-auto hidden lg:flex items-center gap-5">
+                    <a href="https://github.com/" target="_blank" class="inline-flex items-center gap-2 text-neutral-300 hover:text-white transition">
+                        <i data-lucide="github" class="h-4 w-4"></i><span class="text-sm">GitHub</span>
+                    </a>
+                    <a href="https://t.me/" target="_blank" class="inline-flex items-center gap-2 text-neutral-300 hover:text-white transition">
+                        <i class="bi bi-telegram"></i><span class="text-sm">Telegram</span>
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" class="inline-flex items-center gap-2 text-neutral-300 hover:text-white transition">
+                        <i data-lucide="linkedin" class="h-4 w-4"></i><span class="text-sm">LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 grid grid-cols-3 gap-3">
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p class="text-xs text-neutral-400">Experience</p>
+                    <p class="mt-1 text-2xl tracking-tight font-semibold text-white">5+ yrs</p>
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p class="text-xs text-neutral-400">Projects shipped</p>
+                    <p class="mt-1 text-2xl tracking-tight font-semibold text-white">40+</p>
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p class="text-xs text-neutral-400">Avg. response</p>
+                    <p class="mt-1 text-2xl tracking-tight font-semibold text-white">&lt; 24h</p>
+                </div>
+            </div>
+        </div>
+        <div data-animate data-delay="140" class="lg:col-span-5 flex flex-col gap-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
+                <div class="flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=240&auto=format&fit=crop" alt="Profile" class="h-16 w-16 rounded-2xl object-cover ring-1 ring-white/10" />
+                    <div>
+                        <p class="text-sm text-neutral-300">Your Name</p>
+                        <p class="text-lg tracking-tight font-semibold text-white">Full‑Stack .NET Engineer</p>
+                    </div>
+                </div>
+                <div class="mt-6 grid grid-cols-3 gap-3">
+                    <a href="mailto:hello@example.com" class="group rounded-xl border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 transition">
+                        <i data-lucide="mail" class="h-5 w-5 text-neutral-300 group-hover:text-white"></i>
+                        <p class="mt-3 text-xs text-neutral-400">Email</p>
+                        <p class="text-sm text-neutral-200">hello@example.com</p>
+                    </a>
+                    <a href="tel:+10000000000" class="group rounded-xl border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 transition">
+                        <i data-lucide="phone" class="h-5 w-5 text-neutral-300 group-hover:text-white"></i>
+                        <p class="mt-3 text-xs text-neutral-400">Phone</p>
+                        <p class="text-sm text-neutral-200">+1 000 000 0000</p>
+                    </a>
+                    <a href="https://github.com/" target="_blank" class="group rounded-xl border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 transition">
+                        <i data-lucide="github" class="h-5 w-5 text-neutral-300 group-hover:text-white"></i>
+                        <p class="mt-3 text-xs text-neutral-400">GitHub</p>
+                        <p class="text-sm text-neutral-200">/username</p>
+                    </a>
+                </div>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
+                <p class="text-sm text-neutral-300">Focus</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">ASP.NET Core</span>
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">REST APIs</span>
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">Microservices</span>
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">React</span>
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">WPF / MAUI</span>
+                    <span class="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">Cloud‑ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div data-animate data-delay="120" class="lg:col-span-7 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl tracking-tight font-semibold text-white">Technical Skills</h2>
+                <div class="inline-flex items-center gap-2 text-xs text-neutral-400">
+                    <i data-lucide="clock" class="h-4 w-4"></i> Continuously improving
+                </div>
+            </div>
+            <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <!-- Languages -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="code-2" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Languages</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">C#, JavaScript</p>
+                </div>
+                <!-- Architecture -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="circuit-board" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Architecture</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">ASP.NET Core, MVC, MVVM, REST, Microservices</p>
+                </div>
+                <!-- Desktop/Mobile -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="monitor-smartphone" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Desktop / Mobile</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">WPF, MAUI, Xamarin, UWP</p>
+                </div>
+                <!-- Web -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="globe" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Web</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">HTML, CSS, JS, React, CDN, REST API, JSON/XML, Three.js, Anime.js, Tailwind, Bootstrap, WordPress, Tilda</p>
+                </div>
+                <!-- Tools -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="wrench" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Tools</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">Visual Studio, Git, GitHub</p>
+                </div>
+                <!-- Databases -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="database" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Databases</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">MySQL, SQLite, PostgreSQL</p>
+                </div>
+                <!-- Other -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="bot" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Other</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">Telegram API, PDFSharp, Excel/Word Interop, Multithreading, LINQ, Entity Framework</p>
+                </div>
+                <!-- Creative -->
+                <div class="group rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10 hover:border-white/20 transition">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="pen-tool" class="h-4 w-4 text-indigo-400"></i>
+                        <p class="text-sm font-medium text-neutral-200">Creative</p>
+                    </div>
+                    <p class="mt-2 text-xs text-neutral-400">Blender, Photoshop, Unity</p>
+                </div>
+            </div>
+
+            <!-- Skill Chart -->
+            <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium text-neutral-200">Proficiency Snapshot</p>
+                    <div class="flex items-center gap-2 text-xs text-neutral-400">
+                        <i class="bi bi-bar-chart"></i> Radar
+                    </div>
+                </div>
+                <p class="mt-1 text-xs text-neutral-400">A quick visual look at my core stacks.</p>
+                <div class="mt-4">
+                    <div class="relative h-64">
+                        <div class="absolute inset-0">
+                            <div class="h-full w-full">
+                                <div class="h-full w-full">
+                                    <canvas id="skillsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Highlights -->
+        <div data-animate data-delay="200" class="lg:col-span-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <h3 class="text-xl tracking-tight font-semibold text-white">Highlights</h3>
+            <ul class="mt-4 space-y-3">
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 rounded-md border border-white/10 bg-white/5 p-1.5"><i data-lucide="server-cog" class="h-4 w-4 text-indigo-400"></i></span>
+                    <p class="text-sm text-neutral-300">Designed and deployed resilient microservices with observability and CI/CD.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 rounded-md border border-white/10 bg-white/5 p-1.5"><i data-lucide="rocket" class="h-4 w-4 text-indigo-400"></i></span>
+                    <p class="text-sm text-neutral-300">Accelerated front‑end delivery with component systems and modern tooling.</p>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-0.5 rounded-md border border-white/10 bg-white/5 p-1.5"><i data-lucide="lock" class="h-4 w-4 text-indigo-400"></i></span>
+                    <p class="text-sm text-neutral-300">Implemented security best practices: auth, rate‑limits, input validation.</p>
+                </li>
+            </ul>
+
+            <div class="mt-6 grid grid-cols-2 gap-3">
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 transition">
+                    <p class="text-xs text-neutral-400">Primary Stack</p>
+                    <p class="mt-2 text-sm text-neutral-200">ASP.NET Core, EF, React</p>
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4 hover:border-white/20 hover:bg-white/10 transition">
+                    <p class="text-xs text-neutral-400">Cloud & DevOps</p>
+                    <p class="mt-2 text-sm text-neutral-200">Docker, CI/CD, CDN</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+    <div class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl tracking-tight font-semibold text-white">Experience</h2>
+            <span class="text-xs text-neutral-400">Selected roles</span>
+        </div>
+        <div class="mt-6 space-y-6">
+            <!-- Role 1 -->
+            <div data-animate data-delay="80" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+                <div class="flex flex-col items-center">
+            <span class="h-10 w-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+              <i data-lucide="briefcase" class="h-5 w-5 text-indigo-400"></i>
+            </span>
+                    <span class="mt-2 h-full w-px bg-white/10"></span>
+                </div>
+                <div class="flex-1 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <p class="text-sm font-medium text-neutral-200">Senior .NET Developer — Product Company</p>
+                        <span class="text-xs text-neutral-400">2022 — Present</span>
+                    </div>
+                    <p class="mt-2 text-sm text-neutral-300">Led backend for a high‑traffic SaaS. Migrated from monolith to microservices, improving throughput by 40%.</p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">ASP.NET Core</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">gRPC</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">PostgreSQL</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Docker</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Role 2 -->
+            <div data-animate data-delay="140" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+                <div class="flex flex-col items-center">
+            <span class="h-10 w-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+              <i data-lucide="cpu" class="h-5 w-5 text-indigo-400"></i>
+            </span>
+                    <span class="mt-2 h-full w-px bg-white/10"></span>
+                </div>
+                <div class="flex-1 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <p class="text-sm font-medium text-neutral-200">Full‑Stack Engineer — Agency</p>
+                        <span class="text-xs text-neutral-400">2020 — 2022</span>
+                    </div>
+                    <p class="mt-2 text-sm text-neutral-300">Built content websites and admin portals using React + .NET APIs with strong SEO and accessibility.</p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">React</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">REST</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">EF Core</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Role 3 -->
+            <div data-animate data-delay="200" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+                <div class="flex flex-col items-center">
+            <span class="h-10 w-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+              <i data-lucide="smartphone" class="h-5 w-5 text-indigo-400"></i>
+            </span>
+                </div>
+                <div class="flex-1 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <p class="text-sm font-medium text-neutral-200">.NET Desktop/Mobile Developer — Freelance</p>
+                        <span class="text-xs text-neutral-400">2019 — 2020</span>
+                    </div>
+                    <p class="mt-2 text-sm text-neutral-300">Delivered cross‑platform utilities and internal tools with MAUI/Xamarin and WPF.</p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">MAUI</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Xamarin</span>
+                        <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">WPF</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl tracking-tight font-semibold text-white">Projects</h2>
+        <a href="#" class="text-sm text-neutral-300 hover:text-white transition flex items-center gap-2">
+            All projects <i data-lucide="arrow-right" class="h-4 w-4"></i>
+        </a>
+    </div>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card 1 -->
+        <article data-animate data-delay="80" class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop" class="h-40 w-full object-cover" alt="Project cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">ASP.NET Core</span>
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">React</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="GitHub">
+                            <i data-lucide="github" class="h-4 w-4"></i>
+                        </a>
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="Live">
+                            <i data-lucide="external-link" class="h-4 w-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg tracking-tight font-semibold text-white">Analytics Dashboard</h3>
+                <p class="mt-2 text-sm text-neutral-300">Realtime metrics, role‑based access, and custom charts with WebSockets.</p>
+            </div>
+        </article>
+        <!-- Card 2 -->
+        <article data-animate data-delay="140" class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200&auto=format&fit=crop" class="h-40 w-full object-cover" alt="Project cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">Microservices</span>
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">gRPC</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="GitHub">
+                            <i data-lucide="github" class="h-4 w-4"></i>
+                        </a>
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="Live">
+                            <i data-lucide="external-link" class="h-4 w-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg tracking-tight font-semibold text-white">Order Processing Platform</h3>
+                <p class="mt-2 text-sm text-neutral-300">Event‑driven pipeline with resilient retries and structured logging.</p>
+            </div>
+        </article>
+        <!-- Card 3 -->
+        <article data-animate data-delay="200" class="group rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" class="h-40 w-full object-cover" alt="Project cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">WPF</span>
+                        <span class="rounded-md border border-white/15 bg-white/10 px-2 py-0.5 text-xs text-white/90">EF Core</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="GitHub">
+                            <i data-lucide="github" class="h-4 w-4"></i>
+                        </a>
+                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 transition" aria-label="Live">
+                            <i data-lucide="external-link" class="h-4 w-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="p-5">
+                <h3 class="text-lg tracking-tight font-semibold text-white">Desktop Asset Manager</h3>
+                <p class="mt-2 text-sm text-neutral-300">Offline‑first desktop app with sync and background workers.</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- References / Gallery -->
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div data-animate data-delay="80" class="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <h3 class="text-xl tracking-tight font-semibold text-white">What clients say</h3>
+            <div class="mt-4 space-y-4">
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p class="text-sm text-neutral-300">“Clear communication and top‑notch work. Our API performance improved dramatically.”</p>
+                    <p class="mt-2 text-xs text-neutral-400">CTO, E‑commerce</p>
+                </div>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p class="text-sm text-neutral-300">“Delivered complex features ahead of schedule with excellent code quality.”</p>
+                    <p class="mt-2 text-xs text-neutral-400">PM, SaaS Startup</p>
+                </div>
+            </div>
+        </div>
+        <div data-animate data-delay="140" class="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-4 sm:p-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1200&auto=format&fit=crop" alt="Work 1" />
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1621619856624-42fd193a0661?w=1080&q=80" alt="Work 2" />
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" alt="Work 3" />
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop" alt="Work 4" />
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop" alt="Work 5" />
+                <img class="h-28 w-full rounded-2xl object-cover ring-1 ring-white/10" src="https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=1080&q=80" alt="Work 6" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16 mb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div data-animate data-delay="80" class="lg:col-span-7 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <h2 class="text-2xl tracking-tight font-semibold text-white">Let’s work together</h2>
+            <p class="mt-2 text-sm text-neutral-300">Tell me about your project or role. I usually respond within a day.</p>
+            <form class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs text-neutral-400">Full name</label>
+                    <input type="text" required placeholder="John Smith" class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-neutral-100 placeholder:text-neutral-500 outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-white/20 transition" />
+                </div>
+                <div>
+                    <label class="text-xs text-neutral-400">Email</label>
+                    <input type="email" required placeholder="name@company.com" class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-neutral-100 placeholder:text-neutral-500 outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-white/20 transition" />
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="text-xs text-neutral-400">Message</label>
+                    <textarea required rows="4" placeholder="I’m looking for..." class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-neutral-100 placeholder:text-neutral-500 outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-white/20 transition"></textarea>
+                </div>
+                <div class="sm:col-span-2 flex items-center justify-between">
+                    <div class="flex items-center gap-3 text-xs text-neutral-400">
+                        <i data-lucide="shield-check" class="h-4 w-4"></i>
+                        <span>Secure & private</span>
+                    </div>
+                    <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-indigo-500/90 px-4 py-2.5 text-sm text-white hover:bg-indigo-500 transition">
+                        <i data-lucide="send" class="h-4 w-4"></i>
+                        Send message
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div data-animate data-delay="140" class="lg:col-span-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <h3 class="text-xl tracking-tight font-semibold text-white">Quick info</h3>
+            <div class="mt-4 space-y-4">
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="map-pin" class="h-5 w-5 text-indigo-400"></i>
+                        <div>
+                            <p class="text-sm text-neutral-300">Location</p>
+                            <p class="text-xs text-neutral-400">UTC+3 • Open to relocate</p>
+                        </div>
+                    </div>
+                    <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Remote</span>
+                </div>
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center gap-3">
+                        <i class="bi bi-people text-base text-indigo-400"></i>
+                        <div>
+                            <p class="text-sm text-neutral-300">Collaboration</p>
+                            <p class="text-xs text-neutral-400">Agile, code reviews, pair programming</p>
+                        </div>
+                    </div>
+                    <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Team player</span>
+                </div>
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="trophy" class="h-5 w-5 text-indigo-400"></i>
+                        <div>
+                            <p class="text-sm text-neutral-300">Interests</p>
+                            <p class="text-xs text-neutral-400">3D, tooling, perf, DX</p>
+                        </div>
+                    </div>
+                    <span class="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-xs text-neutral-300">Always learning</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="h-7 w-7 rounded-md border border-white/15 bg-white/5 flex items-center justify-center text-xs tracking-tight font-semibold">AV</div>
+            <p class="text-xs text-neutral-400">© 2025. Built with care.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#" class="text-neutral-300 hover:text-white transition"><i data-lucide="github" class="h-4 w-4"></i></a>
+            <a href="#" class="text-neutral-300 hover:text-white transition"><i class="bi bi-telegram"></i></a>
+            <a href="#" class="text-neutral-300 hover:text-white transition"><i data-lucide="linkedin" class="h-4 w-4"></i></a>
+            <a href="mailto:hello@example.com" class="text-neutral-300 hover:text-white transition"><i data-lucide="mail" class="h-4 w-4"></i></a>
+        </div>
+    </div>
+</footer>
+
+<!-- Behavior -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lucide icons init (stroke-width 1.5)
+        if (window.lucide) {
+            window.lucide.createIcons({ attrs: { 'stroke-width': 1.5 } });
+        }
+
+        // Progressive reveal using CSS transitions (no JS animation)
+        const nodes = Array.from(document.querySelectorAll('[data-animate]'));
+        nodes.forEach((el, i) => {
+            const baseDelay = parseInt(el.dataset.delay || (i * 80), 10);
+            setTimeout(() => {
+                el.classList.add('opacity-100', 'translate-y-0', 'blur-0');
+            }, baseDelay);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const href = a.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Chart.js Radar
+        const ctx = document.getElementById('skillsChart');
+        if (ctx) {
+            const chart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['.NET / C#', 'ASP.NET Core', 'React / JS', 'Databases', 'Architecture', 'Desktop/Mobile'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: [90, 88, 80, 78, 85, 82],
+                        fill: true,
+                        backgroundColor: 'rgba(99,102,241,0.2)',
+                        borderColor: 'rgba(99,102,241,0.8)',
+                        pointBackgroundColor: 'rgba(255,255,255,0.9)',
+                        pointBorderColor: 'rgba(255,255,255,0.6)',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(99,102,241,1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255,255,255,0.08)' },
+                            grid: { color: 'rgba(255,255,255,0.08)' },
+                            pointLabels: { color: 'rgba(255,255,255,0.7)', font: { size: 11 } },
+                            ticks: { display: false, beginAtZero: true, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
