@@ -1226,20 +1226,20 @@
             easing: 'easeOutExpo',
             update: renderParticule
         })
-            .add({
-                targets: circle,
-                radius: anime.random(80, 160),
-                lineWidth: 0,
-                alpha: {
-                    value: 0,
-                    easing: 'linear',
-                    duration: anime.random(600, 800),
-                },
-                duration: anime.random(1200, 1800),
-                easing: 'easeOutExpo',
-                update: renderParticule,
-                offset: 0
-            });
+            // .add({
+            //     targets: circle,
+            //     radius: anime.random(80, 160),
+            //     lineWidth: 0,
+            //     alpha: {
+            //         value: 0,
+            //         easing: 'linear',
+            //         duration: anime.random(600, 800),
+            //     },
+            //     duration: anime.random(1200, 1800),
+            //     easing: 'easeOutExpo',
+            //     update: renderParticule,
+            //     offset: 0
+            // });
     }
 
     var render = anime({
@@ -1300,7 +1300,7 @@
                 // Ждем либо загрузки изображений, либо минимального времени
                 Promise.all([
                     ...imageLoadPromises,
-                    new Promise(resolve => setTimeout(resolve, 1000))
+                    new Promise(resolve => setTimeout(resolve, 3000))
                 ]).then(() => {
                     // Анимация исчезновения прелоадера
                     preloader.classList.add('opacity-0');
