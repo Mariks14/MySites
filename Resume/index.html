@@ -11,22 +11,110 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <meta name="theme-color" content="#0a0a0b" />
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        #tech-lines {
+            background-color: #222;
+            color: #fff;
+            font-weight: 400;
+            font-size: 2vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-transform: uppercase;
+
+            height: 100vh;
+            box-sizing: border-box;
+            letter-spacing: 6px;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        #tech-lines {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        span {
+            display: inline-block;
+        }
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .content-loaded {
+            animation: fadeIn 0.5s ease-out forwards;
+            pointer-events: none;
+        }
+        #preloader {
+            pointer-events: none; /* Разрешает клики сквозь прелоадер */
+        }
+
+        #preloader dotlottie-player {
+            pointer-events: none; /* На случай, если Lottie-плеер блокирует клики */
+        }
+    </style>
 </head>
 <body class="bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 antialiased selection:bg-[#2DD4BF]/30 selection:text-white" style="font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, Apple Color Emoji, Segoe UI Emoji;">
+
+<!-- Preloader -->
+<div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-neutral-950 transition-opacity duration-500">
+    <div class="fixed inset-0 flex items-center justify-center">
+        <dotlottie-player
+                id="lottie-loader"
+                src="Lottie/Preloader.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+                class="w-full h-auto max-w-3xl max-h-xl"
+        ></dotlottie-player>
+    </div>
+</div>
+
 <!-- Background: Spline + gradients -->
 <div class="fixed inset-0 -z-10 overflow-hidden">
 <!--    <div class="absolute inset-0">-->
 <!--        <iframe src="https://my.spline.design/radialglass-20RYcJn9wbsEb5QEYkazHjpb" frameborder="0" class="w-full h-full opacity-70 pointer-events-none"></iframe>-->
 <!--    </div>-->
+
+    <!-- Контейнер для анимированных строк -->
+    <div id="tech-lines" class="absolute inset-0 overflow-hidden  ">
+        <!-- Строки будут добавляться динамически -->
+    </div>
+
+    <div class="relative z-10 h-full w-full backdrop-blur-[2px]">
+        <!-- Основное содержимое резюме -->
+    </div>
+
+
     <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/50 to-neutral-950/90 dark:from-neutral-950/60 dark:via-neutral-950/50 dark:to-neutral-950/90"></div>
+
     <div class="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#2DD4BF]/10 blur-3xl"></div>
     <div class="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-[#2DD4BF]/10 blur-3xl"></div>
 </div>
-
+<canvas class="fireworks"></canvas>
 <!-- Top Nav -->
-<header class="sticky top-0 z-40">
-    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<header  class="sticky top-0 z-40">
+    <nav data-aos="fade-down" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mt-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl">
             <div class="flex items-center justify-between px-4 py-3 sm:px-6">
                 <a href="#" class="flex items-center gap-3">
@@ -62,9 +150,9 @@
 </header>
 
 <!-- Hero -->
-<section id="about" class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div data-animate data-delay="80" class="lg:col-span-7 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700 flex flex-col">
+<section  id="about" class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16">
+    <div  class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div data-aos="fade-left" data-animate data-delay="80" class="lg:col-span-7 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700 flex flex-col">
             <div class="flex items-center gap-3">
               <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
                 <i data-lucide="sparkles" class="h-4 w-4 text-[#2DD4BF]"></i>
@@ -91,34 +179,34 @@
 
             </div>
             <div class="mr-auto  flex items-center gap-5 my-8">
-                <a href="https://github.com/Mariks14" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
+                <a data-aos="fade-left" data-aos-delay="100" href="https://github.com/Mariks14" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
                     <i data-lucide="github" class="h-4 w-4"></i><span class="text-sm">GitHub</span>
                 </a>
-                <a href="https://t.me/@Mariks0000" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
+                <a data-aos="fade-left" data-aos-delay="200" href="https://t.me/@Mariks0000" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
                     <i class="bi bi-telegram"></i><span class="text-sm">Telegram</span>
                 </a>
-                <a href="https://www.linkedin.com/in/maksim-marchuk-443894282//" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
+                <a data-aos="fade-left" data-aos-delay="300" href="https://www.linkedin.com/in/maksim-marchuk-443894282//" target="_blank" class="mx-4 inline-flex items-center gap-2 text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition">
                     <i data-lucide="linkedin" class="h-4 w-4"></i><span class="text-sm">LinkedIn</span>
                 </a>
             </div>
             <div class="mt-8 grid grid-cols-3 gap-3 mt-auto bottom-0">
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                <div data-aos="fade-up" data-aos-delay="100" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Experience</p>
                     <p class="mt-1 text-2xl tracking-tight font-semibold text-neutral-900 dark:text-white">3+ yrs</p>
                 </div>
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                <div data-aos="fade-up" data-aos-delay="300" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Projects shipped</p>
                     <p class="mt-1 text-2xl tracking-tight font-semibold text-neutral-900 dark:text-white">30+</p>
                 </div>
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                <div data-aos="fade-up" data-aos-delay="500" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Avg. response</p>
                     <p class="mt-1 text-2xl tracking-tight font-semibold text-neutral-900 dark:text-white">&lt; 24h</p>
                 </div>
             </div>
         </div>
-        <div data-animate data-delay="140" class="lg:col-span-5 flex flex-col gap-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
-            <div class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
-                <div class="flex items-center gap-4">
+        <div  data-aos="fade-left" data-animate data-delay="140" class="lg:col-span-5 flex flex-col gap-6 opacity-0 translate-y-6 backdrop-blur-sm blur-sm transition-all duration-700">
+            <div class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-3xl p-6 sm:p-8">
+                <div data-aos="fade-down " data-aos-delay="100" class="flex items-center gap-4">
                     <img src="img/art.png" alt="Profile" class="h-16 w-16 rounded-2xl object-cover ring-1 ring-black/10 dark:ring-white/10" />
                     <div>
                         <p class="text-sm text-neutral-700 dark:text-neutral-300">Maxim Marchuk</p>
@@ -126,13 +214,13 @@
                     </div>
                 </div>
                 <div class="mt-6 grid grid-cols-2 gap-2">
-                    <a href="mariks1406@yandex.ru" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
+                    <a data-aos="fade-right" data-aos-delay="200" href="mariks1406@yandex.ru" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
                         <i data-lucide="mail" class="h-5 w-5 text-neutral-700 dark:text-neutral-300 group-hover:text-[#2DD4BF]"></i>
                         <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">Email</p>
                         <p class="text-sm text-neutral-800 dark:text-neutral-200">mariks1406@yandex.ru</p>
 
                     </a>
-                    <a href="mariks14temp@mail.ru" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
+                    <a data-aos="fade-left" data-aos-delay="300" href="mariks14temp@mail.ru" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
                         <i data-lucide="mail" class="h-5 w-5 text-neutral-700 dark:text-neutral-300 group-hover:text-[#2DD4BF]"></i>
                         <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">Email</p>
 
@@ -143,38 +231,38 @@
 <!--                        <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">Phone</p>-->
 <!--                        <p class="text-sm text-neutral-800 dark:text-neutral-200">+7 000 000 0000</p>-->
 <!--                    </a>-->
-                    <a href="https://github.com/Mariks14" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
+                    <a data-aos="fade-right" data-aos-delay="400" href="https://github.com/Mariks14" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
                         <i data-lucide="github" class="h-5 w-5 text-neutral-700 dark:text-neutral-300 group-hover:text-[#2DD4BF]"></i>
                         <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">GitHub</p>
                         <p class="text-sm text-neutral-800 dark:text-neutral-200">https://github.com/Mariks14</p>
                     </a>
-                    <a href="https://t.me/" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
+                    <a data-aos="fade-left" data-aos-delay="500" href="https://t.me/" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
                         <i data-lucide="send" class="h-5 w-5 text-neutral-700 dark:text-neutral-300 group-hover:text-[#2DD4BF]"></i>
                         <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">Telegram</p>
                         <p class="text-sm text-neutral-800 dark:text-neutral-200">@Mariks0000</p>
                     </a>
-                    <a href="https://www.behance.net/maksimmarchuk" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
+                    <a data-aos="fade-right" data-aos-delay="600" href="https://www.behance.net/maksimmarchuk" target="_blank" class="group rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:outline hover:outline-1 hover:outline-[#2DD4BF]/30 transition">
                         <i data-lucide="briefcase-business" class="h-5 w-5 text-neutral-700 dark:text-neutral-300 group-hover:text-[#2DD4BF]"></i>
                         <p class="mt-3 text-xs text-neutral-600 dark:text-neutral-400">behance</p>
                         <p class="text-sm text-neutral-800 dark:text-neutral-200">maksimmarchuk</p>
                     </a>
                 </div>
             </div>
-            <div class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
+            <div data-aos="fade-left" class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
                 <p class="text-sm text-neutral-700 dark:text-neutral-300">Focus</p>
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">ASP.NET Core</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">REST APIs</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Microservices</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">React</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">WPF / MAUI</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Cloud‑ready</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">C#</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">.Net 6/7/8/9</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Entity Framework</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Docker</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Html / css</span>
-                    <span class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">JavaScript</span>
+                    <span data-aos="zoom-in" data-aos-delay="100" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">ASP.NET Core</span>
+                    <span data-aos="zoom-in" data-aos-delay="150" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">REST APIs</span>
+                    <span data-aos="zoom-in" data-aos-delay="200" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Microservices</span>
+                    <span data-aos="zoom-in" data-aos-delay="250" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">React</span>
+                    <span data-aos="zoom-in" data-aos-delay="300" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">WPF / MAUI</span>
+                    <span data-aos="zoom-in" data-aos-delay="350" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Cloud‑ready</span>
+                    <span data-aos="zoom-in" data-aos-delay="400" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">C#</span>
+                    <span data-aos="zoom-in" data-aos-delay="450" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">.Net 6/7/8/9</span>
+                    <span data-aos="zoom-in" data-aos-delay="500" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Entity Framework</span>
+                    <span data-aos="zoom-in" data-aos-delay="550" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Docker</span>
+                    <span data-aos="zoom-in" data-aos-delay="600" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">Html / css</span>
+                    <span data-aos="zoom-in" data-aos-delay="650" class="rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-1 text-xs text-neutral-800 dark:text-neutral-200">JavaScript</span>
 
 
 
@@ -186,7 +274,7 @@
 </section>
 
 <!-- Skills -->
-<section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+<section data-aos="fade-down" id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div data-animate data-delay="120" class="lg:col-span-7 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
             <div class="flex items-center justify-between">
@@ -197,7 +285,7 @@
             </div>
             <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <!-- Languages -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="100" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="code-2" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Languages</p>
@@ -205,7 +293,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">C#, JavaScript, html, css, Deluge, Xaml</p>
                 </div>
                 <!-- Architecture -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="200" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="circuit-board" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Architecture</p>
@@ -213,7 +301,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">ASP.NET Core, MVC, MVVM, REST, Microservices</p>
                 </div>
                 <!-- Desktop/Mobile -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="300" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="monitor-smartphone" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Desktop / Mobile</p>
@@ -221,7 +309,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">WPF, MAUI, Xamarin, UWP</p>
                 </div>
                 <!-- Web -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="400" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="globe" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Web</p>
@@ -229,7 +317,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">HTML, CSS, JS, React, CDN, REST API, JSON/XML, Three.js, Anime.js, Tailwind, Bootstrap, WordPress, Tilda</p>
                 </div>
                 <!-- Tools -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="500" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="wrench" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Tools</p>
@@ -237,7 +325,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">Visual Studio, Git, GitHub, Rider, Webstorm</p>
                 </div>
                 <!-- Databases -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="600" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="database" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Databases</p>
@@ -245,7 +333,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">MySQL, SQLite, PostgreSQL</p>
                 </div>
                 <!-- Other -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="700" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="bot" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Other</p>
@@ -253,7 +341,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">Telegram API, PDFSharp, Excel/Word Interop, Multithreading, LINQ, Entity Framework</p>
                 </div>
                 <!-- Creative -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="800" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="pen-tool" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Creative</p>
@@ -261,7 +349,7 @@
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">Blender, Photoshop, Unity</p>
                 </div>
                 <!-- Customer / CRM -->
-                <div class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="900" class="group rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <div class="flex items-center gap-2">
                         <i data-lucide="layout-list" class="h-4 w-4 text-[#2DD4BF]"></i>
                         <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Customer & CRM</p>
@@ -271,7 +359,7 @@
             </div>
 
             <!-- Skill Chart -->
-            <div class="mt-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 ">
+            <div data-aos="fade-up" data-aos-delay="400" class="mt-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 ">
                 <div class="flex items-center justify-between">
                     <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Proficiency Snapshot</p>
                     <div class="flex items-center gap-2 text-xs text-neutral-600 dark:text-neutral-400">
@@ -296,32 +384,32 @@
         <div data-animate data-delay="200" class="lg:col-span-5 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
             <h3 class="text-xl tracking-tight font-semibold text-neutral-900 dark:text-white">Highlights</h3>
             <ul class="mt-4 space-y-3">
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="500" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="server-cog" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Designed and deployed resilient microservices with observability and CI/CD.</p>
                 </li>
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="600" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="rocket" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Accelerated front‑end delivery with component systems and modern tooling.</p>
                 </li>
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="700" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="lock" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Implemented security best practices: auth, rate‑limits, input validation.</p>
                 </li>
                 <!-- Added abstract strengths -->
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="800" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="calendar-check-2" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Punctual delivery with reliable estimates and deadline ownership.</p>
                 </li>
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="900" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="gauge" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">High iteration speed: rapid prototyping, focused execution, measurable outcomes.</p>
                 </li>
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="1000" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="book-open" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Fast learner: explore, synthesize, and apply new tech with pragmatic depth.</p>
                 </li>
-                <li class="flex items-start gap-3">
+                <li data-aos="fade-up" data-aos-delay="1100" class="flex items-start gap-3">
                     <span class="mt-0.5 rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-1.5"><i data-lucide="file-text" class="h-4 w-4 text-[#2DD4BF]"></i></span>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">Clear communication and documentation: READMEs, and onboarding guides.</p>
                 </li>
@@ -333,7 +421,7 @@
             <div class="mt-6 border-t border-black/10 dark:border-white/10 pt-5">
                 <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Strengths at a glance</p>
                 <div class="mt-3 grid grid-cols-2 gap-3">
-                    <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
+                    <div data-aos="fade-right" data-aos-delay="700" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="calendar-check-2" class="h-4 w-4 text-[#2DD4BF]"></i>
@@ -345,7 +433,7 @@
                             <div class="h-1.5 rounded-full bg-[#2DD4BF]" style="width:95%"></div>
                         </div>
                     </div>
-                    <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
+                    <div data-aos="fade-down" data-aos-delay="800" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="gauge" class="h-4 w-4 text-[#2DD4BF]"></i>
@@ -357,7 +445,7 @@
                             <div class="h-1.5 rounded-full bg-[#2DD4BF]" style="width:90%"></div>
                         </div>
                     </div>
-                    <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
+                    <div data-aos="fade-right" data-aos-delay="900" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="book-open" class="h-4 w-4 text-[#2DD4BF]"></i>
@@ -369,7 +457,7 @@
                             <div class="h-1.5 rounded-full bg-[#2DD4BF]" style="width:92%"></div>
                         </div>
                     </div>
-                    <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
+                    <div data-aos="fade-up" data-aos-delay="1000" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <i data-lucide="message-square" class="h-4 w-4 text-[#2DD4BF]"></i>
@@ -385,20 +473,20 @@
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-3">
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="400" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Primary Stack</p>
                     <p class="mt-2 text-sm text-neutral-800 dark:text-neutral-200">ASP.NET Core, EF, React</p>
                 </div>
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="500" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Cloud & DevOps</p>
                     <p class="mt-2 text-sm text-neutral-800 dark:text-neutral-200">Docker, CI/CD, CDN</p>
                 </div>
                 <!-- Added quick info cards -->
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="600" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Delivery & Quality</p>
                     <p class="mt-2 text-sm text-neutral-800 dark:text-neutral-200">On‑time delivery, tests, code reviews</p>
                 </div>
-                <div class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
+                <div data-aos="zoom-in" data-aos-delay="700" class="rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4 hover:border-[#2DD4BF]/40 hover:shadow-[0_0_0_1px_rgba(45,212,191,0.2)] transition">
                     <p class="text-xs text-neutral-600 dark:text-neutral-400">Collaboration</p>
                     <p class="mt-2 text-sm text-neutral-800 dark:text-neutral-200">Mentoring, async comms, stakeholder alignment</p>
                 </div>
@@ -409,19 +497,19 @@
 
 <!-- Experience -->
 <section id="experience" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
-    <div class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
+    <div  class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
         <div class="flex items-center justify-between">
             <h2 class="text-2xl tracking-tight font-semibold text-neutral-900 dark:text-white">Experience</h2>
             <span class="text-xs text-neutral-600 dark:text-neutral-400">Selected roles</span>
         </div>
         <div class="mt-6 space-y-6">
             <!-- Role 1 -->
-            <div data-animate data-delay="80" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div data-aos="fade-up" data-aos-delay="200"  class="relative flex gap-4  translate-y-6 ">
                 <div class="flex flex-col items-center">
-            <span class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
+            <span data-aos="fade-down" data-aos-delay="200" class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
               <i data-lucide="briefcase" class="h-5 w-5 text-[#2DD4BF]"></i>
             </span>
-                    <span class="mt-2 h-full w-px bg-black/10 dark:bg-white/10"></span>
+                    <span data-aos="fade-down" data-aos-delay="300" class="mt-2 h-full w-px bg-black/10 dark:bg-white/10"></span>
                 </div>
                 <div class="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <div class="flex flex-wrap items-center justify-between gap-2">
@@ -430,22 +518,22 @@
                     </div>
                     <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">Data analyst, data search, software development for internal use by the department. Creating and support websites, project manager</p>
                     <div class="mt-3 flex flex-wrap gap-2">
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">ASP.NET Core</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Web</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">MySql</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Tilda</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Telegram Bot</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Power BI</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">ASP.NET Core</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Web</span>
+                        <span data-aos="fade-left" data-aos-delay="300" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">MySql</span>
+                        <span data-aos="fade-left" data-aos-delay="400" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Tilda</span>
+                        <span data-aos="fade-left" data-aos-delay="500" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Telegram Bot</span>
+                        <span data-aos="fade-left" data-aos-delay="600" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Power BI</span>
                     </div>
                 </div>
             </div>
             <!-- Role 2 -->
-            <div data-animate data-delay="140" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div data-aos="fade-up" data-aos-delay="300"  class="relative flex gap-4  translate-y-6" >
                 <div class="flex flex-col items-center">
-            <span class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
+            <span data-aos="fade-down" data-aos-delay="200" class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
               <i data-lucide="cpu" class="h-5 w-5 text-[#2DD4BF]"></i>
             </span>
-                    <span class="mt-2 h-full w-px bg-black/10 dark:bg-white/10"></span>
+                    <span data-aos="fade-down" data-aos-delay="300" class="mt-2 h-full w-px bg-black/10 dark:bg-white/10"></span>
                 </div>
                 <div class="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <div class="flex flex-wrap items-center justify-between gap-2">
@@ -454,19 +542,20 @@
                     </div>
                     <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">project support, creation of automatic reports, creation and maintenance of a website, creation of a website structure on asp net core, creation of websites and back development</p>
                     <div class="mt-3 flex flex-wrap gap-2">
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Asp Net core</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">REST</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">EF Core</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Tailwind</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Asp Net core</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">REST</span>
+                        <span data-aos="fade-left" data-aos-delay="300" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">EF Core</span>
+                        <span data-aos="fade-left" data-aos-delay="400" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Tailwind</span>
                     </div>
                 </div>
             </div>
             <!-- Role 3 -->
-            <div data-animate data-delay="200" class="relative flex gap-4 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+            <div data-aos="fade-up" data-aos-delay="400"  class="relative flex gap-4  translate-y-6 ">
                 <div class="flex flex-col items-center">
-            <span class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
+            <span data-aos="fade-down" data-aos-delay="200" class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
               <i data-lucide="smartphone" class="h-5 w-5 text-[#2DD4BF]"></i>
             </span>
+                    <span data-aos="fade-down" data-aos-delay="300" class="mt-2 h-full w-px bg-black/10 dark:bg-white/10"></span>
                 </div>
                 <div class="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <div class="flex flex-wrap items-center justify-between gap-2">
@@ -475,10 +564,32 @@
                     </div>
                     <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">Performing tasks, writing functions for Tflex Docs, working with UI on WPF, TfeX DOCs API</p>
                     <div class="mt-3 flex flex-wrap gap-2">
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Net framework 4.5</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">C#</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">WPF</span>
-                        <span class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">XAML</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Net framework 4.5</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">C#</span>
+                        <span data-aos="fade-left" data-aos-delay="300" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">WPF</span>
+                        <span data-aos="fade-left" data-aos-delay="400" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">XAML</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role 4 -->
+            <div data-aos="fade-up" data-aos-delay="500" class="relative flex gap-4  translate-y-6 ">
+                <div class="flex flex-col items-center">
+            <span class="h-10 w-10 rounded-xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 flex items-center justify-center">
+              <i data-lucide="monitor-smartphone" class="h-5 w-5 text-[#2DD4BF]"></i>
+            </span>
+                </div>
+                <div class="flex-1 rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">.NET Freelance developer </p>
+                        <span class="text-xs text-neutral-600 dark:text-neutral-400">2022 — 2024</span>
+                    </div>
+                    <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">completing tasks, writing code, creating functions, website layout, optimizing applications, working with APIs, CRM systems, creating dashboards, connecting CRM to external systems, creating mobile app</p>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Asp Net Core</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">C#</span>
+                        <span data-aos="fade-left" data-aos-delay="300" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">WPF</span>
+                        <span data-aos="fade-left" data-aos-delay="400" class="rounded-md border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-1 text-xs text-neutral-800 dark:text-neutral-300">Unity</span>
                     </div>
                 </div>
             </div>
@@ -497,7 +608,7 @@
 
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Card 1 -->
-        <article data-animate data-delay="80" class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700 hover:-translate-y-1">
+        <article data-aos="zoom-out" data-aos-delay="100"  class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden  translate-y-6  transition-all duration-700 hover:-translate-y-1">
             <div class="absolute inset-0 pointer-events-none">
                 <div class="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-[#2DD4BF]/10 blur-2xl"></div>
             </div>
@@ -506,8 +617,8 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">ASP.NET Core</span>
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Tailwind</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">ASP.NET Core</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Tailwind</span>
                     </div>
 <!--                    <div class="flex items-center gap-2">-->
 <!--                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:border-[#2DD4BF]/40 hover:bg-white/20 transition" aria-label="GitHub">-->
@@ -522,7 +633,7 @@
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg tracking-tight font-semibold text-neutral-900 dark:text-white">Analytics Dashboard</h3>
-                    <span class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
+                    <span data-aos="zoom-out" data-aos-delay="100" class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
               <i data-lucide="zap" class="h-3.5 w-3.5 text-[#2DD4BF]"></i> Realtime
             </span>
                 </div>
@@ -540,7 +651,7 @@
         </article>
 
         <!-- Card 2 -->
-        <article data-animate data-delay="140" class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700 hover:-translate-y-1">
+        <article data-aos="zoom-out" data-aos-delay="200" class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden  translate-y-6  transition-all duration-700 hover:-translate-y-1">
             <div class="absolute inset-0 pointer-events-none">
                 <div class="absolute -bottom-10 -left-10 h-48 w-48 rounded-full bg-[#2DD4BF]/10 blur-2xl"></div>
             </div>
@@ -549,9 +660,9 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Microservices</span>
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">SignalR</span>
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Ajax</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Microservices</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">SignalR</span>
+                        <span data-aos="fade-left" data-aos-delay="300" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">Ajax</span>
                     </div>
 <!--                    <div class="flex items-center gap-2">-->
 <!--                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:border-[#2DD4BF]/40 hover:bg-white/20 transition" aria-label="GitHub">-->
@@ -566,7 +677,7 @@
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg tracking-tight font-semibold text-neutral-900 dark:text-white">Order Processing Platform</h3>
-                    <span class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
+                    <span data-aos="zoom-out" data-aos-delay="100" class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
               <i data-lucide="shield" class="h-3.5 w-3.5 text-[#2DD4BF]"></i> Resilient
             </span>
                 </div>
@@ -584,7 +695,7 @@
         </article>
 
         <!-- Card 3 -->
-        <article data-animate data-delay="200" class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden opacity-0 translate-y-6 blur-sm transition-all duration-700 hover:-translate-y-1">
+        <article data-aos="fade-right" data-aos-delay="300" class="group relative rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl overflow-hidden  translate-y-6  transition-all duration-700 hover:-translate-y-1">
             <div class="absolute inset-0 pointer-events-none">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-48 w-48 rounded-full bg-[#2DD4BF]/10 blur-2xl"></div>
             </div>
@@ -593,8 +704,8 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">WPF</span>
-                        <span class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">EF Core</span>
+                        <span data-aos="fade-left" data-aos-delay="100" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">WPF</span>
+                        <span data-aos="fade-left" data-aos-delay="200" class="rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-xs text-white/90">EF Core</span>
                     </div>
 <!--                    <div class="flex items-center gap-2">-->
 <!--                        <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:border-[#2DD4BF]/40 hover:bg-white/20 transition" aria-label="GitHub">-->
@@ -609,7 +720,7 @@
             <div class="p-5">
                 <div class="flex items-center justify-between">
                     <h3 class="text-lg tracking-tight font-semibold text-neutral-900 dark:text-white">Desktop Asset Manager</h3>
-                    <span class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
+                    <span data-aos="zoom-out" data-aos-delay="100" class="inline-flex items-center gap-1 rounded-full border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-2 py-0.5 text-xs text-neutral-800 dark:text-neutral-200">
               <i data-lucide="wifi-off" class="h-3.5 w-3.5 text-[#2DD4BF]"></i> Offline‑first
             </span>
                 </div>
@@ -630,19 +741,19 @@
 
 <!-- References / Gallery (Redesigned Glassmorphism) -->
 <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div data-aos="fade-up" data-aos-delay="50" class="grid grid-cols-1  gap-6">
         <!-- Testimonials -->
         <div data-animate data-delay="80" class="rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl p-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
             <h3 class="text-xl tracking-tight font-semibold text-neutral-900 dark:text-white">What clients say</h3>
             <div class="mt-4 space-y-4">
-                <div class="relative rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                <div data-aos="fade-down" data-aos-delay="200" class="relative rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <div class="absolute -top-3 -left-3 h-10 w-10 rounded-xl border border-white/10 bg-white/10 backdrop-blur flex items-center justify-center">
                         <i data-lucide="message-circle" class="h-5 w-5 text-[#2DD4BF]"></i>
                     </div>
                     <p class="text-sm text-neutral-700 dark:text-neutral-300">“Clear communication and top‑notch work. Our API performance improved dramatically.”</p>
                     <p class="mt-2 text-xs text-neutral-600 dark:text-neutral-400">CTO, E‑commerce</p>
                 </div>
-                <div class="relative rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+                <div data-aos="fade-up" data-aos-delay="300" class="relative rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
                     <div class="absolute -top-3 -left-3 h-10 w-10 rounded-xl border border-white/10 bg-white/10 backdrop-blur flex items-center justify-center">
                         <i data-lucide="sparkle" class="h-5 w-5 text-[#2DD4BF]"></i>
                     </div>
@@ -657,45 +768,49 @@
             </div>
         </div>
 
-        <!-- Gallery Mosaic -->
-        <div data-animate data-delay="140" class="lg:col-span-2 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl p-4 sm:p-6 opacity-0 translate-y-6 blur-sm transition-all duration-700">
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/Reports6.jpg" alt="Work 1" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">SaaS</div>
-                </div>
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity[1] transition" src="img/Reports1.jpg" alt="Work 2" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Realtime</div>
-                </div>
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/Reports3.jpg" alt="Work 3" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">E‑commerce</div>
-                </div>
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/CosmiModernMarket1.jpg" alt="Work 4" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Dashboard</div>
-                </div>
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/LampsModern.jpg" alt="Work 5" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Automation</div>
-                </div>
-                <div class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
-                    <img class="h-32 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/LuxuriousInterior.jpg" alt="Work 6" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white"> UI</div>
-                </div>
+
+    </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16">
+    <!-- Gallery Mosaic -->
+    <div data-aos="fade-up" data-aos-delay="50"  class="lg:col-span-2 rounded-3xl border border-black/10 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-2xl p-4 sm:p-6  ">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div data-aos="zoom-out" data-aos-delay="100" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/Reports6.jpg" alt="Work 1" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">SaaS</div>
             </div>
-            <div class="mt-5 flex items-center justify-end">
-                <a href="#projects" class="inline-flex items-center gap-2 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-xs text-neutral-800 dark:text-neutral-200 hover:border-[#2DD4BF]/40 hover:text-[#2DD4BF] transition">
-                    <i data-lucide="grid" class="h-4 w-4"></i> Explore more
-                </a>
+            <div data-aos="zoom-out" data-aos-delay="200" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity[1] transition" src="img/Reports1.jpg" alt="Work 2" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Realtime</div>
             </div>
+            <div data-aos="zoom-out" data-aos-delay="300" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/Reports3.jpg" alt="Work 3" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">E‑commerce</div>
+            </div>
+            <div data-aos="zoom-out" data-aos-delay="400" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/CosmiModernMarket1.jpg" alt="Work 4" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Dashboard</div>
+            </div>
+            <div data-aos="zoom-out" data-aos-delay="500" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/LampsModern.jpg" alt="Work 5" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white">Automation</div>
+            </div>
+            <div data-aos="zoom-out" data-aos-delay="600" class="group relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5">
+                <img class="h-32 md:h-48 w-full object-cover opacity-90 group-hover:opacity-100 transition" src="img/LuxuriousInterior.jpg" alt="Work 6" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                <div  class="absolute bottom-2 left-2 rounded-md border border-white/20 bg-white/10 backdrop-blur px-2 py-0.5 text-[11px] text-white"> UI</div>
+            </div>
+        </div>
+        <div class="mt-5 flex items-center justify-end">
+            <a href="#projects" class="inline-flex items-center gap-2 rounded-lg border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-xs text-neutral-800 dark:text-neutral-200 hover:border-[#2DD4BF]/40 hover:text-[#2DD4BF] transition">
+                <i data-lucide="grid" class="h-4 w-4"></i> Explore more
+            </a>
         </div>
     </div>
 </section>
@@ -703,7 +818,7 @@
 <!-- Contact -->
 <section id="contact" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10 sm:mt-16 mb-16">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div data-animate data-delay="80" class="lg:col-span-7 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+        <div data-aos="fade-up" data-aos-delay="100" class="lg:col-span-7 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8  ">
             <h2 class="text-2xl tracking-tight font-semibold text-neutral-900 dark:text-white">Let’s work together</h2>
             <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-300">Tell me about your project or role. I usually respond within a day.</p>
             <form class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -731,7 +846,7 @@
                 </div>
             </form>
         </div>
-        <div data-animate data-delay="140" class="lg:col-span-5 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8 opacity-0 translate-y-6 blur-sm transition-all duration-700">
+        <div data-aos="fade-down" data-aos-delay="100" class="lg:col-span-5 rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-2xl p-6 sm:p-8  ">
             <h3 class="text-xl tracking-tight font-semibold text-neutral-900 dark:text-white">Quick info</h3>
             <div class="mt-4 space-y-4">
                 <div class="flex items-center justify-between rounded-2xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
@@ -773,17 +888,143 @@
 <footer class="border-t border-black/10 dark:border-white/10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-            <div class="h-7 w-7 rounded-md border border-black/10 dark:border-white/15 bg-white/70 dark:bg-white/5 flex items-center justify-center text-xs tracking-tight font-semibold">AV</div>
+            <div class="h-7 w-7 rounded-md border border-black/10 dark:border-white/15 bg-white/70 dark:bg-white/5 flex items-center justify-center text-xs tracking-tight font-semibold">M</div>
             <p class="text-xs text-neutral-600 dark:text-neutral-400">© 2025. Built with care.</p>
         </div>
         <div class="flex items-center gap-4">
-            <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="github" class="h-4 w-4"></i></a>
-            <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i class="bi bi-telegram"></i></a>
-            <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="linkedin" class="h-4 w-4"></i></a>
-            <a href="mailto:hello@example.com" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="mail" class="h-4 w-4"></i></a>
+            <a href="https://github.com/Mariks14" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="github" class="h-4 w-4"></i></a>
+            <a href="https://t.me/@Mariks0000" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i class="bi bi-telegram"></i></a>
+            <a href="https://www.linkedin.com/in/maksim-marchuk-443894282//" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="linkedin" class="h-4 w-4"></i></a>
+            <a href="mailto:mariks1406@yandex.ru" class="text-neutral-700 dark:text-neutral-300 hover:text-[#2DD4BF] transition"><i data-lucide="mail" class="h-4 w-4"></i></a>
         </div>
     </div>
 </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/letterizejs@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('tech-lines');
+
+        // Конфигурация для разных размеров экрана
+        const screenConfig = {
+            '3xl': {
+                linesCount: 10,
+                text: "ASP.NET Core & C# & DotNet & WEB & API & MVC & WPF & MAUI & Blazor & Entity Framework & OOP & SOLID",
+                textClass: 'text-2xl py-6'
+            },
+            '2xl': {
+                linesCount: 12,
+                text: "ASP.NET Core & C# & DotNet & WEB & API & MVC & WPF & Blazor & OOP & SOLID ",
+                textClass: 'text-xl py-5 '
+            },
+            'xl': {
+                linesCount: 15,
+                text: "ASP.NET Core & C# & DotNet & WEB & API & MVC & WPF & Blazor & OOP & SOLID",
+                textClass: 'text-lg py-4'
+            },
+            'lg': {
+                linesCount: 20,
+                text: "ASP.NET Core & C# & DotNet & WEB & API & MVC & WPF & Blazor",
+                textClass: 'text-base py-3'
+            },
+            'md': {
+                linesCount: 25,
+                text: "ASP.NET Core & C# & DotNet & WEB & API & MVC & WPF",
+                textClass: 'text-sm py-2'
+            },
+            'sm': {
+                linesCount: 33,
+                text: "C# & .NET & ASP.NET Core ",
+                textClass: 'text-xs py-1'
+            }
+        };
+
+        // Функция для определения текущего размера экрана
+        const getScreenSize = () => {
+            const width = window.innerWidth;
+            if (width >= 1920) return '3xl';
+            if (width >= 1536) return '2xl';
+            if (width >= 1280) return 'xl';
+            if (width >= 1024) return 'lg';
+            if (width >= 768) return 'md';
+            return 'sm';
+        };
+
+        // Создаем строки
+        const createLines = () => {
+            container.innerHTML = '';
+            const screenSize = getScreenSize();
+            const config = screenConfig[screenSize] || screenConfig['lg'];
+
+            for (let i = 0; i < config.linesCount; i++) {
+                const line = document.createElement('div');
+                line.className = `animate-me text-nowrap whitespace-nowrap  overflow-hidden ${config.textClass}`;
+                line.textContent = config.text;
+                container.appendChild(line);
+            }
+
+            initAnimation();
+        };
+
+        // Ваша анимация (без изменений)
+        const initAnimation = () => {
+            const test = new Letterize({
+                targets: ".animate-me"
+            });
+
+            const animation = anime.timeline({
+                targets: test.listAll,
+                delay: anime.stagger(100, {
+                    grid: [test.list[0].length, test.list.length],
+                    from: "center"
+                }),
+                loop: true
+            });
+
+            animation
+                .add({
+                    scale: 0.5
+                })
+                .add({
+                    letterSpacing: "10px"
+                })
+                .add({
+                    scale: 1
+                })
+                .add({
+                    letterSpacing: "6px"
+                });
+        };
+
+        // Инициализация и обработка ресайза
+        createLines();
+
+        // Оптимизация ресайза с debounce
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(createLines, 100);
+        });
+    });
+</script>
+<style>
+    .animate-me {
+        font-family: monospace;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.7);
+        will-change: transform;
+        margin: 0;
+        padding-left: 1rem;
+    }
+
+    #tech-lines {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
 
 <script>
     document.querySelector('form').addEventListener('submit', function(e) {
@@ -892,6 +1133,218 @@
             });
         }
     });
+</script>
+
+<script>
+    window.human = false;
+
+    var canvasEl = document.querySelector('.fireworks');
+    var ctx = canvasEl.getContext('2d');
+    var numberOfParticules = 20;
+    var pointerX = 0;
+    var pointerY = 0;
+    var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+    var colors = ['#60A5FA', '#2DD4BF', '#5A87FF', '#8B5CF6' ];
+
+    function setCanvasSize() {
+        canvasEl.width = window.innerWidth * 2;
+        canvasEl.height = window.innerHeight * 2;
+        canvasEl.style.width = window.innerWidth + 'px';
+        canvasEl.style.height = window.innerHeight + 'px';
+        canvasEl.getContext('2d').scale(2, 2);
+    }
+
+    function updateCoords(e) {
+        pointerX = e.clientX || e.touches[0].clientX;
+        pointerY = e.clientY || e.touches[0].clientY;
+    }
+
+    function setParticuleDirection(p) {
+        var angle = anime.random(0, 360) * Math.PI / 180;
+        var value = anime.random(50, 180);
+        var radius = [-1, 1][anime.random(0, 1)] * value;
+        return {
+            x: p.x + radius * Math.cos(angle),
+            y: p.y + radius * Math.sin(angle)
+        }
+    }
+
+    function createParticule(x,y) {
+        var p = {};
+        p.x = x;
+        p.y = y;
+        p.color = colors[anime.random(0, colors.length - 1)];
+        p.radius = anime.random(3, 7);
+        p.endPos = setParticuleDirection(p);
+        p.draw = function() {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+        }
+        return p;
+    }
+
+    function createCircle(x,y) {
+        var p = {};
+        p.x = x;
+        p.y = y;
+        p.color = '#FFF';
+        p.radius = 0.1;
+        p.alpha = .5;
+        p.lineWidth = 6;
+        p.draw = function() {
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+            ctx.lineWidth = p.lineWidth;
+            ctx.strokeStyle = p.color;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+        return p;
+    }
+
+    function renderParticule(anim) {
+        for (var i = 0; i < anim.animatables.length; i++) {
+            anim.animatables[i].target.draw();
+        }
+    }
+
+    function animateParticules(x, y) {
+        //var circle = createCircle(x, y);
+        var particules = [];
+        for (var i = 0; i < numberOfParticules; i++) {
+            particules.push(createParticule(x, y));
+        }
+        anime.timeline().add({
+            targets: particules,
+            x: function(p) { return p.endPos.x; },
+            y: function(p) { return p.endPos.y; },
+            radius: 0.1,
+            duration: anime.random(1200, 1800),
+            easing: 'easeOutExpo',
+            update: renderParticule
+        })
+            .add({
+                targets: circle,
+                radius: anime.random(80, 160),
+                lineWidth: 0,
+                alpha: {
+                    value: 0,
+                    easing: 'linear',
+                    duration: anime.random(600, 800),
+                },
+                duration: anime.random(1200, 1800),
+                easing: 'easeOutExpo',
+                update: renderParticule,
+                offset: 0
+            });
+    }
+
+    var render = anime({
+        duration: Infinity,
+        update: function() {
+            ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+        }
+    });
+
+    document.addEventListener(tap, function(e) {
+        window.human = true;
+        render.play();
+        updateCoords(e);
+        animateParticules(pointerX, pointerY);
+    }, false);
+
+    var centerX = window.innerWidth / 2;
+    var centerY = window.innerHeight / 2;
+
+    function autoClick() {
+        if (window.human) return;
+        animateParticules(
+            anime.random(centerX-50, centerX+50),
+            anime.random(centerY-50, centerY+50)
+        );
+        anime({duration: 200}).finished.then(autoClick);
+    }
+
+
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize, false);
+</script>
+
+<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const preloader = document.getElementById('preloader');
+        const lottiePlayer = document.getElementById('lottie-loader');
+
+        // Проверяем, существуют ли элементы
+        if (!preloader || !lottiePlayer) {
+            console.error('Прелоадер или Lottie-плеер не найдены!');
+            return;
+        }
+
+        function simulateLoading() {
+            return new Promise((resolve) => { // Явно возвращаем Promise
+                // Загрузка изображений
+                const imageLoadPromises = Array.from(document.images).map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(resolve => {
+                        img.addEventListener('load', resolve);
+                        img.addEventListener('error', resolve);
+                    });
+                });
+
+                // Ждем либо загрузки изображений, либо минимального времени
+                Promise.all([
+                    ...imageLoadPromises,
+                    new Promise(resolve => setTimeout(resolve, 1000))
+                ]).then(() => {
+                    // Анимация исчезновения прелоадера
+                    preloader.classList.add('opacity-0');
+                    lottiePlayer.stop();
+
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        lottiePlayer.remove();
+                        resolve(); // Разрешаем Promise после завершения
+                    }, 500);
+                });
+            });
+        }
+
+        // Запускаем процесс и инициализируем AOS после завершения
+        simulateLoading().then(() => {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 1000,
+                    easing: 'ease-in-out',
+                    once: true,
+                    disable: 'mobile'
+                });
+
+            }
+        }).catch(error => {
+            //console.error('Ошибка в процессе загрузки:', error);
+        });
+    });
+</script>
+
+<script>
+    // Инициализация smooth-scroll
+    const scroll = new SmoothScroll('a[href*="#"]', {
+        speed: 1000, // скорость прокрутки (мс)
+        speedAsDuration: true,
+        easing: 'easeInOutCubic',
+        offset: 60 // если есть фиксированная шапка — отступ сверху
+    });
+</script>
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+
 </script>
 </body>
 </html>
